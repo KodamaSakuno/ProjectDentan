@@ -1,0 +1,85 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ControlTemplate x:Key="AerialCombatTemplate" TargetType="{x:Type Control}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="4" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <TextBlock Name="Stage1Friend" DataContext="{Binding Stage1}" TextAlignment="Center">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0}/{1}" FallbackValue="">
+                        <Binding Path="AfterFriendPlaneCount" />
+                        <Binding Path="FriendPlaneCount" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+            <TextBlock Name="Stage2Friend" DataContext="{Binding Stage2}" TextAlignment="Center" Grid.Column="2">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0}/{1}" FallbackValue="">
+                        <Binding Path="AfterFriendPlaneCount" />
+                        <Binding Path="FriendPlaneCount" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+            
+            <TextBlock Name="Result" Grid.Row="1" Grid.ColumnSpan="3" VerticalAlignment="Center" HorizontalAlignment="Center" />
+
+            <TextBlock Name="Stage1Enemy" DataContext="{Binding Stage1}" TextAlignment="Center" Grid.Row="2">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0}/{1}" FallbackValue="">
+                        <Binding Path="AfterEnemyPlaneCount" />
+                        <Binding Path="EnemyPlaneCount" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+            <TextBlock Name="Stage2Enemy" DataContext="{Binding Stage2}" TextAlignment="Center" Grid.Row="2" Grid.Column="2">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0}/{1}" FallbackValue="">
+                        <Binding Path="AfterEnemyPlaneCount" />
+                        <Binding Path="EnemyPlaneCount" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+        </Grid>
+
+        <ControlTemplate.Triggers>
+            <DataTrigger Binding="{Binding Result}" Value="Supremacy">
+                <Setter TargetName="Result" Property="Text" Value="制空権確保" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Result}" Value="Superiority">
+                <Setter TargetName="Result" Property="Text" Value="航空優勢" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Result}" Value="Parity">
+                <Setter TargetName="Result" Property="Text" Value="制空均衡" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Result}" Value="Incapability">
+                <Setter TargetName="Result" Property="Text" Value="航空劣勢" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Result}" Value="Denial">
+                <Setter TargetName="Result" Property="Text" Value="制空権喪失" />
+            </DataTrigger>
+            
+            <DataTrigger Binding="{Binding Stage1.FriendPlaneCount}" Value="0">
+                <Setter TargetName="Stage1Friend" Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Stage2.FriendPlaneCount}" Value="0">
+                <Setter TargetName="Stage2Friend" Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            
+            <DataTrigger Binding="{Binding Stage1.EnemyPlaneCount}" Value="0">
+                <Setter TargetName="Stage1Enemy" Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Stage2.EnemyPlaneCount}" Value="0">
+                <Setter TargetName="Stage2Enemy" Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+</ResourceDictionary>

@@ -1,0 +1,56 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:rv="clr-namespace:Moen.KanColle.Dentan.View"
+                    xmlns:rvg="clr-namespace:Moen.KanColle.Dentan.View.Game">
+    <Style TargetType="{x:Type rvg:SlotsView}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type rvg:SlotsView}">
+                    <ItemsControl ItemsSource="{Binding}" Height="24" HorizontalAlignment="Left">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Background="Transparent" Margin="3, 0, 0, 0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="24" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <rv:EquipmentIcon Type="{Binding Equipment.IconType}" ID="{Binding Equipment.Info.ID}" ToolTip="{x:Null}" DockPanel.Dock="Left" />
+                                    <TextBlock Name="PlaneCount" FontWeight="Bold" Foreground="Gray" Text="{Binding PlaneCount}" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" />
+
+                                    <Grid.ToolTip>
+                                        <ToolTip Placement="Bottom">
+                                            <TextBlock Text="{Binding Equipment.Name}" />
+                                        </ToolTip>
+                                    </Grid.ToolTip>
+                                </Grid>
+
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding Equipment.IsPlane}" Value="True">
+                                        <Setter TargetName="PlaneCount" Property="Foreground" Value="White" />
+                                    </DataTrigger>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding PlaneCount}" Value="0" />
+                                            <Condition Binding="{Binding HasLostPlane}" Value="False" />
+                                        </MultiDataTrigger.Conditions>
+
+                                        <Setter TargetName="PlaneCount" Property="Visibility" Value="Hidden" />
+                                    </MultiDataTrigger>
+                                    <DataTrigger Binding="{Binding HasLostPlane}" Value="True">
+                                        <Setter TargetName="PlaneCount" Property="Foreground" Value="Red" />
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

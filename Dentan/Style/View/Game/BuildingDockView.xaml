@@ -1,0 +1,75 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:rv="clr-namespace:Moen.KanColle.Dentan.View.Game">
+    <Style TargetType="{x:Type rv:BuildingDockView}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type rv:BuildingDockView}">
+                    <ItemsControl DataContext="{Binding BuildingDocks}" ItemsSource="{Binding}" Grid.IsSharedSizeScope="True">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Name="Border" Padding="4">
+                                    <Border.ToolTip>
+                                        <ToolTip Placement="Bottom">
+                                            <StackPanel>
+                                                <TextBlock Name="CompleteTimeLabel">完成时间</TextBlock>
+                                                <TextBlock Name="CompleteTime" Text="{Binding CompleteTime}" />
+                                                <TextBlock Name="LineBreak" />
+                                                <TextBlock>投入资材</TextBlock>
+                                                <TextBlock>
+                                                    <TextBlock.Text>
+                                                        <MultiBinding StringFormat="{}{0}/{1}/{2}/{3}/{4}">
+                                                            <Binding Path="Fuel" />
+                                                            <Binding Path="Bullet" />
+                                                            <Binding Path="Steel" />
+                                                            <Binding Path="Bauxite" />
+                                                            <Binding Path="DevelopmentMaterial" />
+                                                        </MultiBinding>
+                                                    </TextBlock.Text>
+                                                </TextBlock>
+                                            </StackPanel>
+                                        </ToolTip>
+                                    </Border.ToolTip>
+
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition SharedSizeGroup="RemainingTime" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Text="{Binding ID}" />
+                                        <TextBlock Name="Ship" Text="{Binding Ship}" TextTrimming="CharacterEllipsis" Margin="5, 0, 0, 0" Grid.Column="1" />
+                                        <TextBlock Name="RemainingTime" Text="{Binding RemainingTime}" Margin="3, 0, 0, 0" Grid.Column="2" />
+                                    </Grid>
+                                </Border>
+
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding State}" Value="Idle">
+                                        <Setter TargetName="Ship" Property="Text" Value="" />
+                                        <Setter TargetName="RemainingTime" Property="Text" Value="" />
+                                        <Setter TargetName="Border" Property="ToolTip" Value="{x:Null}" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding State}" Value="Completed">
+                                        <Setter TargetName="RemainingTime" Property="Text" Value="完成" />
+                                        <Setter TargetName="CompleteTimeLabel" Property="Visibility" Value="Collapsed" />
+                                        <Setter TargetName="CompleteTime" Property="Visibility" Value="Collapsed" />
+                                        <Setter TargetName="LineBreak" Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding State}" Value="Locked">
+                                        <Setter TargetName="Ship" Property="HorizontalAlignment" Value="Center" />
+                                        <Setter TargetName="Ship" Property="Text" Value="ロック" />
+                                        <Setter TargetName="Ship" Property="FontStyle" Value="Oblique" />
+                                        <Setter TargetName="Ship" Property="Grid.ColumnSpan" Value="2" />
+                                        <Setter TargetName="RemainingTime" Property="Text" Value="" />
+                                        <Setter TargetName="Border" Property="ToolTip" Value="{x:Null}" />
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

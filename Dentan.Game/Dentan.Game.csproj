@@ -1,0 +1,296 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2FD3EDA3-994F-4641-B56D-6D9B92CD4C50}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Moen.KanColle.Dentan</RootNamespace>
+    <AssemblyName>Dentan.Game</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>6bf99cbb</NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FiddlerCore4, Version=4.5.1.0, Culture=neutral, PublicKeyToken=67cb91587178ac5a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\FiddlerCore.4.5.1.0\lib\net40\FiddlerCore4.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite, Version=1.0.97.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\System.Data.SQLite.Core.1.0.97.0\lib\net45\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Core">
+      <HintPath>..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces">
+      <HintPath>..\packages\Rx-Interfaces.2.2.5\lib\net45\System.Reactive.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Linq">
+      <HintPath>..\packages\Rx-Linq.2.2.5\lib\net45\System.Reactive.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices">
+      <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Dataflow, Version=4.5.24.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Tpl.Dataflow.4.5.24\lib\portable-net45+win8+wpa81\System.Threading.Tasks.Dataflow.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Api\ApiAttribute.cs" />
+    <Compile Include="Api\ApiParser.cs" />
+    <Compile Include="Api\ApiParsers.cs" />
+    <Compile Include="Api\Parser\BasicParser.cs" />
+    <Compile Include="Api\Parser\Battle\BattleParserBase.cs" />
+    <Compile Include="Api\Parser\Battle\BattleResultParser.cs" />
+    <Compile Include="Api\Parser\Battle\DayCombinedFleetBattleParserBase.cs" />
+    <Compile Include="Api\Parser\Battle\DayBattleParserBase.cs" />
+    <Compile Include="Api\Parser\Battle\DayCombinedFleetCTFBattleParser.cs" />
+    <Compile Include="Api\Parser\Battle\DayCombinedFleetSTFBattleParser.cs" />
+    <Compile Include="Api\Parser\Battle\DayNormalBattleParser.cs" />
+    <Compile Include="Api\Parser\Battle\DayPracticeBattleParser.cs" />
+    <Compile Include="Api\Parser\Battle\NightOnlyCombinedFleetBattleParser.cs" />
+    <Compile Include="Api\Parser\Battle\NightCombinedFleetBattleParser.cs" />
+    <Compile Include="Api\Parser\Battle\NightNormalBattleParser.cs" />
+    <Compile Include="Api\Parser\Battle\NightOnlyBattleParser.cs" />
+    <Compile Include="Api\Parser\Battle\NightPracticeBattleParser.cs" />
+    <Compile Include="Api\Parser\BuildingParser.cs" />
+    <Compile Include="Api\Parser\ChangeShipParser.cs" />
+    <Compile Include="Api\Parser\ClearEnemyFleetInfoParser.cs" />
+    <Compile Include="Api\Parser\EquipmentImprovementParser.cs" />
+    <Compile Include="Api\Parser\EquipmentParser.cs" />
+    <Compile Include="Api\Parser\ExpeditionParser.cs" />
+    <Compile Include="Api\Parser\Factory\ShipConstructionParser.cs" />
+    <Compile Include="Api\Parser\Factory\ConstructionChangeSpeedParser.cs" />
+    <Compile Include="Api\Parser\Factory\EquipmentDevelopmentParser.cs" />
+    <Compile Include="Api\Parser\Factory\ShipDismantlingParser.cs" />
+    <Compile Include="Api\Parser\Factory\EquipmentDiscardingParser.cs" />
+    <Compile Include="Api\Parser\GetFleetParser.cs" />
+    <Compile Include="Api\Parser\GetPracticeEnemyInfoParser.cs" />
+    <Compile Include="Api\Parser\GetShipParser.cs" />
+    <Compile Include="Api\Parser\Map\EventMapRankSelectionParser.cs" />
+    <Compile Include="Api\Parser\Map\MapInformationParser.cs" />
+    <Compile Include="Api\Parser\Map\MapNextParser.cs" />
+    <Compile Include="Api\Parser\Map\MapStartParser.cs" />
+    <Compile Include="Api\Parser\MaterialParser.cs" />
+    <Compile Include="Api\Parser\ModernizationParser.cs" />
+    <Compile Include="Api\Parser\Battle\NightBattleParserBase.cs" />
+    <Compile Include="Api\Parser\PortParser.cs" />
+    <Compile Include="Api\Parser\QuestParser.cs" />
+    <Compile Include="Api\Parser\RepairParser.cs" />
+    <Compile Include="Api\Parser\ApiStartParser.cs" />
+    <Compile Include="Api\Parser\SupplyParser.cs" />
+    <Compile Include="Calc.cs" />
+    <Compile Include="Data\AbyssalDataManager.cs" />
+    <Compile Include="Data\AbyssalFleet.cs" />
+    <Compile Include="Data\AbyssalShip.cs" />
+    <Compile Include="Data\AbyssalShipClass.cs" />
+    <Compile Include="Data\AerialCombat.cs" />
+    <Compile Include="Data\AerialCombatResult.cs" />
+    <Compile Include="Data\AviationReconnaissancePlaneType.cs" />
+    <Compile Include="Data\AviationReconnaissanceResult.cs" />
+    <Compile Include="Data\BaseMapInfo.cs" />
+    <Compile Include="Data\BattleRank.cs" />
+    <Compile Include="Data\CompassData.cs" />
+    <Compile Include="Data\EnemyData.cs" />
+    <Compile Include="Data\EnemyShip.cs" />
+    <Compile Include="Data\BuildingDockCompletedEventArgs.cs" />
+    <Compile Include="Data\ExpeditionResult.cs" />
+    <Compile Include="Data\Experience.cs" />
+    <Compile Include="Data\IBattleShipInfo.cs" />
+    <Compile Include="Data\MapHP.cs" />
+    <Compile Include="Data\MapCellEvent.cs" />
+    <Compile Include="Data\QuestCategory.cs" />
+    <Compile Include="Data\QuestData\AkashiEquipmentImprovementProgress.cs" />
+    <Compile Include="Data\QuestData\SortieProgress.cs" />
+    <Compile Include="Data\QuestProgresses.cs" />
+    <Compile Include="Data\RepairDockCompletedEventArgs.cs" />
+    <Compile Include="Data\ExpeditionReturnedEventArgs.cs" />
+    <Compile Include="Data\Headquarter.cs" />
+    <Compile Include="Data\MapAreaInfo.cs" />
+    <Compile Include="Data\MaterialType.cs" />
+    <Compile Include="Data\QuestData\ASWProgress.cs" />
+    <Compile Include="Data\QuestData\BossTargetProgress.cs" />
+    <Compile Include="Data\QuestData\CarrierProgress.cs" />
+    <Compile Include="Data\QuestData\CodeAProgress.cs" />
+    <Compile Include="Data\QuestData\DailyBattleProgress.cs" />
+    <Compile Include="Data\QuestData\DestroyTargetProgress.cs" />
+    <Compile Include="Data\QuestData\ExpeditionProgress.cs" />
+    <Compile Include="Data\QuestData\FactoryProgress.cs" />
+    <Compile Include="Data\QuestData\ModernizationProgress.cs" />
+    <Compile Include="Data\QuestData\PracticeProgress.cs" />
+    <Compile Include="Data\QuestData\QuestAttribute.cs" />
+    <Compile Include="Data\QuestData\RepairProgress.cs" />
+    <Compile Include="Data\QuestData\ShipRequirement.cs" />
+    <Compile Include="Data\QuestData\SupplyProgress.cs" />
+    <Compile Include="Data\QuestData\SupplyShipProgress.cs" />
+    <Compile Include="Data\Raw\RawCreateEquipment.cs" />
+    <Compile Include="Data\Raw\RawMapInfo.cs" />
+    <Compile Include="Data\Raw\RawPracticeEnemyInfo.cs" />
+    <Compile Include="Data\Raw\RawSortieFleet.cs" />
+    <Compile Include="Data\Raw\RawSupportInfo.cs" />
+    <Compile Include="Data\ShipGraphInfo.cs" />
+    <Compile Include="Data\ShipSpeed.cs" />
+    <Compile Include="Data\BaseInfo.cs" />
+    <Compile Include="Data\BattleData.cs" />
+    <Compile Include="Data\BattlePart.cs" />
+    <Compile Include="Data\BattleStatus.cs" />
+    <Compile Include="Data\BuildingDock.cs" />
+    <Compile Include="Data\CountdownModelBase.cs" />
+    <Compile Include="Data\EnemyFleet.cs" />
+    <Compile Include="Data\EngagementForm.cs" />
+    <Compile Include="Data\EquipmentIconType.cs" />
+    <Compile Include="Data\EquipmentInfo.cs" />
+    <Compile Include="Data\EquipmentType.cs" />
+    <Compile Include="Data\Expedition.cs" />
+    <Compile Include="Data\ExperienceTable.cs" />
+    <Compile Include="Data\SupplyInfo.cs" />
+    <Compile Include="DebugUtil.cs" />
+    <Compile Include="IID.cs" />
+    <Compile Include="Data\Formation.cs" />
+    <Compile Include="Data\ExpeditionInfo.cs" />
+    <Compile Include="Data\Quest.cs" />
+    <Compile Include="Data\RawDataWrapper`T.cs" />
+    <Compile Include="Data\Raw\JsonConverterBase.cs" />
+    <Compile Include="Data\Raw\RawAerialCombat.cs" />
+    <Compile Include="Data\Raw\RawApiStart.cs" />
+    <Compile Include="Data\Raw\RawBasic.cs" />
+    <Compile Include="Data\Raw\RawBattle.cs" />
+    <Compile Include="Data\Raw\RawBattleBase.cs" />
+    <Compile Include="Data\Raw\RawBattleResult.cs" />
+    <Compile Include="Data\Raw\RawBuildingDock.cs" />
+    <Compile Include="Data\Raw\RawBuildingGetShip.cs" />
+    <Compile Include="Data\Raw\RawGetShip3.cs" />
+    <Compile Include="Data\Raw\RawModernization.cs" />
+    <Compile Include="Data\Raw\RawNightBattle.cs" />
+    <Compile Include="Data\Raw\RawTorpedoSalvo.cs" />
+    <Compile Include="Data\Raw\RawEquipment.cs" />
+    <Compile Include="Data\Raw\RawEquipmentGraph.cs" />
+    <Compile Include="Data\Raw\RawEquipmentType.cs" />
+    <Compile Include="Data\Raw\RawFleet.cs" />
+    <Compile Include="Data\Raw\RawMapArea.cs" />
+    <Compile Include="Data\Raw\RawMapBgm.cs" />
+    <Compile Include="Data\Raw\RawMapCell.cs" />
+    <Compile Include="Data\Raw\RawBaseMapInfo.cs" />
+    <Compile Include="Data\Raw\RawMapNext.cs" />
+    <Compile Include="Data\Raw\RawMaterial.cs" />
+    <Compile Include="Data\Raw\RawMidnightBattle.cs" />
+    <Compile Include="Data\Raw\RawExpeditionInfo.cs" />
+    <Compile Include="Data\Raw\RawExpeditionResult.cs" />
+    <Compile Include="Data\Raw\RawPort.cs" />
+    <Compile Include="Data\Raw\RawQuest.cs" />
+    <Compile Include="Data\Raw\RawQuestList.cs" />
+    <Compile Include="Data\Raw\RawRepairDock.cs" />
+    <Compile Include="Data\Raw\RawShelling.cs" />
+    <Compile Include="Data\Raw\RawShip.cs" />
+    <Compile Include="Data\Raw\RawShipInfo.cs" />
+    <Compile Include="Data\Raw\RawShipGraphInfo.cs" />
+    <Compile Include="Data\Raw\RawShipType.cs" />
+    <Compile Include="Data\Raw\RawEquipmentInfo.cs" />
+    <Compile Include="Data\Raw\RawSupplyResult.cs" />
+    <Compile Include="Data\Raw\RawUseItem.cs" />
+    <Compile Include="Data\Raw\RawUseItemInfo.cs" />
+    <Compile Include="Data\Raw\BattleArrayConverter.cs" />
+    <Compile Include="Data\RepairDock.cs" />
+    <Compile Include="Data\ShipInfo.cs" />
+    <Compile Include="Data\Slot.cs" />
+    <Compile Include="Data\UseItem.cs" />
+    <Compile Include="Data\UseItemInfo.cs" />
+    <Compile Include="Proxy\ApiSession.cs" />
+    <Compile Include="Proxy\ResourceCache.cs" />
+    <Compile Include="Proxy\GameProxy.cs" />
+    <Compile Include="Data\Admiral.cs" />
+    <Compile Include="Data\Equipment.cs" />
+    <Compile Include="Data\Fleet.cs" />
+    <Compile Include="KanColleGame.cs" />
+    <Compile Include="Data\Material.cs" />
+    <Compile Include="Data\Ship.cs" />
+    <Compile Include="Proxy\ResourceSession.cs" />
+    <Compile Include="Proxy\Session.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Data\QuestProgressData.cs" />
+    <Compile Include="Record\ConstructionRecord.cs" />
+    <Compile Include="Record\DevelopmentRecord.cs" />
+    <Compile Include="Record\SortieRecord.cs" />
+    <Compile Include="Record\ExpeditionRecord.cs" />
+    <Compile Include="Record\ExperienceRecord.cs" />
+    <Compile Include="Record\QuestRecord.cs" />
+    <Compile Include="Record\RecordBase.cs" />
+    <Compile Include="Record\RecordManager.cs" />
+    <Compile Include="Record\ResourceRecord.cs" />
+    <Compile Include="Table`T.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Library\Moen.Base\Moen.Base.csproj">
+      <Project>{85fe16eb-f999-445c-872e-b8181c67031c}</Project>
+      <Name>Moen.Base</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Api\Parser\Quest\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\System.Data.SQLite.Core.1.0.97.0\build\net45\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.97.0\build\net45\System.Data.SQLite.Core.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>このプロジェクトは、このコンピューターにはない NuGet パッケージを参照しています。これらをダウンロードするには、NuGet パッケージの復元を有効にしてください。詳細については、http://go.microsoft.com/fwlink/?LinkID=322105 を参照してください。不足しているファイルは {0} です。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.97.0\build\net45\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.97.0\build\net45\System.Data.SQLite.Core.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

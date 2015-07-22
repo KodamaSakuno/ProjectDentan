@@ -1,0 +1,236 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:rv="clr-namespace:Moen.KanColle.Dentan.View"
+                    xmlns:rvg="clr-namespace:Moen.KanColle.Dentan.View.Game">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Dentan;component/Style/ListBoxStyle.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    
+    <Style x:Key="QuestItemStyle" TargetType="{x:Type ListBoxItem}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="ToolTip">
+            <Setter.Value>
+                <ToolTip Placement="Bottom">
+                    <StackPanel>
+                        <TextBlock>
+                            <Run Text="{Binding ID, Mode=OneWay}" />: <Run Text="{Binding Title, Mode=OneWay}" />
+                        </TextBlock>
+                        <TextBlock Text="{Binding Description}" />
+                    </StackPanel>
+                </ToolTip>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                    <Border Name="Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
+                        <Border Height="16">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition SharedSizeGroup="Type" MinWidth="12" />
+                                    <ColumnDefinition SharedSizeGroup="Group" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition SharedSizeGroup="Progress" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Name="Type" TextAlignment="Center" />
+                                <TextBlock Name="Category" Foreground="Black" Margin="3, 0, 0, 0" Grid.Column="1" />
+
+                                <StackPanel Orientation="Horizontal" Margin="3, 0, 0, 0" Grid.Column="2">
+                                    <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" />
+                                    <Border Name="ProgressBorder" Background="Green" Margin="3, 0, 0, 0" Padding="3, 1">
+                                        <TextBlock Name="Progress" Foreground="White" />
+                                    </Border>
+                                    <Border Name="CanCompletedBorder" Background="Yellow" Margin="3, 0, 0, 0" Padding="3, 1" Visibility="Collapsed" DockPanel.Dock="Left">
+                                        <TextBlock Foreground="Black">達成可能</TextBlock>
+                                    </Border>
+                                </StackPanel>
+
+                                <ContentControl Name="ProgressContent" DataContext="{Binding ProgressData}" Background="Transparent" Grid.Column="3">
+                                    <Grid Name="DetailProgress">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition SharedSizeGroup="ProgressDetail" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <rv:Indicator Foreground="Green" Maximum="{Binding Total}" Value="{Binding Current}" Width="50" HorizontalAlignment="Right" />
+                                        <StackPanel Orientation="Horizontal" Margin="5, 0, 0, 0" Grid.Column="1">
+                                            <TextBlock Text="{Binding Current}" />
+                                            <TextBlock Foreground="Gray" Text="{Binding Total, StringFormat=/{0}}" Margin="3, 0, 0, 0" />
+                                        </StackPanel>
+                                    </Grid>
+                                </ContentControl>
+                            </Grid>
+                        </Border>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="White" />
+                        </Trigger>
+
+                        <DataTrigger Binding="{Binding Category}" Value="Composition">
+                            <Setter TargetName="Category" Property="Foreground" Value="#43C769" />
+                            <Setter TargetName="Category" Property="Text" Value="編成" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Category}" Value="Sortie">
+                            <Setter TargetName="Category" Property="Foreground" Value="#EC6063" />
+                            <Setter TargetName="Category" Property="Text" Value="出撃" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Category}" Value="Practice">
+                            <Setter TargetName="Category" Property="Foreground" Value="#93CE67" />
+                            <Setter TargetName="Category" Property="Text" Value="演習" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Category}" Value="Expedition">
+                            <Setter TargetName="Category" Property="Foreground" Value="#4EBBD4" />
+                            <Setter TargetName="Category" Property="Text" Value="遠征" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Category}" Value="SupplyOrDocking">
+                            <Setter TargetName="Category" Property="Foreground" Value="#DEC772" />
+                            <Setter TargetName="Category" Property="Text" Value="補給" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Category}" Value="Arsenal">
+                            <Setter TargetName="Category" Property="Foreground" Value="#BA8F79" />
+                            <Setter TargetName="Category" Property="Text" Value="工廠" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Category}" Value="Modernization">
+                            <Setter TargetName="Category" Property="Foreground" Value="#CAA6DD" />
+                            <Setter TargetName="Category" Property="Text" Value="改装" />
+                        </DataTrigger>
+                        
+                        <DataTrigger Binding="{Binding Type}" Value="Daily">
+                            <Setter TargetName="Type" Property="Text" Value="日" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Type}" Value="Special1">
+                            <Setter TargetName="Type" Property="Text" Value="日" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Type}" Value="Special2">
+                            <Setter TargetName="Type" Property="Text" Value="日" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Type}" Value="Weekly">
+                            <Setter TargetName="Type" Property="Text" Value="週" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Type}" Value="Monthly">
+                            <Setter TargetName="Type" Property="Text" Value="月" />
+                        </DataTrigger>
+                        
+                        <DataTrigger Binding="{Binding Progress}" Value="Progress50">
+                            <Setter TargetName="Progress" Property="Text" Value="50%" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Progress}" Value="Progress80">
+                            <Setter TargetName="Progress" Property="Text" Value="80%" />
+                        </DataTrigger>
+                        
+                        <DataTrigger Binding="{Binding State}" Value="Completed">
+                            <Setter TargetName="Progress" Property="Text" Value="達成" />
+                            <Setter TargetName="ProgressBorder" Property="Background" Value="Purple" />
+                        </DataTrigger>
+                        <Trigger SourceName="Progress" Property="Text" Value="">
+                            <Setter TargetName="ProgressBorder" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+
+                        <DataTrigger Binding="{Binding ProgressData}" Value="{x:Null}">
+                            <Setter TargetName="DetailProgress" Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding CanCompleted}" Value="True">
+                            <Setter TargetName="CanCompletedBorder" Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ProgressData.Total}" Value="0">
+                            <Setter TargetName="DetailProgress" Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding ID}" Value="214">
+                            <Setter TargetName="ProgressContent" Property="Content">
+                                <Setter.Value>
+                                    <Border Background="Transparent">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition SharedSizeGroup="ProgressDetail" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.ToolTip>
+                                                <ToolTip Placement="Bottom">
+                                                    <Border Background="Transparent">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition SharedSizeGroup="CodeAPart" />
+                                                                <ColumnDefinition Width="50" />
+                                                                <ColumnDefinition SharedSizeGroup="ProgressDetail" />
+                                                            </Grid.ColumnDefinitions>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition />
+                                                                <RowDefinition />
+                                                                <RowDefinition />
+                                                                <RowDefinition />
+                                                            </Grid.RowDefinitions>
+
+                                                            <TextBlock>出撃</TextBlock>
+                                                            <rv:Indicator Foreground="Green" Maximum="{Binding SortieTotal}" Value="{Binding Sortie}" Margin="5, 0, 0, 0" VerticalAlignment="Center" Grid.Column="1" />
+                                                            <StackPanel Orientation="Horizontal" Margin="5, 0, 0, 0" Grid.Column="2">
+                                                                <TextBlock Text="{Binding Sortie}" />
+                                                                <TextBlock Foreground="Gray" Text="{Binding SortieTotal, StringFormat=/{0}}" Margin="3, 0, 0, 0" />
+                                                            </StackPanel>
+
+                                                            <TextBlock Grid.Row="1">S勝利</TextBlock>
+                                                            <rv:Indicator Foreground="Green" Maximum="{Binding SWinTotal}" Value="{Binding SWin}" Margin="5, 0, 0, 0" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" />
+                                                            <StackPanel Orientation="Horizontal" Margin="5, 0, 0, 0" Grid.Column="2" Grid.Row="1">
+                                                                <TextBlock Text="{Binding SWin}" />
+                                                                <TextBlock Foreground="Gray" Text="{Binding SWinTotal, StringFormat=/{0}}" Margin="3, 0, 0, 0" />
+                                                            </StackPanel>
+
+                                                            <TextBlock Grid.Row="2">ボス</TextBlock>
+                                                            <rv:Indicator Foreground="Green" Maximum="{Binding BossBattleTotal}" Value="{Binding BossBattle}" Margin="5, 0, 0, 0" VerticalAlignment="Center" Grid.Column="1" Grid.Row="2" />
+                                                            <StackPanel Orientation="Horizontal" Margin="5, 0, 0, 0" Grid.Column="2" Grid.Row="2">
+                                                                <TextBlock Text="{Binding BossBattle}" />
+                                                                <TextBlock Foreground="Gray" Text="{Binding BossBattleTotal, StringFormat=/{0}}" Margin="3, 0, 0, 0" />
+                                                            </StackPanel>
+
+                                                            <TextBlock Grid.Row="3">ボス勝利</TextBlock>
+                                                            <rv:Indicator Foreground="Green" Maximum="{Binding BossBattleWinTotal}" Value="{Binding BossBattleWin}" Margin="5, 0, 0, 0" VerticalAlignment="Center" Grid.Column="1" Grid.Row="3" />
+                                                            <StackPanel Orientation="Horizontal" Margin="5, 0, 0, 0" Grid.Column="2" Grid.Row="3">
+                                                                <TextBlock Text="{Binding BossBattleWin}" />
+                                                                <TextBlock Foreground="Gray" Text="{Binding BossBattleWinTotal, StringFormat=/{0}}" Margin="3, 0, 0, 0" />
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Border>
+                                                </ToolTip>
+                                            </Grid.ToolTip>
+
+                                            <rv:Indicator Foreground="Green" Maximum="100" Value="{Binding Percent}" Width="50" HorizontalAlignment="Right" />
+                                            <TextBlock Text="{Binding Percent, StringFormat={}{0:0.#}%}" Margin="5, 0, 0, 0" Grid.Column="1" />
+                                        </Grid>
+                                    </Border>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type rvg:QuestsView}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type rvg:QuestsView}">
+                    <ScrollViewer DataContext="{Binding}" VerticalScrollBarVisibility="Auto" Margin="3" Grid.IsSharedSizeScope="True">
+                        <StackPanel>
+                            <ListBox ItemsSource="{Binding StartedQuests}" ItemContainerStyle="{StaticResource QuestItemStyle}"  />
+                            <Rectangle Fill="#30FFFFFF" Height="1" Margin="0, 5" />
+                            <ListBox ItemsSource="{Binding Quests}" ItemContainerStyle="{StaticResource QuestItemStyle}" />
+                        </StackPanel>
+                    </ScrollViewer>
+                    
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding StartedQuestCount}" Value="0">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

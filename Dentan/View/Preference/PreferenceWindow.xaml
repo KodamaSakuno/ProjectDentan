@@ -1,0 +1,51 @@
+﻿<Window x:Class="Moen.KanColle.Dentan.View.Preference.PreferenceWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:rvp="clr-namespace:Moen.KanColle.Dentan.View.Preference"
+        xmlns:rvmp="clr-namespace:Moen.KanColle.Dentan.ViewModel.Preferences"
+        Title="PreferenceWindow"
+        FontFamily="Meiryo UI, Microsoft YaHei"
+        UseLayoutRounding="True"
+        Background="#595959"
+        Foreground="White"
+        Width="640" Height="320">
+    
+    <Grid Margin="6">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="6" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <ListBox ItemsSource="{Binding Groups}" SelectedValue="{Binding SelectedGroup, Mode=TwoWay}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Grid.Column="2">
+            <ScrollViewer.Resources>
+                <DataTemplate DataType="{x:Type rvmp:NetworkPreferenceViewModel}">
+                    <rvp:NetworkPreference />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type rvmp:BrowserPreferenceViewModel}">
+                    <rvp:BrowserPreference />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type rvmp:CachePreferenceViewModel}">
+                    <rvp:CachePreference />
+                </DataTemplate>
+            </ScrollViewer.Resources>
+            
+            <ContentPresenter Content="{Binding SelectedGroup}" />
+        </ScrollViewer>
+
+        <TextBlock VerticalAlignment="Center" Grid.ColumnSpan="3" Grid.Row="2">*需要重启使设置生效</TextBlock>
+    </Grid>
+</Window>

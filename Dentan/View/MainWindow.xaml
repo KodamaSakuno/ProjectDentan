@@ -1,0 +1,63 @@
+﻿<Window x:Class="Moen.KanColle.Dentan.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:ad="http://schemas.xceed.com/wpf/xaml/avalondock"
+        xmlns:rv="clr-namespace:Moen.KanColle.Dentan.View"
+        xmlns:rvm="clr-namespace:Moen.KanColle.Dentan.ViewModel"
+        mc:Ignorable="d"
+        SnapsToDevicePixels="True"
+        UseLayoutRounding="True"
+        Foreground="White"
+        FontFamily="Meiryo UI, Segoe UI, Microsoft YaHei UI"
+        Title="{Binding Title}"
+        WindowState="{Binding WindowState, Mode=TwoWay}"
+        Left="{Binding Left, Mode=TwoWay}"
+        Top="{Binding Top, Mode=TwoWay}"
+        Width="{Binding Width, Mode=TwoWay}"
+        Height="{Binding Height, Mode=TwoWay}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+        <Menu DataContext="{Binding Menu}" IsMainMenu="True" ItemsSource="{Binding Menus}">
+            <Menu.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Items}">
+                        <ContentPresenter Content="{Binding Title}" RecognizesAccessKey="True" />
+                </HierarchicalDataTemplate>
+            </Menu.ItemTemplate>
+        </Menu>
+        
+        <ad:DockingManager Name="DockingManager" AnchorablesSource="{Binding Panes}" Grid.Row="1">
+            <ad:DockingManager.Theme>
+                <ad:ExpressionDarkTheme />
+            </ad:DockingManager.Theme>
+            <ad:DockingManager.LayoutItemContainerStyle>
+                <Style TargetType="{x:Type ad:LayoutAnchorableItem}">
+                    <Setter Property="ContentId" Value="{Binding Model.ContentID}" />
+                    <Setter Property="Title" Value="{Binding Model.Title}"/>
+                    <Setter Property="Visibility" Value="{Binding Model.Visibility, Mode=TwoWay}" />
+                </Style>
+            </ad:DockingManager.LayoutItemContainerStyle>
+            <ad:DockingManager.LayoutItemTemplate>
+                <DataTemplate>
+                    <ContentPresenter Content="{Binding Content}" />
+                </DataTemplate>
+            </ad:DockingManager.LayoutItemTemplate>
+            
+            <ad:LayoutRoot>
+                <ad:LayoutPanel>
+                    <ad:LayoutDocumentPane />
+                </ad:LayoutPanel>
+            </ad:LayoutRoot>
+        </ad:DockingManager>
+        
+        <Border Background="#595959" Padding="4" Grid.Row="2">
+            <TextBlock Margin="5, 0, 0, 0" Foreground="White" Text="{Binding StatusBar.Message}" VerticalAlignment="Center" />
+        </Border>
+    </Grid>
+</Window>

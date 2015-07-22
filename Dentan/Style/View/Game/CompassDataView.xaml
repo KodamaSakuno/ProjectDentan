@@ -1,0 +1,87 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:rvg="clr-namespace:Moen.KanColle.Dentan.View.Game">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Dentan;component/Style/View/Game/CompassDataView.GetMaterial.xaml" />
+        <ResourceDictionary Source="/Dentan;component/Style/View/Game/CompassDataView.EnemyFleet.xaml" />
+        <ResourceDictionary Source="/Dentan;component/Style/View/Game/CompassDataView.NoEnemy.xaml" />
+        <ResourceDictionary Source="/Dentan;component/Style/View/Game/CompassDataView.AviationReconnaissance.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style TargetType="{x:Type rvg:CompassDataView}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type rvg:CompassDataView}">
+                    <Border Padding="3">
+                        <Grid DataContext="{Binding}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Margin="0, 0, 0, 3">
+                                <Run Text="{Binding MapName, Mode=OneWay}" /><Run Name="MapHP">
+                                    <Run.Text>
+                                        <MultiBinding StringFormat="{}({0}/{1})">
+                                            <Binding Path="MapHP.Now" />
+                                            <Binding Path="MapHP.Max" />
+                                        </MultiBinding>
+                                    </Run.Text>
+                                </Run>
+                                <Run Name="Cell" Text="{Binding Cell, StringFormat={}セル:{0}, Mode=OneWay}" />
+                            </TextBlock>
+                            
+                            <Control Name="Content"  Grid.Row="1" />
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding MapHP}" Value="{x:Null}">
+                            <Setter TargetName="MapHP" Property="Text" Value="" />
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Cell}" Value="-1">
+                            <Setter TargetName="Cell" Property="Text" Value="" />
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding IsBattleCell}" Value="True">
+                            <Setter TargetName="Content" Property="Template" Value="{StaticResource EnemyFleetTemplate}" />
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding CellEvent}" Value="GetMaterial">
+                            <Setter TargetName="Content" Property="Template" Value="{StaticResource GetMaterialTemplate}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding CellEvent}" Value="GetMaterial2">
+                            <Setter TargetName="Content" Property="Template" Value="{StaticResource GetMaterialTemplate}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding CellEvent}" Value="Nothing">
+                            <Setter TargetName="Content" Property="Template" Value="{StaticResource NoEnemyTemplate}" />
+                        </DataTrigger>
+                        
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding CellEvent}" Value="Air" />
+                                <Condition Binding="{Binding CellEventSubID}" Value="0" />
+                            </MultiDataTrigger.Conditions>
+
+                            <Setter TargetName="Content" Property="Template" Value="{StaticResource AviationReconnaissanceTemplate}" />
+                        </MultiDataTrigger>
+                        <!--<DataTrigger Binding="{Binding CellEvent}" Value="Whirlpool">
+                            <Setter TargetName="CellEvent" Property="Text" Value="渦潮" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding CellEvent}" Value="NormalBattle">
+                            <Setter TargetName="CellEvent" Property="Text" Value="通常戦闘" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding CellEvent}" Value="BossBattle">
+                            <Setter TargetName="CellEvent" Property="Text" Value="ボス戦闘" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding CellEvent}" Value="AirBattle">
+                            <Setter TargetName="CellEvent" Property="Text" Value="航空戦" />
+                        </DataTrigger>
+                        -->
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

@@ -1,0 +1,12 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ControlTemplate x:Key="NoEnemyTemplate" TargetType="{x:Type Control}">
+        <TextBlock Name="Text" Text="気のせいだった" />
+
+        <ControlTemplate.Triggers>
+            <DataTrigger Binding="{Binding IsManualSelection}" Value="True">
+                <Setter TargetName="Text" Property="Text" Value="能動分岐" />
+            </DataTrigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+</ResourceDictionary>

@@ -1,0 +1,132 @@
+﻿<Window x:Class="Moen.KanColle.Dentan.View.Game.EquipmentsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:r="clr-namespace:Moen.KanColle.Dentan.View"
+        Title="EquipmentsWindow"
+        Background="#595959"
+        Foreground="White"
+        Width="800" Height="480"
+        UseLayoutRounding="True">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        
+        <Grid Margin="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <CheckBox Content="すべて選択" IsChecked="{Binding IsSelectedAll, Mode=TwoWay}" Margin="3, 0" />
+
+            <ItemsControl ItemsSource="{Binding Types}" Grid.Row="1">
+                <ItemsControl.Style>
+                    <Style TargetType="{x:Type ItemsControl}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsSelectedAll}" Value="True">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ItemsControl.Style>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}" Margin="3, 0">
+                            <r:EquipmentIcon Type="{Binding Type}" />
+                        </CheckBox>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+        
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
+            <ItemsControl ItemsSource="{Binding TypeGroups}" Grid.IsSharedSizeScope="True">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Name="Border" Padding="5">
+                            <StackPanel>
+                                <Rectangle Fill="#30FFFFFF" Height="1" />
+
+                                <Grid Margin="0, 5, 0, 0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition SharedSizeGroup="Type" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+
+                                    <r:EquipmentIcon Type="{Binding Info.IconType}" Margin="0, 1, 0, 0" VerticalAlignment="Top" />
+                                    <TextBlock Text="{Binding Info.Name}" Margin="3, 6, 0, 0" Grid.Column="1" />
+
+                                    <ItemsControl ItemsSource="{Binding Levels}" Grid.Column="2">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border Padding="3">
+                                                    <StackPanel>
+                                                        <Rectangle Name="SeparatorLine" Fill="#30FFFFFF" Height="1" />
+
+                                                        <Grid Margin="0, 3, 0, 0">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition SharedSizeGroup="Level" />
+                                                                <ColumnDefinition SharedSizeGroup="Count" />
+                                                                <ColumnDefinition />
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <TextBlock Name="Level" Text="{Binding Level, StringFormat=★+{0}}" />
+                                                            <TextBlock Text="{Binding Count}" TextAlignment="Center" Margin="3, 0, 0, 0" Grid.Column="1" />
+
+                                                            <ItemsControl ItemsSource="{Binding EquipedShips}" Margin="3, 0, 0, 0" Grid.Column="2">
+                                                                <ItemsControl.ItemsPanel>
+                                                                    <ItemsPanelTemplate>
+                                                                        <WrapPanel />
+                                                                    </ItemsPanelTemplate>
+                                                                </ItemsControl.ItemsPanel>
+                                                                <ItemsControl.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <TextBlock Margin="3, 0">
+                                                                            <Run Text="{Binding Ship.Model.Name,Mode=OneWay}" />
+                                                                            <Run Text="{Binding Ship.Model.Level, StringFormat={}(Lv.{0}), Mode=OneWay}" />
+                                                                            <Run Text="{Binding Count, Mode=OneWay}" Background="Black" />
+                                                                        </TextBlock>
+                                                                    </DataTemplate>
+                                                                </ItemsControl.ItemTemplate>
+                                                            </ItemsControl>
+                                                        </Grid>
+                                                    </StackPanel>
+                                                </Border>
+
+                                                <DataTemplate.Triggers>
+                                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource PreviousData}}" Value="{x:Null}">
+                                                        <Setter TargetName="SeparatorLine" Property="Visibility" Value="Collapsed" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Level}" Value="0">
+                                                        <Setter TargetName="Level" Property="Foreground" Value="Gray" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Level}" Value="10">
+                                                        <Setter TargetName="Level" Property="Text" Value="★Max" />
+                                                    </DataTrigger>
+                                                </DataTemplate.Triggers>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Type.IsSelected}" Value="False">
+                                <Setter TargetName="Border" Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</Window>

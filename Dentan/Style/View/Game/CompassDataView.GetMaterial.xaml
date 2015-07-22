@@ -1,0 +1,38 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:rv="clr-namespace:Moen.KanColle.Dentan.View">
+    <ControlTemplate x:Key="GetMaterialTemplate" TargetType="{x:Type Control}">
+        <TextBlock>
+            <Run Text="資源獲得" />
+            <Run Name="Name" Text="未知" />
+            x<Run Text="{Binding GetItemCount, Mode=OneWay}" />
+        </TextBlock>
+
+        <ControlTemplate.Triggers>
+            <DataTrigger Binding="{Binding GetItemID}" Value="1">
+                <Setter TargetName="Name" Property="Text" Value="燃料" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding GetItemID}" Value="2">
+                <Setter TargetName="Name" Property="Text" Value="弾薬" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding GetItemID}" Value="3">
+                <Setter TargetName="Name" Property="Text" Value="鋼材" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding GetItemID}" Value="4">
+                <Setter TargetName="Name" Property="Text" Value="ボーキサイト" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding GetItemID}" Value="5">
+                <Setter TargetName="Name" Property="Text" Value="高速建造材" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding GetItemID}" Value="10">
+                <Setter TargetName="Name" Property="Text" Value="家具箱(小)" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding GetItemID}" Value="11">
+                <Setter TargetName="Name" Property="Text" Value="家具箱(中)" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding GetItemID}" Value="12">
+                <Setter TargetName="Name" Property="Text" Value="家具箱(大)" />
+            </DataTrigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+</ResourceDictionary>

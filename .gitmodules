@@ -1,0 +1,4 @@
+[submodule "Library"]
+	path = Library
+	url = E:\\Project\\Library
+	branch = develop

@@ -1,0 +1,42 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:rv="clr-namespace:Moen.KanColle.Dentan.View">
+    <ControlTemplate x:Key="AviationReconnaissanceTemplate" TargetType="{x:Type Control}">
+        <StackPanel>
+            <TextBlock>
+                <Run Text="航空偵察" />
+                <Run Name="Result" />
+            </TextBlock>
+            <TextBlock Name="GetItem" Margin="0, 3, 0, 0">
+                <Run Name="Name" />
+                x<Run Text="{Binding GetItemCount, Mode=OneWay}" />
+            </TextBlock>
+        </StackPanel>
+
+        <ControlTemplate.Triggers>
+            <DataTrigger Binding="{Binding AviationReconnaissanceResult}" Value="Failure">
+                <Setter TargetName="Result" Property="Text" Value="失敗" />
+                <Setter TargetName="GetItem" Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding AviationReconnaissanceResult}" Value="Success">
+                <Setter TargetName="Result" Property="Text" Value="成功" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding AviationReconnaissanceResult}" Value="GreatSuccess">
+                <Setter TargetName="Result" Property="Text" Value="大成功" />
+            </DataTrigger>
+            
+            <DataTrigger Binding="{Binding GetItemID}" Value="1">
+                <Setter TargetName="Name" Property="Text" Value="燃料" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding GetItemID}" Value="2">
+                <Setter TargetName="Name" Property="Text" Value="弾薬" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding GetItemID}" Value="3">
+                <Setter TargetName="Name" Property="Text" Value="鋼材" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding GetItemID}" Value="4">
+                <Setter TargetName="Name" Property="Text" Value="ボーキサイト" />
+            </DataTrigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+</ResourceDictionary>

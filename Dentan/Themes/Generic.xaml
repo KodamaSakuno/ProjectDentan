@@ -1,0 +1,8 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Dentan;component/Style/Controls.xaml" />
+        <ResourceDictionary Source="/Dentan;component/Style/ListBoxStyle.xaml" />
+        <ResourceDictionary Source="/Dentan;component/Style/Views.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="Moen.KanColle.Dentan.View.Preference.CachePreference"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:rvmp="clr-namespace:Moen.KanColle.Dentan.ViewModel.Preferences"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance rvmp:CachePreferenceViewModel}">
+    <StackPanel>
+        <CheckBox IsChecked="{Binding IsEnabled}" Margin="0, 0, 0, 10">启用缓存</CheckBox>
+        
+        <StackPanel Orientation="Horizontal" Margin="0, 0, 0, 10">
+            <TextBlock>缓存文件夹</TextBlock>
+            <TextBox Text="{Binding CacheFolder}" />
+            <Button>...</Button>
+        </StackPanel>
+        
+        <CheckBox>保留历史版本</CheckBox>
+    </StackPanel>
+</UserControl>

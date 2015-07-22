@@ -1,0 +1,107 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:rvg="clr-namespace:Moen.KanColle.Dentan.View.Game">
+    <ControlTemplate x:Key="Expedition" TargetType="{x:Type Control}">
+        <Border Background="Transparent" DataContext="{Binding Expedition}">
+            <Border.ToolTip>
+                <ToolTip Placement="Bottom">
+                    <StackPanel>
+                        <TextBlock>完了時間</TextBlock>
+                        <TextBlock Text="{Binding CompleteTime}" />
+                    </StackPanel>
+                </ToolTip>
+            </Border.ToolTip>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition SharedSizeGroup="RemainingTime" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" />
+                <TextBlock Text="{Binding RemainingTime}" Margin="3, 0, 0, 0" Grid.Column="1" />
+            </Grid>
+        </Border>
+    </ControlTemplate>
+
+    <Style TargetType="{x:Type rvg:FleetsOverviewView}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type rvg:FleetsOverviewView}">
+                    <ItemsControl ItemsSource="{Binding Fleets.Fleets}" Grid.IsSharedSizeScope="True">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Padding="4">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Text="{Binding ID}" />
+                                        <Control Name="Content" Margin="4, 0, 0, 0" Grid.Column="1">
+                                            <Control.Template>
+                                                <ControlTemplate TargetType="{x:Type Control}">
+                                                    <Border Name="Border" Background="Transparent" >
+                                                        <TextBlock Name="Text" Text="待機中" TextAlignment="Center" />
+                                                    </Border>
+
+                                                    <ControlTemplate.Triggers>
+                                                        <MultiDataTrigger>
+                                                            <MultiDataTrigger.Conditions>
+                                                                <Condition Binding="{Binding Model.State}" Value="Idle" />
+                                                                <Condition Binding="{Binding Model.NeedSupply}" Value="True" />
+                                                            </MultiDataTrigger.Conditions>
+
+                                                            <Setter TargetName="Text" Property="Text" Value="未補給" />
+                                                            <Setter TargetName="Border" Property="ToolTip">
+                                                                <Setter.Value>
+                                                                    <ToolTip>
+                                                                        <StackPanel DataContext="{Binding Model}">
+                                                                            <TextBlock Text="{Binding UnsuppliedFuel, StringFormat={}燃料:{0}}" />
+                                                                            <TextBlock Text="{Binding UnsuppliedBullet, StringFormat={}燃料:{0}}" />
+                                                                            <TextBlock>
+                                                                                <TextBlock.Text>
+                                                                                    <MultiBinding StringFormat="{}ボーキサイト:{0} (艦載機:{1})">
+                                                                                        <Binding Path="UnsuppliedBauxite" />
+                                                                                        <Binding Path="UnsuppliedPlane" />
+                                                                                    </MultiBinding>
+                                                                                </TextBlock.Text>
+                                                                            </TextBlock>
+                                                                        </StackPanel>
+                                                                    </ToolTip>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </MultiDataTrigger>
+                                                        <MultiDataTrigger>
+                                                            <MultiDataTrigger.Conditions>
+                                                                <Condition Binding="{Binding Model.State}" Value="Idle" />
+                                                                <Condition Binding="{Binding Model.HasHeavilyDamage}" Value="True" />
+                                                            </MultiDataTrigger.Conditions>
+
+                                                            <Setter TargetName="Text" Property="Text" Value="大破あり" />
+                                                        </MultiDataTrigger>
+                                                        
+                                                        <DataTrigger Binding="{Binding Model.State}" Value="Sortie">
+                                                            <Setter TargetName="Text" Property="Text" Value="出撃中" />
+                                                        </DataTrigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Control.Template>
+                                        </Control>
+                                    </Grid>
+                                </Border>
+
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding Model.State}" Value="Expedition">
+                                        <Setter TargetName="Content" Property="Template" Value="{StaticResource Expedition}" />
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

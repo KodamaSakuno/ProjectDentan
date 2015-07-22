@@ -1,0 +1,14 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Dentan;component/Style/View/Game/AdmiralView.xaml" />
+        <ResourceDictionary Source="/Dentan;component/Style/View/Game/BuildingDockView.xaml" />
+        <ResourceDictionary Source="/Dentan;component/Style/View/Game/RepairDockView.xaml" />
+        <ResourceDictionary Source="/Dentan;component/Style/View/Game/BattleView.xaml" />
+        <ResourceDictionary Source="/Dentan;component/Style/View/Game/CompassDataView.xaml" />
+        <ResourceDictionary Source="/Dentan;component/Style/View/Game/FleetsView.xaml" />
+        <ResourceDictionary Source="/Dentan;component/Style/View/Game/FleetsOverviewView.xaml" />
+        <ResourceDictionary Source="/Dentan;component/Style/View/Game/SlotsView.xaml" />
+        <ResourceDictionary Source="/Dentan;component/Style/View/Game/QuestsView.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>
