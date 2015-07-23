@@ -4,7 +4,25 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:r="clr-namespace:Moen.KanColle.Dentan.View"
-             mc:Ignorable="d" 
-             d:DesignHeight="800" d:DesignWidth="480">
-    <r:BrowserHost />
+             mc:Ignorable="d"
+             d:DesignWidth="800" d:DesignHeight="480">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <TextBox Text="{Binding Url, Mode=TwoWay}" Height="23">
+            <TextBox.Style>
+                <Style TargetType="{x:Type TextBox}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding HideAddressBar}" Value="True">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+        <ContentPresenter Content="{Binding BrowserControl}" Grid.Row="1" />
+    </Grid>
 </UserControl>

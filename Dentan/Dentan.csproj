@@ -124,6 +124,7 @@
     <Compile Include="Model\Preference.cs" />
     <Compile Include="Model\Preference.Data.cs" />
     <Compile Include="Model\UpdateChannel.cs" />
+    <Compile Include="ViewModel\Browser\BrowserViewModel.cs" />
     <Compile Include="ViewModel\Browser\VolumeViewModel.cs" />
     <Compile Include="ViewModel\GameViewModel.cs" />
     <Compile Include="ViewModel\FirstRunViewModel.cs" />
@@ -156,7 +157,6 @@
     <Compile Include="ViewModel\Preferences\PreferenceGroupViewModel.cs" />
     <Compile Include="ViewModel\Preferences\PreferenceViewModel.cs" />
     <Compile Include="ViewModel\SessionsViewModel.cs" />
-    <Compile Include="View\BrowserHost.cs" />
     <Compile Include="View\BytesToStringConverter.cs" />
     <Compile Include="View\ColorIndicator.cs" />
     <Compile Include="View\Controls\PDListBox.cs" />

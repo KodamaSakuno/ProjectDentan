@@ -8,6 +8,7 @@ namespace Moen.KanColle.Dentan.Browser
         int Port { set; }
 
         event Action FlashExtracted;
+        event Action<string> Navigated;
 
         void Navigate(string rpUrl);
         void Refresh();

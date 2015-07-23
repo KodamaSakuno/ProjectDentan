@@ -59,7 +59,7 @@
                                                                     <ToolTip>
                                                                         <StackPanel DataContext="{Binding Model}">
                                                                             <TextBlock Text="{Binding UnsuppliedFuel, StringFormat={}燃料:{0}}" />
-                                                                            <TextBlock Text="{Binding UnsuppliedBullet, StringFormat={}燃料:{0}}" />
+                                                                            <TextBlock Text="{Binding UnsuppliedBullet, StringFormat={}弾薬:{0}}" />
                                                                             <TextBlock>
                                                                                 <TextBlock.Text>
                                                                                     <MultiBinding StringFormat="{}ボーキサイト:{0} (艦載機:{1})">

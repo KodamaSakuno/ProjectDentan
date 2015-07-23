@@ -16,12 +16,17 @@ namespace Moen.KanColle.Dentan.Browser.Trident
         }
 
         public event Action FlashExtracted = () => { };
+        public event Action<string> Navigated = delegate { };
         bool r_IsExtracted;
 
         public TridentBrowser()
         {
             Child = r_Browser = new WebBrowser();
-            r_Browser.Navigated += (s, e) => SuppressScriptError();
+            r_Browser.Navigated += (s, e) =>
+            {
+                SuppressScriptError();
+                Navigated(e.Uri.OriginalString);
+            };
 
             r_Browser.LoadCompleted += (s, e) => ExtractFlash();
         }

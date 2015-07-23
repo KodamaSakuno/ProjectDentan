@@ -2,7 +2,7 @@
 using System.ServiceModel;
 using System.Threading.Tasks;
 
-namespace Moen.KanColle.Dentan.Browser.Bridge
+namespace Moen.KanColle.Dentan.Browser
 {
     public class Bridge<TSource, TTarget>
     {

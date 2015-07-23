@@ -1,5 +1,4 @@
-﻿using Moen.KanColle.Dentan.Browser.Bridge;
-using Moen.SystemInterop;
+﻿using Moen.SystemInterop;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -89,6 +88,7 @@ namespace Moen.KanColle.Dentan.Browser
             Bridge.Proxy.Attach(r_HwndSource.Handle);
 
             Browser.FlashExtracted += UpdateSize;
+            Browser.Navigated += r => Bridge.Proxy.SetUrl(r);
         }
 
         public void Refresh()

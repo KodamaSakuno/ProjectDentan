@@ -10,5 +10,8 @@ namespace Moen.KanColle.Dentan.Browser
 
         [OperationContract]
         void Attach(IntPtr rpHandle);
+
+        [OperationContract]
+        void SetUrl(string rpUrl);
     }
 }
