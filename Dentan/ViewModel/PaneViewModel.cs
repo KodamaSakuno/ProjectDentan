@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using Moen.KanColle.Dentan.View;
+using System.Windows;
+using System.Windows.Input;
 
 namespace Moen.KanColle.Dentan.ViewModel
 {
@@ -56,7 +58,7 @@ namespace Moen.KanColle.Dentan.ViewModel
                 {
                     r_Visibility = value;
                     OnPropertyChanged();
-                    OnPropertyChanged(() => IsVisible);
+                    OnPropertyChanged(nameof(IsVisible));
                 }
             }
         }
@@ -65,6 +67,17 @@ namespace Moen.KanColle.Dentan.ViewModel
         {
             get { return r_Visibility == Visibility.Visible; }
             set { Visibility = value ? Visibility.Visible : Visibility.Hidden; }
+        }
+
+        public ICommand CloseCommand { get; private set; }
+
+        public PaneViewModel()
+        {
+            CloseCommand = new DelegatedCommand(() =>
+            {
+                ViewFactory.LoadedIDs.Remove(r_ContentID);
+                App.Root.Panes.Remove(this);
+            });
         }
     }
 }

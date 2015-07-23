@@ -146,6 +146,7 @@
     <Compile Include="ViewModel\Game\ShipsViewModel.cs" />
     <Compile Include="ViewModel\Game\ShipViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
+    <Compile Include="ViewModel\Menu\LayoutMenuViewModel.cs" />
     <Compile Include="ViewModel\Menu\MenuSeparator.cs" />
     <Compile Include="ViewModel\Menu\ToolMenuViewModel.cs" />
     <Compile Include="ViewModel\NotificationViewModel.cs" />

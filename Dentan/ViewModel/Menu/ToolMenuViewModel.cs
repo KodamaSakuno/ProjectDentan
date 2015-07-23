@@ -22,6 +22,8 @@ namespace Moen.KanColle.Dentan.ViewModel.Menu
                 new MenuItemViewModel("远征记录", new DelegatedCommand(() => { }, () => false)),
                 new MenuItemViewModel("建造&开发记录", new DelegatedCommand(() => { }, () => false)),
                 MenuSeparator.Default,
+                new LayoutMenuViewModel(),
+                MenuSeparator.Default,
                 new MenuItemViewModel("设置(_P)", new DelegatedCommand(() => new PreferenceWindow().ShowDialog())),
                 new MenuItemViewModel("初次设置向导(_W)", new DelegatedCommand(App.ShowFirstRunWindowIfRequired)),
             };

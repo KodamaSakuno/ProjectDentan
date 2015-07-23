@@ -41,6 +41,7 @@
                     <Setter Property="ContentId" Value="{Binding Model.ContentID}" />
                     <Setter Property="Title" Value="{Binding Model.Title}"/>
                     <Setter Property="Visibility" Value="{Binding Model.Visibility, Mode=TwoWay}" />
+                    <Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}" />
                 </Style>
             </ad:DockingManager.LayoutItemContainerStyle>
             <ad:DockingManager.LayoutItemTemplate>

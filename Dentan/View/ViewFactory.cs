@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Data;
-using System.Windows.Input;
 
 namespace Moen.KanColle.Dentan.View
 {
@@ -12,7 +11,8 @@ namespace Moen.KanColle.Dentan.View
         static Dictionary<string, Type> r_TypeMaps;
         static Dictionary<Type, string> r_GameVMBinding;
 
-        static HashSet<string> r_LoadedView;
+        public static HashSet<string> LoadedIDs { get; } = new HashSet<string>();
+        static Dictionary<string, FrameworkElement> r_LoadedElements = new Dictionary<string, FrameworkElement>();
 
         static ViewFactory()
         {
@@ -29,19 +29,22 @@ namespace Moen.KanColle.Dentan.View
                           where rAttribute != null
                           select new { Type = rType, BindingPath = rAttribute.Path };
             r_GameVMBinding = rTypes2.ToDictionary(r => r.Type, r => r.BindingPath);
-
-            r_LoadedView = new HashSet<string>();
         }
-
+        
         public static FrameworkElement GetContentFromID(string rpID)
         {
             Type rType;
             if (!r_TypeMaps.TryGetValue(rpID, out rType))
                 return null;
 
-            if (r_LoadedView.Add(rpID))
+            if (LoadedIDs.Add(rpID))
             {
-                var rElement = (FrameworkElement)Activator.CreateInstance(rType);
+                FrameworkElement rElement;
+                if (!r_LoadedElements.TryGetValue(rpID, out rElement))
+                {
+                    rElement = (FrameworkElement)Activator.CreateInstance(rType);
+                    r_LoadedElements.Add(rpID, rElement);
+                }
 
                 string rBindingPath;
                 if (!r_GameVMBinding.TryGetValue(rElement.GetType(), out rBindingPath))

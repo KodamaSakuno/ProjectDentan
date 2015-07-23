@@ -21,28 +21,51 @@ namespace Moen.KanColle.Dentan.View
 
         void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            LoadLayout(DockConfigFile);
+        }
+        void MainWindow_Unloaded(object sender, RoutedEventArgs e)
+        {
+            SaveLayout(DockConfigFile);
+        }
+
+        public void LoadLayout(string rpFileName)
+        {
             var rSerializer = new XmlLayoutSerializer(DockingManager);
             rSerializer.LayoutSerializationCallback += Serializer_LayoutSerializationCallback;
 
-            if (File.Exists(DockConfigFile))
+            if (File.Exists(rpFileName))
             {
-                var rDirectory = Path.GetDirectoryName(DockConfigFile);
+                var rDirectory = Path.GetDirectoryName(rpFileName);
                 if (!Directory.Exists(rDirectory))
                     Directory.CreateDirectory(rDirectory);
 
-                rSerializer.Deserialize(DockConfigFile);
+                rSerializer.Deserialize(rpFileName);
             }
         }
+        public void LoadLayout(Stream rpStream)
+        {
+            var rSerializer = new XmlLayoutSerializer(DockingManager);
+            rSerializer.LayoutSerializationCallback += Serializer_LayoutSerializationCallback;
 
-        void MainWindow_Unloaded(object sender, RoutedEventArgs e)
+            ViewFactory.LoadedIDs.Clear();
+            App.Root.Panes.Clear();
+            rSerializer.Deserialize(rpStream);
+        }
+        public void SaveLayout(string rpFileName)
         {
             var rSerializer = new XmlLayoutSerializer(DockingManager);
 
-            var rDirectory = Path.GetDirectoryName(DockConfigFile);
+            var rDirectory = Path.GetDirectoryName(rpFileName);
             if (!Directory.Exists(rDirectory))
                 Directory.CreateDirectory(rDirectory);
 
-            rSerializer.Serialize(DockConfigFile);
+            rSerializer.Serialize(rpFileName);
+        }
+        public void SaveLayout(Stream rpStream)
+        {
+            var rSerializer = new XmlLayoutSerializer(DockingManager);
+
+            rSerializer.Serialize(rpStream);
         }
 
         void Serializer_LayoutSerializationCallback(object sender, LayoutSerializationCallbackEventArgs e)
