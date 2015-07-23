@@ -20,7 +20,7 @@ namespace Moen.KanColle.Dentan.Api
 
         public static event Action<Exception> NewException;
 
-        static Lazy<Regex> r_TokenRegex = new Lazy<Regex>(() => new Regex(@"(?<=api_token=)\w+"));
+        public static Regex TokenRegex { get; } = new Regex(@"(?<=api_token=)\w+");
 
         static ApiParsers()
         {
@@ -88,7 +88,7 @@ namespace Moen.KanColle.Dentan.Api
 
                 using (var rStreamWriter = new StreamWriter(string.Format(@"Log\Exception\{0}_{1}.json", rPrefix, rLast + 1), false, new UTF8Encoding(true)))
                 {
-                    rStreamWriter.WriteLine(r_TokenRegex.Value.Replace(rpData.Item1.FullUrl, "***************************"));
+                    rStreamWriter.WriteLine(TokenRegex.Replace(rpData.Item1.FullUrl, "***************************"));
                     rStreamWriter.WriteLine();
                     rStreamWriter.WriteLine("Exception:");
                     rStreamWriter.WriteLine(rException.ToString());

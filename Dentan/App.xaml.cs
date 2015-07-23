@@ -42,6 +42,7 @@ namespace Moen.KanColle.Dentan
                 KanColleGame.Current.Proxy.SetUpstreamProxy(Preference.Current.UpstreamProxy.Host, Preference.Current.UpstreamProxy.Port);
             }
             KanColleGame.Current.Proxy.Start(Preference.Current.Port);
+            KanColleGame.Current.Proxy.GameToken += r => Preference.Current.Browser.GameToken = r;
 
             Task.Run(() =>
             {

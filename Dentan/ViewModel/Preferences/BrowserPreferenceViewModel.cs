@@ -21,6 +21,19 @@ namespace Moen.KanColle.Dentan.ViewModel.Preferences
             }
         }
 
+        public string Homepage
+        {
+            get { return Model.Browser.Homepage; }
+            set
+            {
+                if (Model.Browser.Homepage != value)
+                {
+                    Model.Browser.Homepage = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public FlashQuality FlashQuality
         {
             get { return Model.Browser.Flash.Quality; }

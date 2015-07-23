@@ -1,4 +1,5 @@
 ﻿using Moen.KanColle.Dentan.Browser;
+using Moen.KanColle.Dentan.Model;
 using Moen.SystemInterop;
 using System;
 using System.Diagnostics;
@@ -13,8 +14,6 @@ namespace Moen.KanColle.Dentan.ViewModel.Browser
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     class BrowserViewModel : ModelBase, IBrowserHost
     {
-        const string LoginPageUrl = "http://www.dmm.com/netgame/social/application/-/detail/=/app_id=854854/";
-
         public static BrowserViewModel Current { get; private set; }
         
         string r_Uri;
@@ -68,6 +67,8 @@ namespace Moen.KanColle.Dentan.ViewModel.Browser
             }
         }
 
+        public event Action BrowserReady = () => { };
+
         public BrowserViewModel()
         {
             Current = this;
@@ -100,18 +101,14 @@ namespace Moen.KanColle.Dentan.ViewModel.Browser
             BrowserControl = new BrowserHostCore(rpHandle);
 
             IsReady = true;
+            BrowserReady();
 
             r_Bridge.Proxy.Port = KanColleGame.Current.Proxy.Port;
-
-            if (File.Exists(@"Data\Last.txt"))
-                r_Bridge.Proxy.Navigate(File.ReadAllText(@"Data\Last.txt"));
-            else
-                r_Bridge.Proxy.Navigate(LoginPageUrl);
 
             KanColleGame.Current.TokenOutdated += () =>
             {
                 App.Root.StatusBar.Message = "Token 过期，需要重新登录";
-                r_Bridge.Proxy.Navigate(LoginPageUrl);
+                Navigate(Preference.Current.Browser.Homepage);
             };
             KanColleGame.Current.GameLaunched += async () =>
             {
@@ -132,6 +129,10 @@ namespace Moen.KanColle.Dentan.ViewModel.Browser
             OnPropertyChanged(nameof(Url));
         }
 
+        public void Navigate(string rpUrl)
+        {
+            r_Bridge.Proxy.Navigate(rpUrl);
+        }
         public void Refresh()
         {
             r_Bridge.Proxy.Refresh();

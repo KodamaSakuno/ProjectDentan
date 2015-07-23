@@ -6,7 +6,12 @@ namespace Moen.KanColle.Dentan.Browser
     {
         [JsonProperty("zoom")]
         public double Zoom { get; set; } = 1.0;
-        
+
+        [JsonProperty("homepage")]
+        public string Homepage { get; set; } = "http://www.dmm.com/netgame/social/application/-/detail/=/app_id=854854/";
+        [JsonProperty("game_token")]
+        public string GameToken { get; set; }
+
         [JsonProperty("flash")]
         public FlashPreference Flash { get; set; } = new FlashPreference();
         public class FlashPreference

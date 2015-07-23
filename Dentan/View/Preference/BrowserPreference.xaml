@@ -8,7 +8,7 @@
     <StackPanel>
         <StackPanel Orientation="Horizontal" Margin="0, 0, 0, 10">
             <TextBlock>首页:</TextBlock>
-            <TextBox />
+            <TextBox Text="{Binding Homepage}" Width="200" />
         </StackPanel>
     </StackPanel>
 </UserControl>

@@ -12,9 +12,9 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <TextBox Text="{Binding Url, Mode=TwoWay}" Height="23">
+        <TextBox Text="{Binding Url, Mode=OneWay}" Height="23" KeyUp="TextBox_KeyUp">
             <TextBox.Style>
-                <Style TargetType="{x:Type TextBox}">
+                <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource TextBoxStyle}">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding HideAddressBar}" Value="True">
                             <Setter Property="Visibility" Value="Collapsed" />
@@ -23,6 +23,14 @@
                 </Style>
             </TextBox.Style>
         </TextBox>
-        <ContentPresenter Content="{Binding BrowserControl}" Grid.Row="1" />
+        <ContentPresenter Name="Browser" Content="{Binding BrowserControl}" Grid.Row="1" />
+
+        <Border Name="EntrySelectionBorder" Background="#545454" Padding="12" Visibility="Collapsed" Grid.RowSpan="2">
+            <StackPanel HorizontalAlignment="Left">
+                <TextBlock FontSize="24" Margin="0, 0, 0, 12">请选择重开游戏的方式</TextBlock>
+                <Button Margin="0, 0, 0, 12" Width="160" Height="36" Click="ButtonRelogin_Click">重新登录</Button>
+                <Button Margin="0, 0, 0, 12" Width="160" Height="36" Click="ButtonLoginWithToken_Click">直接按 Token 登录游戏</Button>
+            </StackPanel>
+        </Border>
     </Grid>
 </UserControl>
