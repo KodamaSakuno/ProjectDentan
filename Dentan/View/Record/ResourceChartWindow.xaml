@@ -1,0 +1,13 @@
+﻿<Window x:Class="Moen.KanColle.Dentan.View.Record.ResourceChartWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:op="http://oxyplot.org/wpf"
+        mc:Ignorable="d"
+        Title="资源图表"
+        Width="1024" Height="600">
+    <Grid>
+        <op:PlotView Name="Plot" Background="#595959" Foreground="White" TextColor="White" LegendTextColor="White" Model="{Binding Model}" />
+    </Grid>
+</Window>

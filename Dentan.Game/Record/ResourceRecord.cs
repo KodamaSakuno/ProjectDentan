@@ -1,5 +1,8 @@
 ﻿using Moen.KanColle.Dentan.Data;
+using System;
+using System.Collections.Generic;
 using System.Data.SQLite;
+using System.Threading.Tasks;
 
 namespace Moen.KanColle.Dentan.Record
 {
@@ -62,6 +65,42 @@ namespace Moen.KanColle.Dentan.Record
                 rCommand.Parameters.Add(new SQLiteParameter("@improvement_material", rpData.ImprovementMaterial));
                 rCommand.ExecuteNonQuery();
             }
+        }
+
+        public List<Item> GetRecords()
+        {
+            using (var rCommand = Connection.CreateCommand())
+            {
+                rCommand.CommandText = "SELECT time, fuel, bullet, steel, bauxite, bucket FROM resources ORDER BY time DESC";
+                using (var rReader = rCommand.ExecuteReader())
+                {
+                    var rResult = new List<Item>(rReader.VisibleFieldCount);
+
+                    while (rReader.Read())
+                        rResult.Add(new Item()
+                        {
+                            Time = DateTimeUtil.FromUnixTime((ulong)rReader.GetInt64(0)).LocalDateTime,
+                            Fuel = rReader.GetInt32(1),
+                            Bullet = rReader.GetInt32(2),
+                            Steel = rReader.GetInt32(3),
+                            Bauxite = rReader.GetInt32(4),
+                            Bucket = rReader.GetInt32(5),
+                        });
+
+                    return rResult;
+                }
+            }
+        }
+
+        public class Item
+        {
+            public DateTime Time { get; set; }
+
+            public int Fuel { get; set; }
+            public int Bullet { get; set; }
+            public int Steel { get; set; }
+            public int Bauxite { get; set; }
+            public int Bucket { get; set; }
         }
     }
 }
