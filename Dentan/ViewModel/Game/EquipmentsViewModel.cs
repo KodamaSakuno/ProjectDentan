@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Reactive.Linq;
+using Moen.KanColle.Dentan.Data;
 
 namespace Moen.KanColle.Dentan.ViewModel.Game
 {
@@ -91,11 +92,11 @@ namespace Moen.KanColle.Dentan.ViewModel.Game
             });
         }
 
-        public void UpdateType()
+        public void UpdateType(BaseInfo rpInfo)
         {
             Task.Run(() =>
             {
-                Types = KanColleGame.Current.Base.Equipments.Values.GroupBy(r => r.IconType)
+                Types = rpInfo.Equipments.Values.GroupBy(r => r.IconType)
                     .Select(r => new EquipmentTypeViewModel(r.Key) { IsSelected = IsSelectedAll }).ToArray();
             });
         }

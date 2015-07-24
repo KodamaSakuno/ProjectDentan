@@ -1,0 +1,122 @@
+﻿<UserControl x:Class="Moen.KanColle.Dentan.View.Game.ExpeditionOverviewView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:rvmg="clr-namespace:Moen.KanColle.Dentan.ViewModel.Game"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance {x:Type rvmg:ExpeditionOverviewViewModel}}"
+             Foreground="White"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid DataContext="{Binding ExpeditionOverview}">
+        <ScrollViewer>
+            <ItemsControl ItemsSource="{Binding Areas}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type rvmg:MapAreaViewModel}">
+                        <Border>
+                            <Expander Header="{Binding Model.Name}" Foreground="White">
+                                <ItemsControl ItemsSource="{Binding Expeditions}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate DataType="{x:Type rvmg:ExpeditionInfoViewModel}">
+                                            <Border Name="Border" Background="Transparent" BorderBrush="Transparent" BorderThickness="1">
+                                                <Border.ToolTip>
+                                                    <ToolTip>
+                                                        <StackPanel>
+                                                            <TextBlock Text="{Binding Time, StringFormat={}耗时 {0}}" />
+                                                            <TextBlock Name="UseFuel" Text="{Binding Model.UseFuel, StringFormat={}消耗燃料 {0:0%}}" />
+                                                            <TextBlock Name="UseBullet" Text="{Binding Model.UseBullet, StringFormat={}消耗弹药 {0:0%}}" />
+                                                            <TextBlock Name="GetFuel" Text="{Binding Data.GetFuel, StringFormat={}获得燃料 {0}}" />
+                                                            <TextBlock Name="GetBullet" Text="{Binding Data.GetBullet, StringFormat={}获得弹药 {0}}" />
+                                                            <TextBlock Name="GetSteel" Text="{Binding Data.GetSteel, StringFormat={}获得钢材 {0}}" />
+                                                            <TextBlock Name="GetBauxite" Text="{Binding Data.GetBauxite, StringFormat={}获得铝 {0}}" />
+                                                            <ItemsControl ItemsSource="{Binding GetItems}" />
+                                                            <ItemsControl ItemsSource="{Binding Requirement}" Margin="0, 8, 0, 0" />
+                                                        </StackPanel>
+                                                    </ToolTip>
+                                                </Border.ToolTip>
+
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <TextBlock Margin="3">
+                                                        <Run Text="{Binding Model.ID, Mode=OneWay}" />
+                                                        <Run Text="{Binding Model.Name, Mode=OneWay}" />
+                                                    </TextBlock>
+                                                    <ItemsControl ItemsSource="{Binding Model.FleetsInfo}" Grid.Column="1">
+                                                        <ItemsControl.Template>
+                                                            <ControlTemplate TargetType="{x:Type ItemsControl}">
+                                                                <UniformGrid Columns="3" IsItemsHost="True" />
+                                                            </ControlTemplate>
+                                                        </ItemsControl.Template>
+                                                        <ItemsControl.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <Border Name="Border" Background="Transparent" Width="40">
+                                                                    <TextBlock TextAlignment="Center" VerticalAlignment="Center">
+                                                                        <Run Text="{Binding ID, StringFormat={}/{0}, Mode=OneWay}" />
+                                                                        <Run Name="CanSuccess" Text="{Binding CanSuccess, Mode=OneWay}" />
+                                                                    </TextBlock>
+                                                                </Border>
+
+                                                                <DataTemplate.Triggers>
+                                                                    <DataTrigger Binding="{Binding CanSuccess}" Value="{x:Null}">
+                                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding CanSuccess}" Value="True">
+                                                                        <Setter TargetName="Border" Property="Background" Value="Green" />
+                                                                        <Setter TargetName="CanSuccess" Property="Text" Value="✔" />
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding CanSuccess}" Value="False">
+                                                                        <Setter TargetName="CanSuccess" Property="Text" Value="✘" />
+                                                                    </DataTrigger>
+                                                                </DataTemplate.Triggers>
+                                                            </DataTemplate>
+                                                        </ItemsControl.ItemTemplate>
+                                                    </ItemsControl>
+                                                </Grid>
+                                            </Border>
+
+                                            <DataTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="Border" Property="BorderBrush" Value="White" />
+                                                </Trigger>
+
+                                                <DataTrigger Binding="{Binding Model.UseFuel}" Value=".0">
+                                                    <Setter TargetName="UseFuel" Property="Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Model.UseBullet}" Value=".0">
+                                                    <Setter TargetName="UseBullet" Property="Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+
+                                                <DataTrigger Binding="{Binding Data.GetFuel}" Value="0">
+                                                    <Setter TargetName="GetFuel" Property="Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Data.GetBullet}" Value="0">
+                                                    <Setter TargetName="GetBullet" Property="Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Data.GetSteel}" Value="0">
+                                                    <Setter TargetName="GetSteel" Property="Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Data.GetBauxite}" Value="0">
+                                                    <Setter TargetName="GetBauxite" Property="Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+                                            </DataTemplate.Triggers>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Expander>
+                        </Border>
+
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Expeditions.Length}" Value="0">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

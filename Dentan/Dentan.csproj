@@ -146,9 +146,12 @@
     <Compile Include="ViewModel\Game\EquipmentTypeGroupViewModel.cs" />
     <Compile Include="ViewModel\Game\EquipmentTypeViewModel.cs" />
     <Compile Include="ViewModel\Game\EquipmentViewModel.cs" />
-    <Compile Include="ViewModel\Game\ExpeditionViewModel.cs" />
+    <Compile Include="ViewModel\Game\ExpeditionInfoViewModel.cs" />
+    <Compile Include="ViewModel\Game\ExpeditionOverviewViewModel.cs" />
+    <Compile Include="ViewModel\Game\ExpeditionStatusViewModel.cs" />
     <Compile Include="ViewModel\Game\FleetsViewModel.cs" />
     <Compile Include="ViewModel\Game\FleetViewModel.cs" />
+    <Compile Include="ViewModel\Game\MapAreaViewModel.cs" />
     <Compile Include="ViewModel\Game\QuestsViewModel.cs" />
     <Compile Include="ViewModel\Game\QuestViewModel.cs" />
     <Compile Include="ViewModel\Game\RepairDockViewModel.cs" />
@@ -187,6 +190,9 @@
     <Compile Include="ViewModel\Game\EquipedShipViewModel.cs" />
     <Compile Include="View\Game\EquipmentsWindow.xaml.cs">
       <DependentUpon>EquipmentsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Game\ExpeditionOverviewView.xaml.cs">
+      <DependentUpon>ExpeditionOverviewView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Game\FleetsOverviewView.cs" />
     <Compile Include="View\Game\FleetsView.cs" />
@@ -322,6 +328,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Game\EquipmentsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Game\ExpeditionOverviewView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

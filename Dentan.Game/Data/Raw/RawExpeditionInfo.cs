@@ -29,13 +29,13 @@ namespace Moen.KanColle.Dentan.Data.Raw
         public double UseBullet { get; set; }
 
         [JsonProperty("api_win_item1")]
-        public int[] ApiWinItem1 { get; set; }
+        public int[] GetItem1 { get; set; }
 
         [JsonProperty("api_win_item2")]
-        public int[] ApiWinItem2 { get; set; }
+        public int[] GetItem2 { get; set; }
 
         [JsonProperty("api_return_flag")]
-        public int ReturnFlag { get; set; }
+        public bool CanReturn { get; set; }
     }
 
 }

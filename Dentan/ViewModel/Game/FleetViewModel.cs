@@ -32,14 +32,14 @@ namespace Moen.KanColle.Dentan.ViewModel.Game
             }
         }
 
-        public ExpeditionViewModel Expedition { get; private set; }
+        public ExpeditionStatusViewModel Expedition { get; private set; }
 
         public FleetViewModel(GameViewModel rpGame, Fleet rpFleet)
             : base(rpFleet)
         {
             r_Game = rpGame;
 
-            Expedition = new ExpeditionViewModel(rpFleet.Expedition);
+            Expedition = new ExpeditionStatusViewModel(rpFleet.Expedition);
 
             rpFleet.PropertyChanged += (s, e) =>
             {

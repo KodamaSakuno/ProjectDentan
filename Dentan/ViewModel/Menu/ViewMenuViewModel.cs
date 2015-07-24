@@ -22,6 +22,8 @@ namespace Moen.KanColle.Dentan.ViewModel.Menu
                 CreateMenuItem("RepairDocks", "入渠"),
                 CreateMenuItem("BuildingDocks", "建造"),
                 MenuSeparator.Default,
+                CreateMenuItem("ExpeditionOverview", "远征一览"),
+                MenuSeparator.Default,
                 CreateMenuItem("Quests", "任务"),
                 MenuSeparator.Default,
                 CreateMenuItem("CompassData", "信息"),
