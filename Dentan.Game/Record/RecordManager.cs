@@ -19,6 +19,8 @@ namespace Moen.KanColle.Dentan.Record
         int r_ID;
         SQLiteConnection r_Connection;
 
+        public bool IsLoaded { get; private set; }
+
         RecordManager()
         {
             if (!Directory.Exists("Data"))
@@ -50,6 +52,8 @@ namespace Moen.KanColle.Dentan.Record
             Development.Load();
             Quest.Load();
             Drop.Load();
+
+            IsLoaded = true;
         }
     }
 }

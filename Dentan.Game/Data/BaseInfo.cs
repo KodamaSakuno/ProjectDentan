@@ -13,6 +13,7 @@ namespace Moen.KanColle.Dentan.Data
         public Table<ExpeditionInfo> Expeditions { get; private set; }
         public Table<MapAreaInfo> MapAreas { get; private set; }
         public Table<BaseMapInfo> MapInfos { get; private set; }
+        public Table<UseItemInfo> UseItems { get; private set; }
 
         public Dictionary<int, int[]> ShipIDsGroupByModel { get; private set; }
 
@@ -25,6 +26,7 @@ namespace Moen.KanColle.Dentan.Data
             Expeditions = new Table<ExpeditionInfo>();
             MapAreas = new Table<MapAreaInfo>();
             MapInfos = new Table<BaseMapInfo>();
+            UseItems = new Table<UseItemInfo>();
 
             Update(rpData);
         }
@@ -41,6 +43,8 @@ namespace Moen.KanColle.Dentan.Data
 
             MapAreas.UpdateRawData<RawMapArea>(rpBaseData.MapAreas, r => new MapAreaInfo(r), (rpData, rpRawData) => rpData.Update(rpRawData));
             MapInfos.UpdateRawData<RawBaseMapInfo>(rpBaseData.MapInfos, r => new BaseMapInfo(r), (rpData, rpRawData) => rpData.Update(rpRawData));
+
+            UseItems.UpdateRawData<RawUseItemInfo>(rpBaseData.UseItems, r => new UseItemInfo(r), (rpData, rpRawData) => rpData.Update(rpRawData));
         }
 
         public void UpdateShipModelIDs()

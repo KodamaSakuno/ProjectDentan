@@ -2,9 +2,8 @@
 
 namespace Moen.KanColle.Dentan.Data.Raw
 {
-    public class RawUseItemInfo
+    public class RawUseItemInfo : IID
     {
-
         [JsonProperty("api_id")]
         public int ID { get; set; }
 

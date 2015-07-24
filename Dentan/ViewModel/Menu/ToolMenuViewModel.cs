@@ -1,4 +1,5 @@
-﻿using Moen.KanColle.Dentan.View.Game;
+﻿using Moen.KanColle.Dentan.Record;
+using Moen.KanColle.Dentan.View.Game;
 using Moen.KanColle.Dentan.View.Preference;
 using Moen.KanColle.Dentan.View.Record;
 using System.Collections.Generic;
@@ -17,10 +18,10 @@ namespace Moen.KanColle.Dentan.ViewModel.Menu
                 new MenuItemViewModel("舰娘一览", new DelegatedCommand(() => { }, () => false)),
                 new MenuItemViewModel("装备一览", new DelegatedCommand(() => new EquipmentsWindow().Show())),
                 MenuSeparator.Default,
-                new MenuItemViewModel("资源图表", new DelegatedCommand(() => new ResourceChartWindow().Show())),
+                new MenuItemViewModel("资源图表", new DelegatedCommand(() => new ResourceChartWindow().Show(), () => RecordManager.Instance.IsLoaded)),
                 new MenuItemViewModel("出击记录", new DelegatedCommand(() => { }, () => false)),
                 new MenuItemViewModel("经验记录", new DelegatedCommand(() => { }, () => false)),
-                new MenuItemViewModel("远征记录", new DelegatedCommand(() => { }, () => false)),
+                new MenuItemViewModel("远征记录", new DelegatedCommand(() => new ExpeditionHistoryWindow().Show(), () => RecordManager.Instance.IsLoaded)),
                 new MenuItemViewModel("建造&开发记录", new DelegatedCommand(() => { }, () => false)),
                 MenuSeparator.Default,
                 new LayoutMenuViewModel(),

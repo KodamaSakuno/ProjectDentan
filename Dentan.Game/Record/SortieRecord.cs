@@ -45,11 +45,10 @@ namespace Moen.KanColle.Dentan.Record
                 BattleRank rRank;
                 Enum.TryParse<BattleRank>(rpResult.Rank, out rRank);
 
-                rCommand.CommandText = "INSERT INTO sortie(time, map, cell, enemy, rank, is_dropped, ship) " +
-                    "VALUES (strftime('%s', 'now'), @map, @cell, @enemy, @rank, @is_dropped, @ship)";
+                rCommand.CommandText = "INSERT INTO sortie(time, map, cell, rank, is_dropped, ship) " +
+                    "VALUES (strftime('%s', 'now'), @map, @cell, @rank, @is_dropped, @ship)";
                 rCommand.Parameters.Add(new SQLiteParameter("@map", rCompassData.MapID));
                 rCommand.Parameters.Add(new SQLiteParameter("@cell", rCompassData.Cell));
-                rCommand.Parameters.Add(new SQLiteParameter("@enemy", rCompassData.EnemyFleet.ID));
                 rCommand.Parameters.Add(new SQLiteParameter("@rank", (int)rRank));
                 rCommand.Parameters.Add(new SQLiteParameter("@is_dropped", KanColleGame.Current.Ships.Count != KanColleGame.Current.Headquarter.Admiral.MaxShipCount ? rpResult.Drop[1] : (bool?)null));
                 rCommand.Parameters.Add(new SQLiteParameter("@ship", rpResult.Drop[1] ? rpResult.DropShip.ID : (int?)null));

@@ -1,4 +1,6 @@
-﻿using Moen.KanColle.Dentan.Data.Raw;
+﻿using Moen.KanColle.Dentan.Data;
+using Moen.KanColle.Dentan.Data.Raw;
+using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 
@@ -73,6 +75,67 @@ namespace Moen.KanColle.Dentan.Record
                 rCommand.Parameters.Add(new SQLiteParameter("@item2_count", rpData.Item2 != null ? rpData.Item2.Count : (int?)null));
                 rCommand.ExecuteNonQuery();
             }
+        }
+
+        public List<Item> GetRecords()
+        {
+            using (var rCommand = Connection.CreateCommand())
+            {
+                rCommand.CommandText = "SELECT * FROM expedition ORDER BY time DESC";
+                using (var rReader = rCommand.ExecuteReader())
+                {
+                    var rResult = new List<Item>(rReader.VisibleFieldCount);
+
+                    while (rReader.Read())
+                    {
+                        var rRecord = new Item()
+                        {
+                            Time = DateTimeUtil.FromUnixTime((ulong)rReader.GetInt64(0)).LocalDateTime.ToString(),
+                            Result = (ExpeditionResult)rReader.GetInt32(1),
+                            ExpeditionName = KanColleGame.Current.Base.Expeditions[rReader.GetInt32(2)].Name,
+                        };
+                        if (rRecord.Result != ExpeditionResult.Failure)
+                        {
+                            rRecord.Fuel = rReader.GetInt32(3);
+                            rRecord.Bullet = rReader.GetInt32(4);
+                            rRecord.Steel = rReader.GetInt32(5);
+                            rRecord.Bauxite = rReader.GetInt32(6);
+                        }
+
+                        if (!rReader.IsDBNull(7))
+                        {
+                            var rID = rReader.GetInt32(7);
+                            rRecord.Item1Name = rID == -1 ? "高速修复材" : KanColleGame.Current.Base.UseItems[rID].Name;
+                            rRecord.Item1Count = rReader.GetInt32(8);
+                        }
+                        if (!rReader.IsDBNull(9))
+                        {
+                            var rID = rReader.GetInt32(9);
+                            rRecord.Item1Name = rID == -1 ? "高速修复材" : KanColleGame.Current.Base.UseItems[rID].Name;
+                            rRecord.Item1Count = rReader.GetInt32(10);
+                        }
+
+                        rResult.Add(rRecord);
+                    }
+
+                    return rResult;
+                }
+            }
+        }
+
+        public class Item
+        {
+            public string Time { get; set; }
+            public ExpeditionResult Result { get; set; }
+            public string ExpeditionName { get; set; }
+            public int? Fuel { get; set; }
+            public int? Bullet { get; set; }
+            public int? Steel { get; set; }
+            public int? Bauxite { get; set; }
+            public string Item1Name { get; set; }
+            public int? Item1Count { get; set; }
+            public string Item2Name { get; set; }
+            public int? Item2Count { get; set; }
         }
     }
 }
