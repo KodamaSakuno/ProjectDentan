@@ -60,7 +60,7 @@ namespace Moen.KanColle.Dentan.Data
                 var rRequest = WebRequest.CreateHttp("http://api.sakuno.moe/pd/abyssal_data");
                 rRequest.Method = "POST";
                 rRequest.ContentType = "application/json";
-                rRequest.UserAgent = "Project Dentan 0.0.1.3";
+                rRequest.UserAgent = "Project Dentan 0.0.1.5";
 
                 var rRequestStream = rRequest.GetRequestStream();
                 var rWriter = new StreamWriter(rRequestStream);
