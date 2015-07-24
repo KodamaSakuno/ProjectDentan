@@ -202,6 +202,9 @@ namespace Moen.KanColle.Dentan.Data
             Ships = ShipList.ToArray();
             TotalLevel = Ships.Sum(r => r.Level);
             CheckDemage();
+            if (ID != 1)
+                foreach (var rExpedition in KanColleGame.Current.Base.Expeditions.Values)
+                    rExpedition.Update(this);
         }
 
         public void CheckSupply()

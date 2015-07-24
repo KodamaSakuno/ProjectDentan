@@ -47,6 +47,7 @@ namespace Moen.KanColle.Dentan.ViewModel
         public EquipmentsViewModel Equipments { get; private set; }
         public SessionsViewModel Sessions { get; private set; }
 
+        public ExpeditionOverviewViewModel ExpeditionOverview { get; } = new ExpeditionOverviewViewModel();
 
         CompassDataViewModel r_CompassData;
         public CompassDataViewModel CompassData

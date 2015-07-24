@@ -167,7 +167,7 @@ namespace Moen.KanColle.Dentan
 
         public event Action GameLaunched = delegate { };
         public event Action TokenOutdated = delegate { };
-        public event Action BaseDataLoaded = delegate { };
+        public event Action<BaseInfo> BaseDataLoaded = delegate { };
         public event Action ShipsUpdated = delegate { };
         public event Action EquipmentsUpdated = delegate { };
 
@@ -200,7 +200,7 @@ namespace Moen.KanColle.Dentan
                 Base.Update(rpData);
 
             Base.UpdateShipModelIDs();
-            BaseDataLoaded();
+            BaseDataLoaded(Base);
         }
 
         internal void AddShip(int rpID, int rpShipID, RawShip rpShip)
