@@ -1,0 +1,59 @@
+﻿<Window x:Class="Moen.KanColle.Dentan.View.Record.ExpeditionHistoryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="远征历史"
+        Width="1024" Height="640">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Menu>
+            <MenuItem Header="数据">
+                <MenuItem Header="更新" IsEnabled="False" />
+            </MenuItem>
+        </Menu>
+        
+        <ListView ItemsSource="{Binding Records}" Grid.Row="1">
+            <ListView.View>
+                <GridView>
+                    <GridView.Columns>
+                        <GridViewColumn Header="时间" DisplayMemberBinding="{Binding Time}" Width="175" />
+                        <GridViewColumn Header="远征名" DisplayMemberBinding="{Binding ExpeditionName}" Width="125" />
+                        <GridViewColumn Header="结果" Width="50">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Name="Result" />
+
+                                    <DataTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding Result}" Value="Failure">
+                                            <Setter TargetName="Result" Property="Text" Value="失败" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Result}" Value="Success">
+                                            <Setter TargetName="Result" Property="Text" Value="成功" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Result}" Value="GreatSuccess">
+                                            <Setter TargetName="Result" Property="Text" Value="大成功" />
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="燃料" DisplayMemberBinding="{Binding Fuel}" Width="60" />
+                        <GridViewColumn Header="弹药" DisplayMemberBinding="{Binding Bullet}" Width="60" />
+                        <GridViewColumn Header="钢材" DisplayMemberBinding="{Binding Steel}" Width="60" />
+                        <GridViewColumn Header="铝" DisplayMemberBinding="{Binding Bauxite}" Width="60" />
+                        <GridViewColumn Header="道具1" DisplayMemberBinding="{Binding Item1Name}" Width="100" />
+                        <GridViewColumn Header="数量" DisplayMemberBinding="{Binding Item1Count}" Width="60" />
+                        <GridViewColumn Header="道具2" DisplayMemberBinding="{Binding Item2Name}" Width="100" />
+                        <GridViewColumn Header="数量" DisplayMemberBinding="{Binding Item2Count}" Width="60" />
+                    </GridView.Columns>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</Window>
