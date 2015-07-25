@@ -89,6 +89,8 @@ namespace Moen.KanColle.Dentan.Api
                 using (var rStreamWriter = new StreamWriter(string.Format(@"Log\Exception\{0}_{1}.json", rPrefix, rLast + 1), false, new UTF8Encoding(true)))
                 {
                     rStreamWriter.WriteLine(TokenRegex.Replace(rpData.Item1.FullUrl, "***************************"));
+                    rStreamWriter.WriteLine("Request Data:");
+                    rStreamWriter.WriteLine(TokenRegex.Replace(rpData.Item1.RequestBody, "***************************"));
                     rStreamWriter.WriteLine();
                     rStreamWriter.WriteLine("Exception:");
                     rStreamWriter.WriteLine(rException.ToString());

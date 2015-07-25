@@ -111,7 +111,7 @@ namespace Moen.KanColle.Dentan.Model
 
             public CachePreference()
             {
-                Enabled = true;
+                Enabled = false;
                 CacheFolder = "Cache";
             }
         }

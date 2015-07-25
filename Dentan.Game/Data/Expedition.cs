@@ -60,7 +60,7 @@ namespace Moen.KanColle.Dentan.Data
 
         protected override void TimeOut()
         {
-            if (!IsNotificated)
+            if (!IsNotificated && Info != null)
             {
                 ExpeditionReturned(new ExpeditionReturnedEventArgs(Fleet.Name, Info.Name));
                 IsNotificated = true;

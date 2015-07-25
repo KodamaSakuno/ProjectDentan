@@ -44,24 +44,27 @@ namespace Moen.KanColle.Dentan
             KanColleGame.Current.Proxy.Start(Preference.Current.Port);
             KanColleGame.Current.Proxy.GameToken += r => Preference.Current.Browser.GameToken = r;
 
-            Task.Run(() =>
+            if (Preference.Current.CheckUpdate)
             {
-                DownloadFile("http://api.sakuno.moe/pd/abyssal_data", @"Data\AbyssalData.json");
-            });
-            Task.Run(() =>
-            {
-                var rRequest = WebRequest.CreateHttp("http://api.sakuno.moe/pd/lastest_version");
-                rRequest.UserAgent = "Project Dentan " + AppInformation.VersionString;
-                using (var rResponse = (HttpWebResponse)rRequest.GetResponse())
-                using (var rStream = rResponse.GetResponseStream())
-                using (var rJsonReader = new JsonTextReader(new StreamReader(rStream)))
+                Task.Run(() =>
                 {
-                    var rJson = JObject.Load(rJsonReader);
-                    var rVersion = Version.Parse((string)rJson["version"]);
-                    if (rVersion > AppInformation.Version)
-                        Dispatcher.BeginInvoke(new Action(() => MessageBox.Show(MainWindow, $"发现新版（{rVersion}）", "Project Dentan", MessageBoxButton.OK, MessageBoxImage.Information)));
-                }
-            });
+                    DownloadFile("http://api.sakuno.moe/pd/abyssal_data", @"Data\AbyssalData.json");
+                });
+                Task.Run(() =>
+                {
+                    var rRequest = WebRequest.CreateHttp("http://api.sakuno.moe/pd/lastest_version");
+                    rRequest.UserAgent = "Project Dentan " + AppInformation.VersionString;
+                    using (var rResponse = (HttpWebResponse)rRequest.GetResponse())
+                    using (var rStream = rResponse.GetResponseStream())
+                    using (var rJsonReader = new JsonTextReader(new StreamReader(rStream)))
+                    {
+                        var rJson = JObject.Load(rJsonReader);
+                        var rVersion = Version.Parse((string)rJson["version"]);
+                        if (rVersion > AppInformation.Version)
+                            Dispatcher.BeginInvoke(new Action(() => MessageBox.Show(MainWindow, $"发现新版（{rVersion}）", "Project Dentan", MessageBoxButton.OK, MessageBoxImage.Information)));
+                    }
+                });
+            }
 
             MainWindow.Show();
         }

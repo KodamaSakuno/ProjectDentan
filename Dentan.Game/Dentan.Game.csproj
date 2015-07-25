@@ -141,6 +141,9 @@
     <Compile Include="Data\EnemyData.cs" />
     <Compile Include="Data\EnemyShip.cs" />
     <Compile Include="Data\BuildingDockCompletedEventArgs.cs" />
+    <Compile Include="Data\ExpeditionData.cs" />
+    <Compile Include="Data\ExpeditionDataManager.cs" />
+    <Compile Include="Data\ExpeditionFleetInfo.cs" />
     <Compile Include="Data\ExpeditionResult.cs" />
     <Compile Include="Data\Experience.cs" />
     <Compile Include="Data\IBattleShipInfo.cs" />

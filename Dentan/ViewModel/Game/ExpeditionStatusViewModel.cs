@@ -4,7 +4,7 @@ using System;
 
 namespace Moen.KanColle.Dentan.ViewModel.Game
 {
-    public class ExpeditionViewModel : ViewModel<Expedition>
+    public class ExpeditionStatusViewModel : ViewModel<Expedition>
     {
         public int ID { get { return Model.Fleet.ID; } }
         public Fleet Fleet { get { return Model.Fleet; } }
@@ -13,7 +13,7 @@ namespace Moen.KanColle.Dentan.ViewModel.Game
         public string RemainingTime { get { return Model.RemainingTime.HasValue ? Model.RemainingTime.Value.ToString(@"hh\:mm\:ss") : "--:--:--"; } }
         public string CompleteTime { get { return Model.CompleteTime.HasValue ? Model.CompleteTime.Value.LocalDateTime.ToString() : null; } }
 
-        public ExpeditionViewModel(Expedition rpModel)
+        public ExpeditionStatusViewModel(Expedition rpModel)
             : base(rpModel)
         {
             rpModel.ExpeditionReturned += r =>
