@@ -15,12 +15,11 @@ namespace Moen.KanColle.Dentan.Api.Parser
 
             if (rpData.Result != ExpeditionResult.Failure)
                 RecordManager.Instance.Expedition.UpdateCount(rpData.Ships.Skip(1), rExpeditionID);
-
-            if (rpData.Item1 == null && rpData.Item2 != null)
-            {
-                rpData.Item1 = rpData.Item2;
-                rpData.Item2 = null;
-            }
+            
+            if (rpData.Item1 != null && rpData.GetItem[0] != 4)
+                rpData.Item1.ID = rpData.GetItem[0];
+            if (rpData.Item2 != null && rpData.GetItem[1] != 4)
+                rpData.Item2.ID = rpData.GetItem[1];
 
             RecordManager.Instance.Expedition.UpdateExpedition(rExpeditionID, rpData);
 
