@@ -260,6 +260,7 @@
     <Compile Include="Proxy\Session.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Data\QuestProgressData.cs" />
+    <Compile Include="Record\BattleRecord.cs" />
     <Compile Include="Record\ConstructionRecord.cs" />
     <Compile Include="Record\DevelopmentRecord.cs" />
     <Compile Include="Record\SortieRecord.cs" />

@@ -46,7 +46,8 @@ namespace Moen.KanColle.Dentan.Record
                 Enum.TryParse<BattleRank>(rpResult.Rank, out rRank);
 
                 rCommand.CommandText = "INSERT INTO sortie(time, map, cell, rank, is_dropped, ship) " +
-                    "VALUES (strftime('%s', 'now'), @map, @cell, @rank, @is_dropped, @ship)";
+                    "VALUES (@time, @map, @cell, @rank, @is_dropped, @ship)";
+                rCommand.Parameters.Add(new SQLiteParameter("@time", DateTimeUtil.ToUnixTime(KanColleGame.Current.Battle.Time)));
                 rCommand.Parameters.Add(new SQLiteParameter("@map", rCompassData.MapID));
                 rCommand.Parameters.Add(new SQLiteParameter("@cell", rCompassData.Cell));
                 rCommand.Parameters.Add(new SQLiteParameter("@rank", (int)rRank));

@@ -6,6 +6,7 @@ namespace Moen.KanColle.Dentan.Data
 {
     public class BattleData : ModelBase
     {
+        public DateTime Time { get; private set; }
         public int MapID { get; internal set; }
         public bool IsBossBattle { get; internal set; }
         public HashSet<int> QuestCounter { get; private set; }
@@ -143,8 +144,13 @@ namespace Moen.KanColle.Dentan.Data
             }
         }
 
+        internal string FirstBattleJson { get; set; }
+        internal string SecondBattleJson { get; set; }
+
         internal BattleData()
         {
+            Time = DateTime.Now;
+
             DayBattle = new BattlePart(this, BattlePartType.Day);
             NightBattle = new BattlePart(this, BattlePartType.Night);
             QuestCounter = new HashSet<int>();

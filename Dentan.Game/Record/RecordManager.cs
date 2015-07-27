@@ -16,8 +16,10 @@ namespace Moen.KanColle.Dentan.Record
         public QuestRecord Quest { get; private set; }
         public SortieRecord Drop { get; private set; }
 
+        public BattleRecord Battle { get; private set; }
+
         int r_ID;
-        SQLiteConnection r_Connection;
+        SQLiteConnection r_Connection, r_BattleRecordConnection;
 
         public bool IsLoaded { get; private set; }
 
@@ -35,7 +37,8 @@ namespace Moen.KanColle.Dentan.Record
                 r_Connection.Close();
 
             r_ID = rpID;
-            r_Connection = new SQLiteConnection(string.Format(@"Data Source=Data\{0}.db", r_ID)).OpenAndReturn();
+            r_Connection = new SQLiteConnection($"Data Source=Data\\{r_ID}.db").OpenAndReturn();
+            r_BattleRecordConnection = new SQLiteConnection($"Data Source=Data\\{r_ID}_Battle.db").OpenAndReturn();
 
             Resource = new ResourceRecord(r_Connection);
             Experience = new ExperienceRecord(r_Connection);
@@ -45,6 +48,8 @@ namespace Moen.KanColle.Dentan.Record
             Quest = new QuestRecord(r_Connection);
             Drop = new SortieRecord(r_Connection);
 
+            Battle = new BattleRecord(r_BattleRecordConnection);
+
             Resource.Load();
             Experience.Load();
             Expedition.Load();
@@ -52,6 +57,8 @@ namespace Moen.KanColle.Dentan.Record
             Development.Load();
             Quest.Load();
             Drop.Load();
+
+            Battle.Load();
 
             IsLoaded = true;
         }
