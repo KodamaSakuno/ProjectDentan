@@ -1,8 +1,8 @@
 ﻿using Fiddler;
 using Moen.KanColle.Dentan.Api;
+using Moen.KanColle.Dentan.Cache;
 using System;
 using System.Diagnostics;
-using System.IO;
 using FiddlerSession = Fiddler.Session;
 
 namespace Moen.KanColle.Dentan.Proxy
@@ -48,10 +48,11 @@ namespace Moen.KanColle.Dentan.Proxy
                 rSession = new Session(rpSession.fullUrl);
             else if (rIsResource)
             {
-                var rResourceSession = new ResourceSession(rpSession.fullUrl, rpSession.PathAndQuery.Substring(1));
+                var rResourceSession = new ResourceSession(rpSession.fullUrl, rpSession.PathAndQuery.Substring(1)) { FiddlerSession = rpSession };
                 rSession = rResourceSession;
 
-                LoadFromCache(rpSession, rResourceSession);
+                if (ResourceCache.IsEnabled)
+                    ResourceCache.CurrentSystem.ProcessRequest(rResourceSession);
             }
             else
             {
@@ -77,7 +78,15 @@ namespace Moen.KanColle.Dentan.Proxy
         {
             var rSession = e.sessionOwner.Tag as Session;
             if (rSession != null)
+            {
                 rSession.LoadedBytes += e.iCountOfBytes;
+                if (!rSession.ContentLength.HasValue)
+                {
+                    var rContentLength = e.sessionOwner.ResponseHeaders["Content-Length"];
+                    if (!rContentLength.IsNullOrEmpty())
+                        rSession.ContentLength = long.Parse(rContentLength);
+                }
+            }
         }
         void FiddlerApplication_BeforeResponse(FiddlerSession rpSession)
         {
@@ -95,12 +104,8 @@ namespace Moen.KanColle.Dentan.Proxy
                 }
 
                 var rResourceSession = rSession as ResourceSession;
-                if (rResourceSession != null && ResourceCache.IsEnabled && rpSession.responseCode == 200 && !File.Exists(rResourceSession.CachePath) && rpSession.oResponse["Last-Modified"] != null)
-                {
-                    rResourceSession.Data = rpSession.ResponseBody;
-                    rResourceSession.LastModifiedTime = Convert.ToDateTime(rpSession.oResponse["Last-Modified"]);
-                    ResourceCache.SaveFile(rResourceSession);
-                }
+                if (rResourceSession != null && ResourceCache.IsEnabled)
+                    ResourceCache.CurrentSystem.ProcessResponse(rResourceSession);
 
                 if (rSession.Url.Contains("kcs/sound/titlecall/") || rSession.Url.Contains("api_start2"))
                     KanColleGame.Current.RaiseGameLaunchedEvent();
@@ -147,41 +152,6 @@ namespace Moen.KanColle.Dentan.Proxy
         public void SetUpstreamProxy(string rpAddress, int rpPort)
         {
             UpstreamProxy = string.Format("{0}:{1}", rpAddress, rpPort);
-        }
-
-        static void LoadFromCache(FiddlerSession rpSession, ResourceSession rpResourceSession)
-        {
-            if (!ResourceCache.IsEnabled) return;
-
-            var rPath = rpResourceSession.OriginalCachePath;
-            var rExtension = Path.GetExtension(rpResourceSession.CachePath);
-
-            var rForcePath = Path.Combine(ResourceCache.CacheFolder, rpResourceSession.FileNameWithoutVersion + ".hack" + rExtension);
-            if (File.Exists(rForcePath))
-                LoadFromCacheCore(rpSession, rpResourceSession, rForcePath);
-            else if (File.Exists(rpResourceSession.CachePath))
-            {
-                if (File.Exists(rPath) && File.GetLastWriteTime(rPath) > File.GetLastWriteTime(rpResourceSession.CachePath))
-                {
-                    File.Delete(rpResourceSession.CachePath);
-                    File.Move(rPath, rpResourceSession.CachePath);
-                }
-
-                LoadFromCacheCore(rpSession, rpResourceSession, rpResourceSession.CachePath);
-            }
-            else if (File.Exists(rPath))
-            {
-                File.Move(rPath, rpResourceSession.CachePath);
-                LoadFromCacheCore(rpSession, rpResourceSession, rpResourceSession.CachePath);
-            }
-        }
-        static void LoadFromCacheCore(FiddlerSession rpSession, ResourceSession rpResourceSession, string rpPath)
-        {
-            rpSession.utilCreateResponseAndBypassServer();
-            rpSession.ResponseBody = File.ReadAllBytes(rpPath);
-
-            rpResourceSession.LoadedBytes = rpSession.ResponseBody.Length;
-            rpResourceSession.Status = SessionStatus.LoadedFromCache;
         }
     }
 }

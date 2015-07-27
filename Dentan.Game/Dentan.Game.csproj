@@ -126,6 +126,9 @@
     <Compile Include="Api\Parser\RepairParser.cs" />
     <Compile Include="Api\Parser\ApiStartParser.cs" />
     <Compile Include="Api\Parser\SupplyParser.cs" />
+    <Compile Include="Cache\ICacheSystem.cs" />
+    <Compile Include="Cache\ResourceCache.cs" />
+    <Compile Include="Cache\FullyTrustCacheSystem.cs" />
     <Compile Include="Calc.cs" />
     <Compile Include="Data\AbyssalDataManager.cs" />
     <Compile Include="Data\AbyssalFleet.cs" />
@@ -246,7 +249,6 @@
     <Compile Include="Data\UseItem.cs" />
     <Compile Include="Data\UseItemInfo.cs" />
     <Compile Include="Proxy\ApiSession.cs" />
-    <Compile Include="Proxy\ResourceCache.cs" />
     <Compile Include="Proxy\GameProxy.cs" />
     <Compile Include="Data\Admiral.cs" />
     <Compile Include="Data\Equipment.cs" />
