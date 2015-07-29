@@ -16,6 +16,26 @@ namespace Moen.KanColle.Dentan.Record
 
         internal override void Load()
         {
+            using (var rCommand = Connection.CreateCommand())
+            {
+                rCommand.CommandText = "CREATE TABLE IF NOT EXISTS sortie(" +
+                    "time INTEGER PRIMARY KEY, " +
+                    "friend BLOB, " +
+                    "first BLOB, " +
+                    "second BLOB);" + 
+                    "CREATE TABLE IF NOT EXISTS practice(" +
+                    "time INTEGER PRIMARY KEY, " +
+                    "opponent TEXT, " +
+                    "opponent_comment TEXT, " +
+                    "opponent_level INTEGER, " +
+                    "opponent_rank INTEGER, " +
+                    "opponent_fleet TEXT, " +
+                    "rank INTEGER, " +
+                    "friend BLOB, " +
+                    "first BLOB, " +
+                    "second BLOB);";
+                rCommand.ExecuteNonQuery();
+            }
         }
 
         internal void UpdateSortie(CompassData rpCompassData, BattleData rpBattle, string rpRank)
