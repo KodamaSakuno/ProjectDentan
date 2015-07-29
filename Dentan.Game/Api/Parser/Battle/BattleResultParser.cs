@@ -26,7 +26,7 @@ namespace Moen.KanColle.Dentan.Api.Parser.Battle
             AbyssalDataManager.Update();
             RecordManager.Instance.Drop.Update(rEnemyFleet.AbyssalFleet, rpData);
 
-            RecordManager.Instance.Battle.Update(rCompassData, Game.Battle, rpData.Rank);
+            RecordManager.Instance.Battle.UpdateSortie(rCompassData, Game.Battle, rpData.Rank);
         }
     }
 }

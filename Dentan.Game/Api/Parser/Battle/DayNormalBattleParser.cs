@@ -21,6 +21,7 @@ namespace Moen.KanColle.Dentan.Api.Parser.Battle
 
         protected override void PostProcess(RawBattle rpData)
         {
+            Battle.ParticipatedFleetIDs.Add(rpData.FleetID);
             PostProcessCore(rpData);
         }
     }

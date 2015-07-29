@@ -24,6 +24,7 @@ namespace Moen.KanColle.Dentan.Api.Parser.Battle
 
         protected override void PostProcess(RawNightBattle rpData)
         {
+            Battle.ParticipatedFleetIDs.Add(2);
             Battle.CanNightBattle = false;
             Battle.DayBattle.Type = BattlePartType.NightSpecial;
             Battle.NightBattle = null;

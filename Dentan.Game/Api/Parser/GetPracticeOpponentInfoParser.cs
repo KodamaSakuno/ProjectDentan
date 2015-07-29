@@ -6,9 +6,9 @@ using System.Linq;
 namespace Moen.KanColle.Dentan.Api.Parser
 {
     [Api("api_req_member/get_practice_enemyinfo")]
-    class GetPracticeEnemyInfoParser : ApiParser<RawPracticeEnemyInfo>
+    class GetPracticeOpponentInfoParser : ApiParser<RawPracticeOpponentInfo>
     {
-        public override void Process(RawPracticeEnemyInfo rpData)
+        public override void Process(RawPracticeOpponentInfo rpData)
         {
             var rLevel = rpData.Fleet.Ships[0].ID != -1 ? rpData.Fleet.Ships[0].Level : 1;
             var rLevel2 = rpData.Fleet.Ships[1].ID != -1 ? rpData.Fleet.Ships[1].Level : 1;
@@ -32,6 +32,7 @@ namespace Moen.KanColle.Dentan.Api.Parser
             rEnemyFleet.UpdateShips();
             rCompassData.EnemyFleet = rEnemyFleet;
 
+            rCompassData.OpponentInfo = rpData;
             Game.CompassData = rCompassData;
         }
     }

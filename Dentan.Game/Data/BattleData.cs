@@ -11,6 +11,8 @@ namespace Moen.KanColle.Dentan.Data
         public bool IsBossBattle { get; internal set; }
         public HashSet<int> QuestCounter { get; private set; }
 
+        public HashSet<int> ParticipatedFleetIDs { get; } = new HashSet<int>();
+
         public BattlePart DayBattle { get; private set; }
         BattlePart r_NightBattle;
         public BattlePart NightBattle

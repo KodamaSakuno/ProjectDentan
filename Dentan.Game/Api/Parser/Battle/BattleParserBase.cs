@@ -31,6 +31,8 @@ namespace Moen.KanColle.Dentan.Api.Parser.Battle
             Game.Battle = Battle;
 
             ProcessQuest(Battle);
+
+            Battle = null;
         }
 
         protected abstract void ParseEnemyInfo(T rpData);
