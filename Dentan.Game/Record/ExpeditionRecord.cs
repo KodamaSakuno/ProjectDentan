@@ -3,6 +3,7 @@ using Moen.KanColle.Dentan.Data.Raw;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.Text;
 
 namespace Moen.KanColle.Dentan.Record
 {
@@ -34,6 +35,14 @@ namespace Moen.KanColle.Dentan.Record
                     "item2 INTEGER, " +
                     "item2_count INTEGER);";
                 rCommand.ExecuteNonQuery();
+            }
+
+            using (var rCommand = Connection.CreateCommand())
+            {
+                rCommand.CommandText = "SELECT MAX(COUNT(item1), COUNT(item2)) FROM expedition WHERE item1 = -1 OR item2 = -1";
+                var rCount = (long)rCommand.ExecuteScalar();
+                if (rCount > 0L)
+                    CorrectItemID();
             }
         }
 
@@ -77,6 +86,44 @@ namespace Moen.KanColle.Dentan.Record
             }
         }
 
+        void CorrectItemID()
+        {
+            using (var rTranscation = Connection.BeginTransaction())
+            {
+                using (var rGetExpeditionCommand = Connection.CreateCommand())
+                {
+                    rGetExpeditionCommand.CommandText = "SELECT DISTINCT expedition FROM expedition WHERE item1 = -1 OR item2 = -1";
+                    using (var rReader = rGetExpeditionCommand.ExecuteReader())
+                        while (rReader.Read())
+                        {
+                            var rExpedition = rReader.GetInt32(0);
+                            var rExpeditionInfo = KanColleGame.Current.Base.Expeditions[rExpedition];
+
+                            using (var rCorrectCommand = Connection.CreateCommand())
+                            {
+                                var rSQLBuilder = new StringBuilder(128);
+
+                                if (rExpeditionInfo.GetItem2[0] == 0)
+                                    rSQLBuilder.Append("UPDATE expedition SET item1 = @item1 WHERE expedition = @expedition AND item1 = -1");
+                                else
+                                {
+                                    rSQLBuilder.Append("UPDATE expedition SET item1 = @item1, item2 = @item2 WHERE expedition = @expedition AND item2 NOTNULL;");
+                                    rSQLBuilder.Append("UPDATE expedition SET item2 = @item2, item2_count = item1_count, item1 = NULL, item1_count = NULL WHERE expedition = @expedition AND item1 = -1 AND item2 IS NULL;");
+                                    rCorrectCommand.Parameters.Add(new SQLiteParameter("@item2", rExpeditionInfo.GetItem2[0]));
+                                }
+
+                                rCorrectCommand.CommandText = rSQLBuilder.ToString();
+                                rCorrectCommand.Parameters.Add(new SQLiteParameter("@item1", rExpeditionInfo.GetItem1[0]));
+                                rCorrectCommand.Parameters.Add(new SQLiteParameter("@expedition", rExpedition));
+                                rCorrectCommand.ExecuteNonQuery();
+                            }
+                        }
+                }
+
+                rTranscation.Commit();
+            }
+        }
+
         public List<Item> GetRecords()
         {
             using (var rCommand = Connection.CreateCommand())
@@ -104,15 +151,13 @@ namespace Moen.KanColle.Dentan.Record
 
                         if (!rReader.IsDBNull(7))
                         {
-                            var rID = rReader.GetInt32(7);
-                            rRecord.Item1Name = rID == -1 ? "高速修复材" : KanColleGame.Current.Base.UseItems[rID].Name;
+                            rRecord.Item1Name = KanColleGame.Current.Base.UseItems[rReader.GetInt32(7)].Name;
                             rRecord.Item1Count = rReader.GetInt32(8);
                         }
                         if (!rReader.IsDBNull(9))
                         {
-                            var rID = rReader.GetInt32(9);
-                            rRecord.Item1Name = rID == -1 ? "高速修复材" : KanColleGame.Current.Base.UseItems[rID].Name;
-                            rRecord.Item1Count = rReader.GetInt32(10);
+                            rRecord.Item2Name = KanColleGame.Current.Base.UseItems[rReader.GetInt32(9)].Name;
+                            rRecord.Item2Count = rReader.GetInt32(10);
                         }
 
                         rResult.Add(rRecord);
