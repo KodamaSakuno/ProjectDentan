@@ -82,8 +82,11 @@ namespace Moen.KanColle.Dentan.Api.Parser.Battle
             if (rpData == null) return;
 
             if (rpData.Shelling != null)
+            {
+                Battle.ParticipatedFleetIDs.Add(rpData.Shelling.FleetID);
                 for (var i = 0; i < EnemyStatus.Length; i++)
                     EnemyStatus[i].NowHP -= rpData.Shelling.Damage[i];
+            }
         }
         protected void ProcessTorpedoSalvo(RawTorpedoSalvo rpData)
         {

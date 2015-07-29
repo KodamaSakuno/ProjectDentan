@@ -100,6 +100,7 @@
     <Compile Include="Api\Parser\Battle\NightNormalBattleParser.cs" />
     <Compile Include="Api\Parser\Battle\NightOnlyBattleParser.cs" />
     <Compile Include="Api\Parser\Battle\NightPracticeBattleParser.cs" />
+    <Compile Include="Api\Parser\Battle\PracticeBattleResultParser.cs" />
     <Compile Include="Api\Parser\BuildingParser.cs" />
     <Compile Include="Api\Parser\ChangeShipParser.cs" />
     <Compile Include="Api\Parser\ClearEnemyFleetInfoParser.cs" />
@@ -112,7 +113,7 @@
     <Compile Include="Api\Parser\Factory\ShipDismantlingParser.cs" />
     <Compile Include="Api\Parser\Factory\EquipmentDiscardingParser.cs" />
     <Compile Include="Api\Parser\GetFleetParser.cs" />
-    <Compile Include="Api\Parser\GetPracticeEnemyInfoParser.cs" />
+    <Compile Include="Api\Parser\GetPracticeOpponentInfoParser.cs" />
     <Compile Include="Api\Parser\GetShipParser.cs" />
     <Compile Include="Api\Parser\Map\EventMapRankSelectionParser.cs" />
     <Compile Include="Api\Parser\Map\MapInformationParser.cs" />
@@ -178,7 +179,7 @@
     <Compile Include="Data\QuestData\SupplyShipProgress.cs" />
     <Compile Include="Data\Raw\RawCreateEquipment.cs" />
     <Compile Include="Data\Raw\RawMapInfo.cs" />
-    <Compile Include="Data\Raw\RawPracticeEnemyInfo.cs" />
+    <Compile Include="Data\Raw\RawPracticeOpponentInfo.cs" />
     <Compile Include="Data\Raw\RawSortieFleet.cs" />
     <Compile Include="Data\Raw\RawSupportInfo.cs" />
     <Compile Include="Data\ShipGraphInfo.cs" />
@@ -260,6 +261,7 @@
     <Compile Include="Proxy\Session.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Data\QuestProgressData.cs" />
+    <Compile Include="Record\BattleRecord.cs" />
     <Compile Include="Record\ConstructionRecord.cs" />
     <Compile Include="Record\DevelopmentRecord.cs" />
     <Compile Include="Record\SortieRecord.cs" />

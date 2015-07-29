@@ -6,8 +6,12 @@ namespace Moen.KanColle.Dentan.Data.Raw
 {
     public abstract class RawBattleBase
     {
+        [JsonProperty("api_dock_id")]
+        int? FleetID1 { get; set; }
         [JsonProperty("api_deck_id")]
-        public string FleetIDs { get; set; }
+        int? FleetID2 { get; set; }
+
+        public int FleetID { get { return FleetID1.HasValue ? FleetID1.Value : FleetID2.Value; } }
 
         [JsonProperty("api_nowhps")]
         [JsonConverter(typeof(BattleArrayConverter))]

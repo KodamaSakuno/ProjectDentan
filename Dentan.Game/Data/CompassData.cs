@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Moen.KanColle.Dentan.Data.Raw;
+using System.Collections.Generic;
 
 namespace Moen.KanColle.Dentan.Data
 {
@@ -160,6 +161,8 @@ namespace Moen.KanColle.Dentan.Data
                 }
             }
         }
+
+        internal RawPracticeOpponentInfo OpponentInfo { get; set; }
 
         internal CompassData(int rpMapAreaID, int rpMapInfoNo)
         {
