@@ -14,12 +14,12 @@ namespace Moen.KanColle.Dentan.Record
         public ConstructionRecord Construction { get; private set; }
         public DevelopmentRecord Development { get; private set; }
         public QuestRecord Quest { get; private set; }
-        public SortieRecord Drop { get; private set; }
+        public SortieRecord Sortie { get; private set; }
 
         public BattleRecord Battle { get; private set; }
 
         int r_ID;
-        SQLiteConnection r_Connection, r_BattleRecordConnection;
+        SQLiteConnection r_Connection;
 
         public bool IsLoaded { get; private set; }
 
@@ -38,7 +38,14 @@ namespace Moen.KanColle.Dentan.Record
 
             r_ID = rpID;
             r_Connection = new SQLiteConnection($"Data Source=Data\\{r_ID}.db").OpenAndReturn();
-            r_BattleRecordConnection = new SQLiteConnection($"Data Source=Data\\{r_ID}_Battle.db").OpenAndReturn();
+
+            var rBattleDBPath = new FileInfo($"Data\\{r_ID}_Battle.db").FullName;
+            using (var rCommand = r_Connection.CreateCommand())
+            {
+                rCommand.CommandText = "ATTACH @battle_db AS battle";
+                rCommand.Parameters.AddWithValue("@battle_db", rBattleDBPath);
+                rCommand.ExecuteNonQuery();
+            }
 
             Resource = new ResourceRecord(r_Connection);
             Experience = new ExperienceRecord(r_Connection);
@@ -46,9 +53,9 @@ namespace Moen.KanColle.Dentan.Record
             Construction = new ConstructionRecord(r_Connection);
             Development = new DevelopmentRecord(r_Connection);
             Quest = new QuestRecord(r_Connection);
-            Drop = new SortieRecord(r_Connection);
+            Sortie = new SortieRecord(r_Connection);
 
-            Battle = new BattleRecord(r_BattleRecordConnection);
+            Battle = new BattleRecord(r_Connection);
 
             Resource.Load();
             Experience.Load();
@@ -56,7 +63,7 @@ namespace Moen.KanColle.Dentan.Record
             Construction.Load();
             Development.Load();
             Quest.Load();
-            Drop.Load();
+            Sortie.Load();
 
             Battle.Load();
 

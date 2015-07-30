@@ -18,17 +18,17 @@ namespace Moen.KanColle.Dentan.Record
         {
             using (var rCommand = Connection.CreateCommand())
             {
-                rCommand.CommandText = "CREATE TABLE IF NOT EXISTS sortie(" +
+                rCommand.CommandText = "CREATE TABLE IF NOT EXISTS battle.sortie(" +
                     "time INTEGER PRIMARY KEY, " +
                     "friend BLOB, " +
                     "first BLOB, " +
-                    "second BLOB);" + 
-                    "CREATE TABLE IF NOT EXISTS practice(" +
+                    "second BLOB);" +
+                    "CREATE TABLE IF NOT EXISTS battle.practice(" +
                     "time INTEGER PRIMARY KEY, " +
                     "opponent TEXT, " +
-                    "opponent_comment TEXT, " +
                     "opponent_level INTEGER, " +
                     "opponent_rank INTEGER, " +
+                    "opponent_comment TEXT, " +
                     "opponent_fleet TEXT, " +
                     "rank INTEGER, " +
                     "friend BLOB, " +
@@ -45,7 +45,7 @@ namespace Moen.KanColle.Dentan.Record
                 BattleRank rRank;
                 Enum.TryParse<BattleRank>(rpRank, out rRank);
 
-                rCommand.CommandText = "INSERT INTO sortie(time, friend, first, second) " +
+                rCommand.CommandText = "INSERT INTO battle.sortie(time, friend, first, second) " +
                     "VALUES (@time, @friend, @first, @second)";
                 rCommand.Parameters.AddWithValue("@time", DateTimeUtil.ToUnixTime(rpBattle.Time));
                 rCommand.Parameters.AddWithValue("@friend", GetParticipatedFleets(rpBattle.ParticipatedFleetIDs));
@@ -62,13 +62,13 @@ namespace Moen.KanColle.Dentan.Record
                 BattleRank rRank;
                 Enum.TryParse<BattleRank>(rpRank, out rRank);
 
-                rCommand.CommandText = "INSERT INTO practice(time, opponent, opponent_comment, opponent_level, opponent_rank, opponent_fleet, rank, friend, first, second) " +
-                    "VALUES (@time, @opponent, @opponent_comment, @opponent_level, @opponent_rank, @opponent_fleet, @rank, @friend, @first, @second)";
+                rCommand.CommandText = "INSERT INTO battle.practice(time, opponent, opponent_level, opponent_rank, opponent_comment, opponent_fleet, rank, friend, first, second) " +
+                    "VALUES (@time, @opponent, @opponent_level, @opponent_rank, @opponent_comment, @opponent_fleet, @rank, @friend, @first, @second)";
                 rCommand.Parameters.AddWithValue("@time", DateTimeUtil.ToUnixTime(rpBattle.Time));
                 rCommand.Parameters.AddWithValue("@opponent", rpCompassData.OpponentInfo.Name);
-                rCommand.Parameters.AddWithValue("@opponent_comment", rpCompassData.OpponentInfo.Comment);
                 rCommand.Parameters.AddWithValue("@opponent_level", rpCompassData.OpponentInfo.Level);
                 rCommand.Parameters.AddWithValue("@opponent_rank", rpCompassData.OpponentInfo.Rank);
+                rCommand.Parameters.AddWithValue("@opponent_comment", rpCompassData.OpponentInfo.Comment);
                 rCommand.Parameters.AddWithValue("@opponent_fleet", rpCompassData.OpponentInfo.FleetName);
                 rCommand.Parameters.AddWithValue("@rank", (int)rRank);
                 rCommand.Parameters.AddWithValue("@friend", GetParticipatedFleets(rpBattle.ParticipatedFleetIDs));
@@ -135,6 +135,41 @@ namespace Moen.KanColle.Dentan.Record
 
                 return rMemoryStream.ToArray();
             }
+        }
+
+        public List<PracticeItem> GetPracticeRecords()
+        {
+            using (var rCommand = Connection.CreateCommand())
+            {
+                rCommand.CommandText = "SELECT * FROM battle.practice ORDER BY time DESC";
+                using (var rReader = rCommand.ExecuteReader())
+                {
+                    var rResult = new List<PracticeItem>(rReader.VisibleFieldCount);
+
+                    while (rReader.Read())
+                        rResult.Add(new PracticeItem()
+                        {
+                            Time = DateTimeUtil.FromUnixTime(Convert.ToUInt64(rReader["time"])).LocalDateTime.ToString(),
+                            Opponent = (string)rReader["opponent"],
+                            OpponentLevel = Convert.ToInt32(rReader["opponent_level"]),
+                            OpponentComment = (string)rReader["opponent_comment"],
+                            OpponentFleet = (string)rReader["opponent_fleet"],
+                            Rank = (BattleRank)Convert.ToInt32(rReader["rank"]),
+                        });
+
+                    return rResult;
+                }
+            }
+        }
+
+        public class PracticeItem
+        {
+            public string Time { get; set; }
+            public string Opponent { get; set; }
+            public int OpponentLevel { get; set; }
+            public string OpponentComment { get; set; }
+            public string OpponentFleet { get; set; }
+            public BattleRank Rank { get; set; }
         }
     }
 }
