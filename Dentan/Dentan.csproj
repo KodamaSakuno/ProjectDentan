@@ -167,10 +167,13 @@
     <Compile Include="ViewModel\Preferences\NetworkPreferenceViewModel.cs" />
     <Compile Include="ViewModel\Preferences\PreferenceGroupViewModel.cs" />
     <Compile Include="ViewModel\Preferences\PreferenceViewModel.cs" />
+    <Compile Include="ViewModel\Record\BattleHistoryViewModel.cs" />
     <Compile Include="ViewModel\Record\ExpeditionHistoryViewModel.cs" />
     <Compile Include="ViewModel\Record\MaterialPlotViewModel.cs" />
     <Compile Include="ViewModel\Record\PlotViewModelBase.cs" />
+    <Compile Include="ViewModel\Record\PracticeRecordViewModel.cs" />
     <Compile Include="ViewModel\Record\ResourcePlotViewModel.cs" />
+    <Compile Include="ViewModel\Record\SortieRecordViewModel.cs" />
     <Compile Include="ViewModel\SessionsViewModel.cs" />
     <Compile Include="View\BytesToStringConverter.cs" />
     <Compile Include="View\ColorIndicator.cs" />
@@ -215,6 +218,9 @@
     </Compile>
     <Compile Include="View\Preference\PreferenceWindow.xaml.cs">
       <DependentUpon>PreferenceWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Record\BattleHistoryWindow.xaml.cs">
+      <DependentUpon>BattleHistoryWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Record\ExpeditionHistoryWindow.xaml.cs">
       <DependentUpon>ExpeditionHistoryWindow.xaml</DependentUpon>
@@ -380,6 +386,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Preference\PreferenceWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Record\BattleHistoryWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

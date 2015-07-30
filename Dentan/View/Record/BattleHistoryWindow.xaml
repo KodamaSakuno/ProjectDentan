@@ -1,0 +1,94 @@
+﻿<Window x:Class="Moen.KanColle.Dentan.View.Record.BattleHistoryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="战斗历史"
+        UseLayoutRounding="True"
+        Width="1024" Height="640">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Menu>
+            <MenuItem Header="数据">
+                <MenuItem Header="更新" IsEnabled="False" />
+            </MenuItem>
+        </Menu>
+
+        <TabControl Grid.Row="1">
+            <TabItem Header="出击">
+                <ListView ItemsSource="{Binding SortieRecords}">
+                    <ListView.View>
+                        <GridView>
+                            <GridView.Columns>
+                                <GridViewColumn Header="时间" DisplayMemberBinding="{Binding Data.Time}" Width="175" />
+                                <GridViewColumn Header="海域" DisplayMemberBinding="{Binding Map}" Width="50" />
+                                <GridViewColumn Header="评价" DisplayMemberBinding="{Binding Data.Rank}" Width="50" />
+                                <GridViewColumn Header="有无掉落" Width="60">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox Name="IsDropped" IsEnabled="False" IsChecked="{Binding Data.IsDropped}" />
+
+                                            <DataTemplate.Triggers>
+                                                <DataTrigger Binding="{Binding Data.IsDropped}" Value="{x:Null}">
+                                                    <Setter TargetName="IsDropped" Property="Visibility" Value="Hidden" />
+                                                </DataTrigger>
+                                            </DataTemplate.Triggers>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="掉落" DisplayMemberBinding="{Binding Data.DroppedShip}" Width="80" />
+                                <GridViewColumn Header="详细信息" Width="120">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Name="Text">双击显示详细信息</TextBlock>
+
+                                            <DataTemplate.Triggers>
+                                                <DataTrigger Binding="{Binding Data.HasDetail}" Value="False">
+                                                    <Setter TargetName="Text" Property="Visibility" Value="Hidden" />
+                                                </DataTrigger>
+                                            </DataTemplate.Triggers>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView.Columns>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </TabItem>
+            <TabItem Header="演习">
+                <ListView ItemsSource="{Binding PracticeRecords}">
+                    <ListView.View>
+                        <GridView>
+                            <GridView.Columns>
+                                <GridViewColumn Header="时间" DisplayMemberBinding="{Binding Data.Time}" Width="175" />
+                                <GridViewColumn Header="对手" DisplayMemberBinding="{Binding Data.Opponent}" Width="100" />
+                                <GridViewColumn Header="等级" DisplayMemberBinding="{Binding Data.OpponentLevel}" Width="50" />
+                                <GridViewColumn Header="签名" DisplayMemberBinding="{Binding Data.OpponentComment}" Width="150" />
+                                <GridViewColumn Header="舰队" DisplayMemberBinding="{Binding Data.OpponentFleet}" Width="150" />
+                                <GridViewColumn Header="评价" DisplayMemberBinding="{Binding Data.Rank}" Width="50" />
+                                <GridViewColumn Header="详细信息" Width="120">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Name="Text">双击显示详细信息</TextBlock>
+
+                                            <DataTemplate.Triggers>
+                                                <DataTrigger Binding="{Binding Data.HasDetail}" Value="False">
+                                                    <Setter TargetName="Text" Property="Visibility" Value="Hidden" />
+                                                </DataTrigger>
+                                            </DataTemplate.Triggers>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView.Columns>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
