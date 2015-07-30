@@ -23,10 +23,10 @@ namespace Moen.KanColle.Dentan.Data.Raw
         public int Difficulty { get; set; }
 
         [JsonProperty("api_use_fuel")]
-        public double UseFuel { get; set; }
+        public double FuelConsumption { get; set; }
 
         [JsonProperty("api_use_bull")]
-        public double UseBullet { get; set; }
+        public double BulletConsumption { get; set; }
 
         [JsonProperty("api_win_item1")]
         public int[] GetItem1 { get; set; }

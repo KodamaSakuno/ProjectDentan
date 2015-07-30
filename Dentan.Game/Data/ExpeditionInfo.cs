@@ -12,8 +12,8 @@ namespace Moen.KanColle.Dentan.Data
         public string Name { get { return RawData.Name; } }
         public string Description { get { return RawData.Description; } }
         public int Time { get { return RawData.Time; } }
-        public double UseFuel { get { return RawData.UseFuel; } }
-        public double UseBullet { get { return RawData.UseBullet; } }
+        public double FuelConsumption { get { return RawData.FuelConsumption; } }
+        public double BulletConsumption { get { return RawData.BulletConsumption; } }
         public int[] GetItem1 { get { return RawData.GetItem1; } }
         public int[] GetItem2 { get { return RawData.GetItem2; } }
         public bool CanReturn { get { return RawData.CanReturn; } }

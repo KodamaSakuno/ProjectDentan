@@ -14,7 +14,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate DataType="{x:Type rvmg:MapAreaViewModel}">
                         <Border>
-                            <Expander Header="{Binding Model.Name}" Foreground="White">
+                            <Expander Header="{Binding Model.Name}" Foreground="White" IsExpanded="True">
                                 <ItemsControl ItemsSource="{Binding Expeditions}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate DataType="{x:Type rvmg:ExpeditionInfoViewModel}">
@@ -23,8 +23,8 @@
                                                     <ToolTip>
                                                         <StackPanel>
                                                             <TextBlock Text="{Binding Time, StringFormat={}耗时 {0}}" />
-                                                            <TextBlock Name="UseFuel" Text="{Binding Model.UseFuel, StringFormat={}消耗燃料 {0:0%}}" />
-                                                            <TextBlock Name="UseBullet" Text="{Binding Model.UseBullet, StringFormat={}消耗弹药 {0:0%}}" />
+                                                            <TextBlock Name="FuelConsumption" Text="{Binding Model.FuelConsumption, StringFormat={}消耗燃料 {0:0%}}" />
+                                                            <TextBlock Name="BulletConsumption" Text="{Binding Model.BulletConsumption, StringFormat={}消耗弹药 {0:0%}}" />
                                                             <TextBlock Name="GetFuel" Text="{Binding Data.GetFuel, StringFormat={}获得燃料 {0}}" />
                                                             <TextBlock Name="GetBullet" Text="{Binding Data.GetBullet, StringFormat={}获得弹药 {0}}" />
                                                             <TextBlock Name="GetSteel" Text="{Binding Data.GetSteel, StringFormat={}获得钢材 {0}}" />
@@ -83,11 +83,11 @@
                                                     <Setter TargetName="Border" Property="BorderBrush" Value="White" />
                                                 </Trigger>
 
-                                                <DataTrigger Binding="{Binding Model.UseFuel}" Value=".0">
-                                                    <Setter TargetName="UseFuel" Property="Visibility" Value="Collapsed" />
+                                                <DataTrigger Binding="{Binding Model.FuelConsumption}" Value=".0">
+                                                    <Setter TargetName="FuelConsumption" Property="Visibility" Value="Collapsed" />
                                                 </DataTrigger>
-                                                <DataTrigger Binding="{Binding Model.UseBullet}" Value=".0">
-                                                    <Setter TargetName="UseBullet" Property="Visibility" Value="Collapsed" />
+                                                <DataTrigger Binding="{Binding Model.BulletConsumption}" Value=".0">
+                                                    <Setter TargetName="BulletConsumption" Property="Visibility" Value="Collapsed" />
                                                 </DataTrigger>
 
                                                 <DataTrigger Binding="{Binding Data.GetFuel}" Value="0">
