@@ -10,9 +10,10 @@ namespace Moen.KanColle.Dentan.ViewModel
             get { return r_Message; }
             set
             {
-                if (r_Message != value)
+                var rMessage = value.Replace(Environment.NewLine, " ");
+                if (r_Message != rMessage)
                 {
-                    r_Message = value;
+                    r_Message = rMessage;
                     OnPropertyChanged();
                 }
             }

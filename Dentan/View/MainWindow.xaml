@@ -57,8 +57,15 @@
             </ad:LayoutRoot>
         </ad:DockingManager>
         
-        <Border Background="#595959" Padding="4" Grid.Row="2">
-            <TextBlock Margin="5, 0, 0, 0" Foreground="White" Text="{Binding StatusBar.Message}" VerticalAlignment="Center" />
+        <Border Background="#595959" Padding="4" Height="23" Grid.Row="2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Margin="5, 0, 0, 0" Foreground="White" Text="{Binding StatusBar.Message}" VerticalAlignment="Center" />
+            </Grid>
         </Border>
     </Grid>
 </Window>
