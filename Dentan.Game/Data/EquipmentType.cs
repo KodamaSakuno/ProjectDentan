@@ -1,13 +1,23 @@
-﻿using Moen.KanColle.Dentan.Data.Raw;
-
-namespace Moen.KanColle.Dentan.Data
+﻿namespace Moen.KanColle.Dentan.Data
 {
-    public class EquipmentType : RawDataWrapper<RawEquipmentType>, IID
+    public enum EquipmentType
     {
-        public int ID { get { return RawData.ID; } }
-        public string Name { get { return RawData.Name; } }
-
-        public EquipmentType(RawEquipmentType rpRawData)
-            : base(rpRawData) { }
+        SmallCaliberGun = 1,
+        MediumCaliberGun,
+        LargeCaliberGun,
+        SecondaryGun,
+        Torpedo,
+        CarrierBasedFighter,
+        CarrierBasedDiveBomber,
+        CarrierBasedTorpedoBomber,
+        CarrierBasedRecon,
+        ReconSeaplane,
+        SeaplaneBomber,
+        SmallRader,
+        LargeRader,
+        Soner,
+        DepthCharge,
+        ExtraArmor,
+        //
     }
 }

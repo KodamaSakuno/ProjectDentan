@@ -11,7 +11,7 @@ namespace Moen.KanColle.Dentan.Data.Raw
         public RawShipGraphInfo[] ShipGraphes { get; set; }
 
         [JsonProperty("api_mst_slotitem_equiptype")]
-        public RawEquipmentType[] EquipmentTypes { get; set; }
+        public RawEquipmentTypeInfo[] EquipmentTypes { get; set; }
 
         [JsonProperty("api_mst_stype")]
         public RawShipType[] ShipTypes { get; set; }

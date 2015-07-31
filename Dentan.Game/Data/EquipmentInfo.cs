@@ -11,8 +11,8 @@ namespace Moen.KanColle.Dentan.Data
 
         public int ID { get { return RawData.ID; } }
         public string Name { get { return RawData.Name; } }
-
-        public EquipmentType CatagoryType { get { return KanColleGame.Current.Base.EquipmentTypes[RawData.Type[2]]; } }
+        
+        public EquipmentType Type { get { return (EquipmentType)RawData.Type[2]; } }
         public EquipmentIconType IconType { get { return (EquipmentIconType)RawData.Type[3]; } }
 
         public int AA { get { return RawData.AA; } }

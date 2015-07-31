@@ -33,7 +33,7 @@ namespace Moen.KanColle.Dentan.Data
                     Fleets = new Table<AbyssalFleet>(rData["fleets"].ToObject<AbyssalFleet[]>());
                     //Ships = new Table<AbyssalShip>(rData["ships"].ToObject<AbyssalShip[]>());
                     Ships = new Table<AbyssalShip>();
-                    ShipsPlaneCount = rData["ships"].Where(r => r["plane_count"] != null).ToDictionary(r => (int)r["id"], r => r["plane_count"].ToObject<int[]>());
+                    ShipsPlaneCount = rData["ships"]?.Where(r => r["plane_count"] != null).ToDictionary(r => (int)r["id"], r => r["plane_count"].ToObject<int[]>());
                 }
             }
 
@@ -51,7 +51,11 @@ namespace Moen.KanColle.Dentan.Data
             using (var rJsonWriter = new JsonTextWriter(rWriter))
             {
                 var rJsonSerializer = new JsonSerializer();
-                rJsonSerializer.Serialize(rJsonWriter, Fleets.Values.OrderBy(r => r.ID));
+                rJsonSerializer.Serialize(rJsonWriter, new
+                {
+                    fleets = Fleets.Values.OrderBy(r => r.ID),
+                    ships = ShipsPlaneCount.OrderBy(r => r.Key).Select(r => new { id = r.Key, plane_count = r.Value }),
+                });
             }
 
             Task.Run(() =>
@@ -61,13 +65,13 @@ namespace Moen.KanColle.Dentan.Data
                 rRequest.Method = "POST";
                 rRequest.ContentType = "application/json";
                 rRequest.UserAgent = "Project Dentan 0.0.1.5";
-
+                
+                var rBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(rData));
+                rRequest.ContentLength = rBytes.Length;
                 var rRequestStream = rRequest.GetRequestStream();
-                var rWriter = new StreamWriter(rRequestStream);
-                var rJson = JsonConvert.SerializeObject(rData);
-                rWriter.Write(rJson);
+                rRequestStream.Write(rBytes, 0, rBytes.Length);
                 rRequestStream.Close();
-
+                
                 try
                 {
                     using (var rResponse = rRequest.GetResponse())

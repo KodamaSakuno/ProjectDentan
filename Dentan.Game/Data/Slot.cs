@@ -51,7 +51,11 @@ namespace Moen.KanColle.Dentan.Data
         {
             get
             {
-                if (Equipment == null || Equipment.IconType != EquipmentIconType.CarrierBasedFighter)
+                if (Equipment == null ||
+                    (Equipment.Type != EquipmentType.CarrierBasedFighter &&
+                     Equipment.Type != EquipmentType.CarrierBasedDiveBomber &&
+                     Equipment.Type != EquipmentType.CarrierBasedTorpedoBomber &&
+                     Equipment.Type != EquipmentType.SeaplaneBomber))
                     return 0;
                 return (int)(Equipment.Info.AA * Math.Sqrt(PlaneCount));
             }

@@ -145,6 +145,7 @@
     <Compile Include="Data\EnemyData.cs" />
     <Compile Include="Data\EnemyShip.cs" />
     <Compile Include="Data\BuildingDockCompletedEventArgs.cs" />
+    <Compile Include="Data\EquipmentType.cs" />
     <Compile Include="Data\ExpeditionData.cs" />
     <Compile Include="Data\ExpeditionDataManager.cs" />
     <Compile Include="Data\ExpeditionFleetInfo.cs" />
@@ -194,7 +195,7 @@
     <Compile Include="Data\EngagementForm.cs" />
     <Compile Include="Data\EquipmentIconType.cs" />
     <Compile Include="Data\EquipmentInfo.cs" />
-    <Compile Include="Data\EquipmentType.cs" />
+    <Compile Include="Data\EquipmentTypeInfo.cs" />
     <Compile Include="Data\Expedition.cs" />
     <Compile Include="Data\ExperienceTable.cs" />
     <Compile Include="Data\SupplyInfo.cs" />
@@ -219,7 +220,7 @@
     <Compile Include="Data\Raw\RawTorpedoSalvo.cs" />
     <Compile Include="Data\Raw\RawEquipment.cs" />
     <Compile Include="Data\Raw\RawEquipmentGraph.cs" />
-    <Compile Include="Data\Raw\RawEquipmentType.cs" />
+    <Compile Include="Data\Raw\RawEquipmentTypeInfo.cs" />
     <Compile Include="Data\Raw\RawFleet.cs" />
     <Compile Include="Data\Raw\RawMapArea.cs" />
     <Compile Include="Data\Raw\RawMapBgm.cs" />
