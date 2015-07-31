@@ -21,8 +21,6 @@ namespace Moen.KanColle.Dentan.Browser
 
             r_NormalExit = false;
 
-            SetRegistry();
-
             AppDomain.CurrentDomain.UnhandledException += (s, e) =>
             {
                 MessageBox.Show(e.ExceptionObject.ToString());
@@ -42,19 +40,6 @@ namespace Moen.KanColle.Dentan.Browser
             Dispatcher.Run();
 
             r_NormalExit = true;
-        }
-
-        static int GetIEVersion()
-        {
-            const string rKey = @"HKEY_LOCAL_MACHINE\Software\Microsoft\Internet Explorer";
-            var rVersion = Registry.GetValue(rKey, "svcVersion", null);
-            return rVersion == null ? 8000 : Version.Parse((string)rVersion).Major * 1000;
-        }
-        static void SetRegistry()
-        {
-            const string rKey = @"HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION";
-            var rProcessName = Process.GetCurrentProcess().ProcessName + ".exe";
-            Registry.SetValue(rKey, rProcessName, GetIEVersion(), RegistryValueKind.DWord);
         }
     }
 }
