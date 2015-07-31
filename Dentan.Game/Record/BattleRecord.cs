@@ -11,6 +11,8 @@ namespace Moen.KanColle.Dentan.Record
 {
     public class BattleRecord : RecordBase
     {
+        static HashSet<int> r_HistoryDisabledMap = new HashSet<int>(new[] { 11, 12, 13, 14, 21, 22, 23, 31, 32, 33, 41, 42 });
+
         internal BattleRecord(SQLiteConnection rpConnection)
             : base(rpConnection) { }
 
@@ -40,6 +42,9 @@ namespace Moen.KanColle.Dentan.Record
 
         internal void UpdateSortie(CompassData rpCompassData, BattleData rpBattle, string rpRank)
         {
+            if (r_HistoryDisabledMap.Contains(rpCompassData.MapID))
+                return;
+
             using (var rCommand = Connection.CreateCommand())
             {
                 BattleRank rRank;
