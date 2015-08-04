@@ -223,6 +223,7 @@ namespace Moen.KanColle.Dentan
         }
         internal void UpdateShips()
         {
+            ShipsUpdated();
             OnPropertyChanged(nameof(Ships));
         }
         internal void UpdateShips(RawShip[] rpShips)
@@ -237,6 +238,7 @@ namespace Moen.KanColle.Dentan
 
         internal void UpdateEquipments()
         {
+            EquipmentsUpdated();
             OnPropertyChanged(nameof(Equipments));
         }
         internal void UpdateEquipments(RawEquipment[] rpEquipments)

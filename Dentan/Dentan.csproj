@@ -129,6 +129,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\AppInformation.cs" />
+    <Compile Include="Model\Game\ImprovementArsenalModel.cs" />
     <Compile Include="Model\Preference.cs" />
     <Compile Include="Model\Preference.Data.cs" />
     <Compile Include="Model\UpdateChannel.cs" />
@@ -151,6 +152,9 @@
     <Compile Include="ViewModel\Game\ExpeditionStatusViewModel.cs" />
     <Compile Include="ViewModel\Game\FleetsViewModel.cs" />
     <Compile Include="ViewModel\Game\FleetViewModel.cs" />
+    <Compile Include="ViewModel\Game\ImprovementArsenalAssistantViewModel.cs" />
+    <Compile Include="ViewModel\Game\ImprovementArsenalEquipmentViewModel.cs" />
+    <Compile Include="ViewModel\Game\ImprovementArsenalViewModel.cs" />
     <Compile Include="ViewModel\Game\MapAreaViewModel.cs" />
     <Compile Include="ViewModel\Game\QuestsViewModel.cs" />
     <Compile Include="ViewModel\Game\QuestViewModel.cs" />
@@ -199,6 +203,9 @@
     </Compile>
     <Compile Include="View\Game\FleetsOverviewView.cs" />
     <Compile Include="View\Game\FleetsView.cs" />
+    <Compile Include="View\Game\ImprovementArsenalWindow.xaml.cs">
+      <DependentUpon>ImprovementArsenalWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Game\QuestsView.cs" />
     <Compile Include="View\Game\RepairDockView.cs" />
     <Compile Include="View\Game\SlotsView.cs" />
@@ -342,6 +349,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Game\ExpeditionOverviewView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Game\ImprovementArsenalWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
