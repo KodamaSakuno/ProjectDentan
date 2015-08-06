@@ -9,12 +9,7 @@ namespace Moen.KanColle.Dentan.Browser.Trident
     class TridentBrowser : Border, IBrowser
     {
         WebBrowser r_Browser;
-
-        public int Port
-        {
-            set { TridentBrowserProvider.SetProxy("localhost:" + value.ToString()); }
-        }
-
+        
         public event Action FlashExtracted = () => { };
         public event Action<string> Navigated = delegate { };
         bool r_IsExtracted;

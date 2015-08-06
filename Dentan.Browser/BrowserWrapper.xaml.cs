@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.ServiceModel;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -17,11 +17,9 @@ namespace Moen.KanColle.Dentan.Browser
     /// <summary>
     /// Browser.xaml の相互作用ロジック
     /// </summary>
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, IncludeExceptionDetailInFaults = true)]
-    partial class BrowserWrapper : UserControl, IBrowserWrapper
+    partial class BrowserWrapper : UserControl
     {
-        public Bridge<IBrowserWrapper, IBrowserHost> Bridge { get; private set; }
-        string r_Uri;
+        MemoryMappedFileCommunicator r_Communicator;
         HwndSource r_HwndSource;
 
         public ManualResetEventSlim BridgeReady { get; private set; }
@@ -29,8 +27,7 @@ namespace Moen.KanColle.Dentan.Browser
         List<IBrowserProvider> r_BrowserProviders;
         IBrowserProvider r_BrowserProvider;
         public IBrowser Browser { get; private set; }
-
-        public int Port { set { Browser.Port = value; } }
+        
         public string VolumeMixerDisplayName { get { return string.Format("PD 内置浏览器 ({0})", r_BrowserProvider.BrowserName); } }
 
         double r_Zoom;
@@ -44,7 +41,7 @@ namespace Moen.KanColle.Dentan.Browser
             } 
         }
 
-        public BrowserWrapper(string rpUri)
+        public BrowserWrapper(int rpHostProcessID)
         {
             r_BrowserProviders = new List<IBrowserProvider>();
             var rBrowserPath = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Browsers");
@@ -63,15 +60,21 @@ namespace Moen.KanColle.Dentan.Browser
             BridgeReady = new ManualResetEventSlim(false);
 
             InitializeComponent();
-
-            r_Uri = rpUri;
+            
             r_Zoom = 1.0;
 
-            Bridge = new Bridge<IBrowserWrapper, IBrowserHost>(this, r_Uri + "Browser", "Browser");
-            Bridge.Connect(r_Uri + "BrowserHost");
+            r_Communicator = new MemoryMappedFileCommunicator($"Moen/ProjectDentan({rpHostProcessID})", 4096);
+            r_Communicator.ReadPosition = 0;
+            r_Communicator.WritePosition = 2048;
+
+            r_Communicator.DataReceived += Communicator_DataReceived;
+            r_Communicator.StartReader();
+            r_Communicator.Write("Ready");
+
             BridgeReady.Set();
 
             r_BrowserProvider = r_BrowserProviders.First();
+
             Container.Content = Browser = r_BrowserProvider.GetBrowser();
 
             var rParameters = new HwndSourceParameters(string.Format("Dentan.Browser({0})", r_BrowserProvider.BrowserName)) { WindowStyle = 0 };
@@ -84,13 +87,13 @@ namespace Moen.KanColle.Dentan.Browser
                 NativeEnums.SetWindowPosition.SWP_FRAMECHANGED | NativeEnums.SetWindowPosition.SWP_NOMOVE | NativeEnums.SetWindowPosition.SWP_NOSIZE | NativeEnums.SetWindowPosition.SWP_NOZORDER);
 
             r_HwndSource.RootVisual = this;
-
-            Bridge.Proxy.Attach(r_HwndSource.Handle);
+            
+            r_Communicator.Write("Attach:" + r_HwndSource.Handle.ToInt32());
 
             Browser.FlashExtracted += UpdateSize;
-            Browser.Navigated += r => Bridge.Proxy.SetUrl(r);
+            Browser.Navigated += r => r_Communicator.Write("UpdateUrl:" + r);
         }
-
+        
         public void Refresh()
         {
             Dispatcher.BeginInvoke(new Action(Browser.Refresh));
@@ -118,6 +121,48 @@ namespace Moen.KanColle.Dentan.Browser
         public void ClearCache(bool rpClearCookie)
         {
             Task.Run(() => r_BrowserProvider.ClearCache(rpClearCookie));
+        }
+
+        void Communicator_DataReceived(byte[] rpBytes)
+        {
+            var rMessage = Encoding.UTF8.GetString(rpBytes);
+            var rCommand = rMessage;
+            var rParamater = string.Empty;
+            var rPos = rMessage.IndexOf(':');
+            if (rPos != -1)
+            {
+                rCommand = rMessage.Remove(rPos);
+                rParamater = rMessage.Substring(rPos + 1);
+            }
+
+            switch (rCommand)
+            {
+                case "Port":
+                    r_BrowserProvider.SetPort(int.Parse(rParamater));
+                    break;
+
+                case "Naviagte":
+                    Navigate(rParamater);
+                    break;
+                case "Refresh":
+                    Refresh();
+                    break;
+
+                case "SetZoom":
+                    Zoom = double.Parse(rParamater);
+                    break;
+
+                case "ExtractFlash":
+                    ExtractFlash();
+                    break;
+
+                case "ClearCache":
+                    ClearCache(false);
+                    break;
+                case "ClearCacheAndCookie":
+                    ClearCache(true);
+                    break;
+            }
         }
     }
 }
