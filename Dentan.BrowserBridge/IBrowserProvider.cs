@@ -5,6 +5,7 @@
         string BrowserName { get; }
 
         IBrowser GetBrowser();
+        void SetPort(int rpPort);
         void ClearCache(bool rpClearCookie);
     }
 }

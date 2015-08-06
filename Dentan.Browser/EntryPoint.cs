@@ -19,19 +19,18 @@ namespace Moen.KanColle.Dentan.Browser
             if (rpArguments.Length != 1)
                 return;
 
+            var rHostProcessID = int.Parse(rpArguments[0]);
+
             r_NormalExit = false;
 
-            AppDomain.CurrentDomain.UnhandledException += (s, e) =>
-            {
-                MessageBox.Show(e.ExceptionObject.ToString());
-            };
+            AppDomain.CurrentDomain.UnhandledException += (s, e) => MessageBox.Show(e.ExceptionObject.ToString());
 
-            r_BrowserWrapper = new BrowserWrapper(rpArguments[0]);
+            r_BrowserWrapper = new BrowserWrapper(rHostProcessID);
 
             Task.Run(() =>
             {
                 r_BrowserWrapper.BridgeReady.Wait();
-                Process.GetProcessById(r_BrowserWrapper.Bridge.Proxy.HostProcessID).WaitForExit();
+                Process.GetProcessById(rHostProcessID).WaitForExit();
 
                 if (!r_NormalExit)
                     Environment.Exit(2);
