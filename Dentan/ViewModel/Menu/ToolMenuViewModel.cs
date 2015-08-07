@@ -18,6 +18,8 @@ namespace Moen.KanColle.Dentan.ViewModel.Menu
                 new MenuItemViewModel("舰娘一览", new DelegatedCommand(() => { }, () => false)),
                 new MenuItemViewModel("装备一览", new DelegatedCommand(() => new EquipmentsWindow().Show())),
                 MenuSeparator.Default,
+                new MenuItemViewModel("装备改修", new DelegatedCommand(() => new ImprovementArsenalWindow().Show(), () => KanColleGame.Current.Base != null)),
+                MenuSeparator.Default,
                 new MenuItemViewModel("资源图表", new DelegatedCommand(() => new ResourceChartWindow().Show(), () => RecordManager.Instance.IsLoaded)),
                 new MenuItemViewModel("战斗历史", new DelegatedCommand(() => new BattleHistoryWindow().Show(), () => RecordManager.Instance.IsLoaded)),
                 new MenuItemViewModel("经验记录", new DelegatedCommand(() => { }, () => false)),
