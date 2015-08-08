@@ -86,6 +86,8 @@ namespace Moen.KanColle.Dentan.Browser
             NativeMethods.User32.SetWindowPos(r_HwndSource.Handle, IntPtr.Zero, 0, 0, 0, 0,
                 NativeEnums.SetWindowPosition.SWP_FRAMECHANGED | NativeEnums.SetWindowPosition.SWP_NOMOVE | NativeEnums.SetWindowPosition.SWP_NOSIZE | NativeEnums.SetWindowPosition.SWP_NOZORDER);
 
+            ComponentDispatcher.ThreadPreprocessMessage += ThreadPreprocessMessage;
+
             r_HwndSource.RootVisual = this;
             
             r_Communicator.Write("Attach:" + r_HwndSource.Handle.ToInt32());
@@ -121,6 +123,25 @@ namespace Moen.KanColle.Dentan.Browser
         public void ClearCache(bool rpClearCookie)
         {
             Task.Run(() => r_BrowserProvider.ClearCache(rpClearCookie));
+        }
+
+        void ThreadPreprocessMessage(ref MSG rpMessage, ref bool rrpHandled)
+        {
+            var rMessage = (NativeConstants.WindowMessage)rpMessage.message;
+            if (rrpHandled)
+                return;
+
+            switch(rMessage)
+            {
+                case NativeConstants.WindowMessage.WM_KEYDOWN:
+                case NativeConstants.WindowMessage.WM_KEYUP:
+                case NativeConstants.WindowMessage.WM_SYSKEYDOWN:
+                case NativeConstants.WindowMessage.WM_SYSKEYUP:
+                case NativeConstants.WindowMessage.WM_SYSCHAR:
+                case NativeConstants.WindowMessage.WM_SYSDEADCHAR:
+                    r_Communicator.Write($"KeyboardMessage:{rpMessage.hwnd.ToInt32()},{rpMessage.message},{rpMessage.wParam.ToInt32()},{rpMessage.lParam.ToInt32()}");
+                    break;
+            }
         }
 
         void Communicator_DataReceived(byte[] rpBytes)
