@@ -12,6 +12,9 @@ namespace Moen.KanColle.Dentan.Browser
         [JsonProperty("game_token")]
         public string GameToken { get; set; }
 
+        [JsonProperty("layoutengine")]
+        public string CurrentLayoutEngine { get; set; } = "trident";
+
         [JsonProperty("flash")]
         public FlashPreference Flash { get; set; } = new FlashPreference();
         public class FlashPreference

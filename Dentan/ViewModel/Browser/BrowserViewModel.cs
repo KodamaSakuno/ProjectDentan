@@ -97,7 +97,7 @@ namespace Moen.KanColle.Dentan.ViewModel.Browser
             if (!File.Exists(rBrowser))
                 return;
 
-            r_BrowserProcess = Process.Start(rBrowser, HostProcessID.ToString());
+            r_BrowserProcess = Process.Start(rBrowser, $"{Preference.Current.Browser.CurrentLayoutEngine} {HostProcessID}");
         }
 
         public void Attach(IntPtr rpHandle)

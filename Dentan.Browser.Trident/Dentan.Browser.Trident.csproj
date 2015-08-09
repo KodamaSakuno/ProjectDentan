@@ -72,6 +72,9 @@
       <Name>Moen.SystemInterop</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Dentan.Browser.Trident.json" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy $(TargetPath) $(SolutionDir)bin\Debug\Browsers\</PostBuildEvent>

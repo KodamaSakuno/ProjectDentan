@@ -16,16 +16,17 @@ namespace Moen.KanColle.Dentan.Browser
         [STAThread]
         static void Main(string[] rpArguments)
         {
-            if (rpArguments.Length != 1)
+            if (rpArguments.Length != 2)
                 return;
 
-            var rHostProcessID = int.Parse(rpArguments[0]);
+            var rLayoutEngine = rpArguments[0];
+            var rHostProcessID = int.Parse(rpArguments[1]);
 
             r_NormalExit = false;
 
             AppDomain.CurrentDomain.UnhandledException += (s, e) => MessageBox.Show(e.ExceptionObject.ToString());
 
-            r_BrowserWrapper = new BrowserWrapper(rHostProcessID);
+            r_BrowserWrapper = new BrowserWrapper(rLayoutEngine, rHostProcessID);
 
             Task.Run(() =>
             {

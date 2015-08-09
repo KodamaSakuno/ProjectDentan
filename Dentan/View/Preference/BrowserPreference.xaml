@@ -3,9 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:rvmp="clr-namespace:Moen.KanColle.Dentan.ViewModel.Preferences"
+             d:DataContext="{d:DesignInstance rvmp:BrowserPreferenceViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="0, 0, 0, 10">
+            <TextBlock VerticalAlignment="Center">排版引擎*:</TextBlock>
+            <ComboBox ItemsSource="{Binding LayoutEngines}" DisplayMemberPath="DisplayName" SelectedValue="{Binding CurrentLayoutEngine, Mode=TwoWay}" SelectedValuePath="Name" Width="350" />
+        </StackPanel>
+        
         <StackPanel Orientation="Horizontal" Margin="0, 0, 0, 10">
             <TextBlock>首页:</TextBlock>
             <TextBox Text="{Binding Homepage}" Width="200" />
