@@ -8,6 +8,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using System.Windows.Interop;
 
 namespace Moen.KanColle.Dentan.ViewModel.Browser
@@ -15,7 +16,9 @@ namespace Moen.KanColle.Dentan.ViewModel.Browser
     class BrowserViewModel : ModelBase
     {
         public static BrowserViewModel Current { get; private set; }
-        
+
+        HwndSource r_MainWindowSource;
+
         MemoryMappedFileCommunicator r_Communicator;
         public bool IsReady { get; private set; }
 
@@ -176,6 +179,7 @@ namespace Moen.KanColle.Dentan.ViewModel.Browser
                 rParamater = rMessage.Substring(rPos + 1);
             }
 
+            string[] rParamaters = null;
             switch (rCommand)
             {
                 case "Ready":
@@ -189,9 +193,27 @@ namespace Moen.KanColle.Dentan.ViewModel.Browser
                 case "UpdateUrl":
                     UpdateUrl(rParamater);
                     break;
+                    
+                case "KeyboardMessage":
+                    rParamaters = rParamater.Split(',');
+                    var rMsg = new MSG()
+                    {
+                        hwnd = new IntPtr(int.Parse(rParamaters[0])),
+                        message =int.Parse(rParamaters[1]),
+                        wParam = new IntPtr(int.Parse(rParamaters[2])),
+                        lParam = new IntPtr(int.Parse(rParamaters[3])),
+                    };
+
+                    if (r_MainWindowSource == null)
+                    {
+                        var rHandle = DispatcherUtil.UIDispatcher.Invoke(() => new WindowInteropHelper(App.Current.MainWindow).Handle);
+                        r_MainWindowSource = HwndSource.FromHwnd(rHandle);
+                    }
+                    DispatcherUtil.UIDispatcher.BeginInvoke(new Action(() => ((IKeyboardInputSink)r_MainWindowSource).TranslateAccelerator(ref rMsg, ModifierKeys.None)));
+                    break;
 
                 case "ScreenshotTransmission":
-                    var rParamaters = rParamater.Split(',');
+                    rParamaters = rParamater.Split(',');
                     r_ScreenCapturer.GetScreenshot(rParamaters[0], int.Parse(rParamaters[1]), int.Parse(rParamaters[2]));
                     break;
                 case "ScreenshotFail":
