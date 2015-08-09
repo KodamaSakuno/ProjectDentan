@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.IO;
 using System.Windows;
-using Xceed.Wpf.AvalonDock.Layout;
 using Xceed.Wpf.AvalonDock.Layout.Serialization;
 
 namespace Moen.KanColle.Dentan.View
@@ -21,6 +20,8 @@ namespace Moen.KanColle.Dentan.View
 
         void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            App.Root.Menu.KeyBinding(InputBindings);
+
             LoadLayout(DockConfigFile);
         }
         void MainWindow_Unloaded(object sender, RoutedEventArgs e)

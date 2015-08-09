@@ -1,6 +1,7 @@
 ﻿using Moen.Collections;
 using Moen.KanColle.Dentan.ViewModel.Menu;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace Moen.KanColle.Dentan.ViewModel
 {
@@ -18,6 +19,12 @@ namespace Moen.KanColle.Dentan.ViewModel
             r_Menus.Add(new ViewMenuViewModel());
             r_Menus.Add(new ToolMenuViewModel());
             r_Menus.Add(new HelpMenuViewModel());
+        }
+
+        public void KeyBinding(InputBindingCollection rpBindings)
+        {
+            foreach (var rMenu in Menus)
+                rMenu.KeyBinding(rpBindings);
         }
     }
 }
