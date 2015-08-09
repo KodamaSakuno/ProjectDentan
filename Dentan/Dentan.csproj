@@ -132,6 +132,7 @@
     <Compile Include="Model\Preference.cs" />
     <Compile Include="Model\Preference.Data.cs" />
     <Compile Include="Model\UpdateChannel.cs" />
+    <Compile Include="Utils\ScreenCapturer.cs" />
     <Compile Include="ViewModel\Browser\BrowserViewModel.cs" />
     <Compile Include="ViewModel\Browser\VolumeViewModel.cs" />
     <Compile Include="ViewModel\GameViewModel.cs" />

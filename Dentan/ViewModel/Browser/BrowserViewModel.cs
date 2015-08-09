@@ -1,5 +1,6 @@
 ﻿using Moen.KanColle.Dentan.Browser;
 using Moen.KanColle.Dentan.Model;
+using Moen.KanColle.Dentan.Utils;
 using Moen.SystemInterop;
 using System;
 using System.Diagnostics;
@@ -36,6 +37,7 @@ namespace Moen.KanColle.Dentan.ViewModel.Browser
                 }
             }
         }
+
         string r_Url;
         public string Url
         {
@@ -67,6 +69,8 @@ namespace Moen.KanColle.Dentan.ViewModel.Browser
 
         public event Action BrowserReady = () => { };
 
+        ScreenCapturer r_ScreenCapturer;
+
         public BrowserViewModel()
         {
             Current = this;
@@ -95,7 +99,6 @@ namespace Moen.KanColle.Dentan.ViewModel.Browser
                 return;
 
             r_BrowserProcess = Process.Start(rBrowser, HostProcessID.ToString());
-
         }
 
         public void Attach(IntPtr rpHandle)
@@ -104,6 +107,8 @@ namespace Moen.KanColle.Dentan.ViewModel.Browser
 
             IsReady = true;
             BrowserReady();
+
+            r_ScreenCapturer = new ScreenCapturer(r_Communicator);
 
             KanColleGame.Current.TokenOutdated += () =>
             {
@@ -183,6 +188,14 @@ namespace Moen.KanColle.Dentan.ViewModel.Browser
 
                 case "UpdateUrl":
                     UpdateUrl(rParamater);
+                    break;
+
+                case "ScreenshotTransmission":
+                    var rParamaters = rParamater.Split(',');
+                    r_ScreenCapturer.GetScreenshot(rParamaters[0], int.Parse(rParamaters[1]), int.Parse(rParamaters[2]));
+                    break;
+                case "ScreenshotFail":
+                    r_ScreenCapturer.ScreenshotFail();
                     break;
             }
         }

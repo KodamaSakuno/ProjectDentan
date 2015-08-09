@@ -90,5 +90,49 @@ namespace Moen.SystemInterop
             public IntPtr proxy;
             public IntPtr proxyBypass;
         }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public class DVTARGETDEVICE
+        {
+            public int tdSize;
+            public short tdDeviceNameOffset;
+            public short tdDriverNameOffset;
+            public short tdExtDevmodeOffset;
+            public short tdPortNameOffset;
+            public byte tdData;
+        }
+
+        #region Bitmap
+        [StructLayoutAttribute(LayoutKind.Sequential)]
+        public struct BITMAPINFO
+        {
+            public BITMAPINFOHEADER bmiHeader;
+            [MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = 1, ArraySubType = UnmanagedType.Struct)]
+            public RGBQUAD[] bmiColors;
+        }
+        [StructLayout(LayoutKind.Sequential)]
+        public struct BITMAPINFOHEADER
+        {
+            public int biSize;
+            public int biWidth;
+            public int biHeight;
+            public ushort biPlanes;
+            public ushort biBitCount;
+            public uint biCompression;
+            public uint biSizeImage;
+            public int biXPelsPerMeter;
+            public int biYPelsPerMeter;
+            public uint biClrUsed;
+            public uint biClrImportant;
+        }
+        [StructLayout(LayoutKind.Sequential)]
+        public struct RGBQUAD
+        {
+            public byte rgbBlue;
+            public byte rgbGreen;
+            public byte rgbRed;
+            public byte rgbReserved;
+        }
+        #endregion
     }
 }

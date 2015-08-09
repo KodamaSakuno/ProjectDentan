@@ -62,6 +62,13 @@ namespace Moen.SystemInterop
             public static extern bool SystemParametersInfo(NativeConstants.SPI uiAction, int uiParam, ref NativeStructs.RECT pvParam, int fWinIni);
 
             #endregion
+
+            #region Device Context
+            [DllImport(DllName, SetLastError = true)]
+            public static extern IntPtr GetDC(IntPtr hWnd);
+            [DllImport(DllName)]
+            public static extern bool ReleaseDC(IntPtr hWnd, IntPtr hDC);
+            #endregion
         }
     }
 }
