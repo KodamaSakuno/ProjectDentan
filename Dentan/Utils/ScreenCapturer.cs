@@ -86,12 +86,12 @@ namespace Moen.KanColle.Dentan.Utils
                 OutputAsFile(rImage);
         }
 
-        static void OutputToClipboard(BitmapSource rpImage)
+        public void OutputToClipboard(BitmapSource rpImage)
         {
             Clipboard.SetImage(rpImage);
             App.Root.StatusBar.Message = "截图已保存到剪贴板上";
         }
-        static void OutputAsFile(BitmapSource rpImage)
+        public void OutputAsFile(BitmapSource rpImage)
         {
             var rPreference = Preference.Current.Browser.Screenshot;
 

@@ -1,4 +1,5 @@
 ﻿using Moen.KanColle.Dentan.Utils;
+using Moen.KanColle.Dentan.View.Tool;
 using Moen.KanColle.Dentan.ViewModel.Browser;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace Moen.KanColle.Dentan.ViewModel.Menu
                 MenuSeparator.Default,
                 r_TakeScreenshotToClipboard = new MenuItemViewModel("截图到剪贴板", rCreateCommand(() => ScreenCapturer.Instance.TakeScreenshotAndOutput(rpOutputToClipboard: true)), new KeyGesture(Key.F2)),
                 r_TakeScreenshotToFile = new MenuItemViewModel("截图为文件", rCreateCommand(() => ScreenCapturer.Instance.TakeScreenshotAndOutput(rpOutputToClipboard: false)), new KeyGesture(Key.F8)),
-                new MenuItemViewModel("特殊截图工具", new DelegatedCommand(() => { }, () => false)),
+                new MenuItemViewModel("特殊截图工具", rCreateCommand(() => new SpecialScreenshotWindow() { Owner = App.Current.MainWindow }.Show())),
                 MenuSeparator.Default,
                 new MenuItemViewModel("静音", rCreateCommand(() => BrowserViewModel.Current.SetVolume())),
                 MenuSeparator.Default,
