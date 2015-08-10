@@ -37,13 +37,12 @@ namespace Moen.KanColle.Dentan.View
             if (!IsMouseOver)
                 Close();
         }
-
-        public new void Show()
+        
+        protected override void OnSourceInitialized(EventArgs e)
         {
+            base.OnSourceInitialized(e);
+
             Topmost = true;
-
-            base.Show();
-
             AdjustNotificationWindows();
         }
 
