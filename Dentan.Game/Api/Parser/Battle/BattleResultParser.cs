@@ -21,7 +21,11 @@ namespace Moen.KanColle.Dentan.Api.Parser.Battle
             }
 
             if (rpData.DropShip != null)
+            {
                 Game.DroppedShip++;
+
+                Game.SendMessageToStatusBar($"获得「{rpData.DropShip.Name}」");
+            }
 
             AbyssalDataManager.Update();
             RecordManager.Instance.Sortie.Update(rEnemyFleet.AbyssalFleet, rpData);

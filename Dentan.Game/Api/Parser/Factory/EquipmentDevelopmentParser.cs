@@ -1,6 +1,7 @@
 ﻿using Moen.KanColle.Dentan.Data;
 using Moen.KanColle.Dentan.Data.Raw;
 using Moen.KanColle.Dentan.Record;
+using System.Text;
 
 namespace Moen.KanColle.Dentan.Api.Parser.Factory
 {
@@ -14,11 +15,19 @@ namespace Moen.KanColle.Dentan.Api.Parser.Factory
             var rSteel = int.Parse(Request["api_item3"]);
             var rBauxite = int.Parse(Request["api_item4"]);
 
-            if (rpData.Success)
+            var rBuilder = new StringBuilder(32);
+            if (!rpData.Success)
+                rBuilder.Append("开发失败");
+            else
             {
                 Game.Equipments.Add(new Equipment(new RawEquipment() { ID = rpData.Result.ID, EquipmentID = rpData.Result.EquipmentID }));
                 Game.UpdateEquipments();
+
+                rBuilder.Append($"「{Game.Base.Equipments[rpData.Result.ID].Name}」开发成功");
             }
+
+            rBuilder.Append($" 投入资材：{rFuel}/{rBullet}/{rSteel}/{rBauxite}");
+            Game.SendMessageToStatusBar(rBuilder.ToString());
 
             Quest.Progresses[605].Current++;
             Quest.Progresses[607].Current++;

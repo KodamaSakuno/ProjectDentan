@@ -22,6 +22,8 @@ namespace Moen.KanColle.Dentan.Api.Parser
                 return;
             }
 
+            Game.SendMessageToStatusBar("提督が鎮守府に着任しました。これより艦隊の指揮に入ります！");
+
             Game.UpdateBaseInfo(rpData);
 
             SuccessEvent.Set();

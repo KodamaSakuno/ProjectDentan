@@ -29,6 +29,8 @@ namespace Moen.KanColle.Dentan.Api.Parser.Map
             if (rCodeAProgress != null)
                 rCodeAProgress.IncrementSortie();
 
+            Game.SendMessageToStatusBar($"舰队「{Game.SortieFleet.Name}」向「{rCompassData.MapName}」出击");
+
             base.Process(rpData);
         }
     }

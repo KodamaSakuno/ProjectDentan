@@ -122,7 +122,7 @@ namespace Moen.KanColle.Dentan.ViewModel.Browser
             {
                 ExtractFlash();
 
-                   await Task.Delay(500);
+                await Task.Delay(500);
 
                 HideAddressBar = true;
 

@@ -171,6 +171,8 @@ namespace Moen.KanColle.Dentan
         public event Action ShipsUpdated = delegate { };
         public event Action EquipmentsUpdated = delegate { };
 
+        public event Action<string> StatusBarMessage = delegate { };
+
         public IConnectableObservable<string> ObservablePropertyChanged { get; private set; }
         IDisposable r_PropertyChangedSubscriptions;
 
@@ -277,6 +279,11 @@ namespace Moen.KanColle.Dentan
         internal void RaiseGameLaunchedEvent()
         {
             GameLaunched();
+        }
+
+        public void SendMessageToStatusBar(string rpMessage)
+        {
+            StatusBarMessage(rpMessage);
         }
     }
 }
