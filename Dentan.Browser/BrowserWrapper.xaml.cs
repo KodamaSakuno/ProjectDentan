@@ -1,4 +1,6 @@
 ﻿using Moen.SystemInterop;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -40,27 +42,29 @@ namespace Moen.KanColle.Dentan.Browser
                 UpdateSize();
             } 
         }
-
-        public BrowserWrapper(int rpHostProcessID)
+        
+        static Dictionary<string, string> r_Map;
+        static BrowserWrapper()
         {
-            r_BrowserProviders = new List<IBrowserProvider>();
-            var rBrowserPath = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Browsers");
-            foreach (var rBrowser in Directory.EnumerateFiles(rBrowserPath, "*.dll"))
+            r_Map = new DirectoryInfo(Path.Combine(Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory), "Browsers"))
+                .EnumerateFiles("*.dll", SearchOption.AllDirectories).ToDictionary(r => Path.GetFileNameWithoutExtension(r.FullName), r => r.FullName);
+            AppDomain.CurrentDomain.AssemblyResolve += (s, e) =>
             {
-                FileSystem.Unblock(rBrowser);
-
-                var rAssembly = Assembly.LoadFile(rBrowser);
-                var rTypes = rAssembly.GetTypes().Where(r => r.GetInterface(typeof(IBrowserProvider).FullName) != null);
-                foreach (var rType in rTypes)
-                {
-                    r_BrowserProviders.Add((IBrowserProvider)rAssembly.CreateInstance(rType.FullName));
-                }
-            }
+                var rName = e.Name;
+                var rPosition = rName.IndexOf(',');
+                if (rPosition != -1)
+                    rName = rName.Remove(rPosition);
+                return Assembly.LoadFile(r_Map[rName]);
+            };
+        }
+        public BrowserWrapper(string rpLayoutEngine, int rpHostProcessID)
+        {
+            LoadBrowser(rpLayoutEngine);
 
             BridgeReady = new ManualResetEventSlim(false);
 
             InitializeComponent();
-            
+
             r_Zoom = 1.0;
 
             r_Communicator = new MemoryMappedFileCommunicator($"Moen/ProjectDentan({rpHostProcessID})", 4096);
@@ -72,8 +76,6 @@ namespace Moen.KanColle.Dentan.Browser
             r_Communicator.Write("Ready");
 
             BridgeReady.Set();
-
-            r_BrowserProvider = r_BrowserProviders.First();
 
             Container.Content = Browser = r_BrowserProvider.GetBrowser();
 
@@ -89,13 +91,33 @@ namespace Moen.KanColle.Dentan.Browser
             ComponentDispatcher.ThreadPreprocessMessage += ThreadPreprocessMessage;
 
             r_HwndSource.RootVisual = this;
-            
+
             r_Communicator.Write("Attach:" + r_HwndSource.Handle.ToInt32());
 
             Browser.FlashExtracted += UpdateSize;
             Browser.Navigated += r => r_Communicator.Write("UpdateUrl:" + r);
         }
-        
+        void LoadBrowser(string rpLayoutEngine)
+        {
+            var rBrowserPath = new DirectoryInfo(Path.Combine(Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory), "Browsers"));
+
+            foreach (var rFile in rBrowserPath.EnumerateFiles("*.dll", SearchOption.AllDirectories))
+                FileSystem.Unblock(rFile.FullName);
+
+            var rEntryFile = rBrowserPath.EnumerateFiles("*.json").Select(r =>
+            {
+                using (var rReader = File.OpenText(r.FullName))
+                    return JObject.Load(new JsonTextReader(rReader)).ToObject<LayoutEngine>();
+            }).Single(r => r.Name == rpLayoutEngine).EntryFile;
+
+            var rAssembly = Assembly.LoadFile(Path.Combine(rBrowserPath.FullName, rEntryFile));
+            var rType = rAssembly.GetTypes().Where(r => r.GetInterface(typeof(IBrowserProvider).FullName) != null).First();
+
+            r_BrowserProvider = (IBrowserProvider)rAssembly.CreateInstance(rType.FullName);
+            r_BrowserProvider.WorkingDirectory = Path.GetDirectoryName(rAssembly.Location);
+            Environment.CurrentDirectory = r_BrowserProvider.WorkingDirectory;
+        }
+
         public void Refresh()
         {
             Dispatcher.BeginInvoke(new Action(Browser.Refresh));

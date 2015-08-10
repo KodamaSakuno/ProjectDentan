@@ -9,6 +9,7 @@ namespace Moen.KanColle.Dentan.Browser.Trident
     class TridentBrowserProvider : IBrowserProvider
     {
         public string BrowserName { get; } = "Trident";
+        string IBrowserProvider.WorkingDirectory { get; set; }
 
         public IBrowser GetBrowser()
         {
