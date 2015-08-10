@@ -2,13 +2,16 @@
 
 namespace Moen.KanColle.Dentan.Data.Raw
 {
-    public class RawPracticeEnemyInfo
+    public class RawPracticeOpponentInfo
     {
         [JsonProperty("api_member_id")]
         public int ID { get; set; }
 
         [JsonProperty("api_nickname")]
         public string Name { get; set; }
+
+        [JsonProperty("api_cmt")]
+        public string Comment { get; set; }
 
         [JsonProperty("api_level")]
         public int Level { get; set; }
@@ -20,7 +23,7 @@ namespace Moen.KanColle.Dentan.Data.Raw
         public int[] Experience { get; set; }
 
         [JsonProperty("api_friend")]
-        public int ApiFriend { get; set; }
+        public int FleetCount { get; set; }
 
         [JsonProperty("api_ship")]
         public int[] Ship { get; set; }
@@ -29,7 +32,7 @@ namespace Moen.KanColle.Dentan.Data.Raw
         public int[] ApiSlotitem { get; set; }
 
         [JsonProperty("api_furniture")]
-        public int ApiFurniture { get; set; }
+        public int FurnitureCount { get; set; }
 
         [JsonProperty("api_deckname")]
         public string FleetName { get; set; }

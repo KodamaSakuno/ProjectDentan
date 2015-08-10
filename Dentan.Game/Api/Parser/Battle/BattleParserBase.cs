@@ -1,6 +1,7 @@
 ﻿using Moen.KanColle.Dentan.Data;
 using Moen.KanColle.Dentan.Data.QuestData;
 using Moen.KanColle.Dentan.Data.Raw;
+using Newtonsoft.Json;
 using System.Linq;
 
 namespace Moen.KanColle.Dentan.Api.Parser.Battle
@@ -16,6 +17,12 @@ namespace Moen.KanColle.Dentan.Api.Parser.Battle
         {
             Battle = Game.Battle ?? new BattleData();
 
+            var rJson = ResponseJson.ToString(Formatting.None);
+            if (this is DayBattleParserBase)
+                Battle.FirstBattleJson = rJson;
+            else
+                Battle.SecondBattleJson = rJson;
+
             ParseEnemyInfo(rpData);
             ParseStatus(rpData);
             ProcessCore(rpData);
@@ -24,6 +31,8 @@ namespace Moen.KanColle.Dentan.Api.Parser.Battle
             Game.Battle = Battle;
 
             ProcessQuest(Battle);
+
+            Battle = null;
         }
 
         protected abstract void ParseEnemyInfo(T rpData);

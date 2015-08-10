@@ -23,13 +23,28 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        
+
         <Menu DataContext="{Binding Menu}" IsMainMenu="True" ItemsSource="{Binding Menus}">
-            <Menu.ItemTemplate>
-                <HierarchicalDataTemplate ItemsSource="{Binding Items}">
-                        <ContentPresenter Content="{Binding Title}" RecognizesAccessKey="True" />
-                </HierarchicalDataTemplate>
-            </Menu.ItemTemplate>
+            <Menu.ItemContainerStyle>
+                <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">
+                    <Setter Property="Header" Value="{Binding Title}" />
+                    <Setter Property="ItemsSource" Value="{Binding Items}" />
+                    <Setter Property="InputGestureText" Value="{Binding InputGestureText}" />
+                    <Setter Property="IsChecked" Value="{Binding IsChecked}" />
+
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Title}" Value="-">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <Separator />
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Menu.ItemContainerStyle>
         </Menu>
         
         <ad:DockingManager Name="DockingManager" AnchorablesSource="{Binding Panes}" Grid.Row="1">
@@ -57,8 +72,15 @@
             </ad:LayoutRoot>
         </ad:DockingManager>
         
-        <Border Background="#595959" Padding="4" Grid.Row="2">
-            <TextBlock Margin="5, 0, 0, 0" Foreground="White" Text="{Binding StatusBar.Message}" VerticalAlignment="Center" />
+        <Border Background="#595959" Padding="4" Height="23" Grid.Row="2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Margin="5, 0, 0, 0" Foreground="White" Text="{Binding StatusBar.Message}" VerticalAlignment="Center" />
+            </Grid>
         </Border>
     </Grid>
 </Window>

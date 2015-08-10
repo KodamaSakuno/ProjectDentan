@@ -1,7 +1,9 @@
-﻿using mshtml;
+﻿using Moen.SystemInterop;
+using mshtml;
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Windows.Controls;
 
 namespace Moen.KanColle.Dentan.Browser.Trident
@@ -9,12 +11,7 @@ namespace Moen.KanColle.Dentan.Browser.Trident
     class TridentBrowser : Border, IBrowser
     {
         WebBrowser r_Browser;
-
-        public int Port
-        {
-            set { TridentBrowserProvider.SetProxy("localhost:" + value.ToString()); }
-        }
-
+        
         public event Action FlashExtracted = () => { };
         public event Action<string> Navigated = delegate { };
         bool r_IsExtracted;
@@ -58,7 +55,7 @@ namespace Moen.KanColle.Dentan.Browser.Trident
                 }
                 else
                 {
-                    var rElement = rDocument.getElementsByTagName("EMBED").OfType<IHTMLElement>().SingleOrDefault(r => ((string)r.getAttribute("src")).Contains("kcs/mainD2.swf"));
+                    var rElement = rDocument.getElementsByTagName("EMBED").OfType<IHTMLElement>().SingleOrDefault(r => ((string)r.getAttribute("src")).Contains("kcs/mainD2.swf?"));
                     if (rElement != null)
                         ExtractFlashCore(rElement);
                 }
@@ -95,6 +92,98 @@ namespace Moen.KanColle.Dentan.Browser.Trident
                 return;
 
             rObject.GetType().InvokeMember("Silent", BindingFlags.SetProperty, null, rObject, new object[] { true });
+        }
+
+        public ScreenshotData TakeScreenshot()
+        {
+            return Dispatcher.Invoke<ScreenshotData>(() =>
+            {
+                var rDocument = r_Browser.Document as HTMLDocument;
+                if (rDocument == null)
+                    return null;
+
+                if (rDocument.url.Contains("kcs/mainD2.swf?"))
+                {
+                    var rViewObject = rDocument.getElementsByTagName("EMBED").item(index: 0) as NativeInterfaces.IViewObject;
+                    if (rViewObject == null)
+                        return null;
+
+                    return TakeScreenshotCore(rViewObject);
+                }
+                else
+                {
+                    if (rDocument.getElementById("game_frame") == null)
+                        return null;
+
+                    var rFrames = rDocument.frames;
+                    for (var i = 0; i < rFrames.length; i++)
+                    {
+                        var rServiceProvider = rFrames.item(i) as NativeInterfaces.IServiceProvider;
+                        if (rServiceProvider == null)
+                            return null;
+
+                        var rGuidWebBrowserApp = typeof(SHDocVw.IWebBrowserApp).GUID;
+                        var rGuidWebBrowser2 = typeof(SHDocVw.IWebBrowser2).GUID;
+                        object rObject;
+                        rServiceProvider.QueryService(ref rGuidWebBrowserApp, ref rGuidWebBrowser2, out rObject);
+                        var rWebBrowser = rObject as SHDocVw.IWebBrowser2;
+                        if (rWebBrowser == null || rWebBrowser.Document == null)
+                            return null;
+
+                        var rViewObject = rWebBrowser.Document.getElementById("externalswf") as NativeInterfaces.IViewObject;
+                        if (rViewObject == null)
+                            continue;
+
+                        return TakeScreenshotCore(rViewObject);
+                    }
+                }
+
+                return null;
+            });
+        }
+
+        private ScreenshotData TakeScreenshotCore(NativeInterfaces.IViewObject rpViewObject)
+        {
+            var rEmbedElement = rpViewObject as HTMLEmbed;
+            var rWidth = rEmbedElement.clientWidth;
+            var rHeight = rEmbedElement.clientHeight;
+
+            var rResult = new ScreenshotData()
+            {
+                Width = rWidth,
+                Height = rHeight,
+            };
+
+            var rTargetDevice = new NativeStructs.DVTARGETDEVICE() { tdSize = 0 };
+            var rRect = new NativeStructs.RECT(0, 0, rWidth, rHeight);
+
+            var rScreenDC = NativeMethods.User32.GetDC(IntPtr.Zero);
+            var rHDC = NativeMethods.Gdi32.CreateCompatibleDC(rScreenDC);
+            
+            var rInfo = new NativeStructs.BITMAPINFO();
+            rInfo.bmiHeader.biSize = Marshal.SizeOf(typeof(NativeStructs.BITMAPINFOHEADER));
+            rInfo.bmiHeader.biWidth = rWidth;
+            rInfo.bmiHeader.biHeight = rHeight;
+            rInfo.bmiHeader.biBitCount = 24;
+            rInfo.bmiHeader.biPlanes = 1;
+
+            IntPtr rBits;
+            var rHBitmap = NativeMethods.Gdi32.CreateDIBSection(rHDC, ref rInfo, 0, out rBits, IntPtr.Zero, 0);
+            var rOldObject = NativeMethods.Gdi32.SelectObject(rHDC, rHBitmap);
+
+            var rEmptyRect = default(NativeStructs.RECT);
+            rpViewObject.Draw(1, 0, IntPtr.Zero, ref rTargetDevice, IntPtr.Zero, rHDC, ref rRect, ref rEmptyRect, IntPtr.Zero, IntPtr.Zero);
+            
+            var rPixels = new byte[rWidth * rHeight * 3];
+            Marshal.Copy(rBits, rPixels, 0, rPixels.Length);
+            rResult.ImagePixels = rPixels;
+
+            NativeMethods.Gdi32.SelectObject(rHDC, rOldObject);
+            NativeMethods.Gdi32.DeleteObject(rHBitmap);
+            NativeMethods.Gdi32.DeleteDC(rHDC);
+            NativeMethods.User32.ReleaseDC(IntPtr.Zero, rScreenDC);
+
+            return rResult;
         }
     }
 }

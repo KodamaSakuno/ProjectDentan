@@ -40,6 +40,7 @@ namespace Moen.KanColle.Dentan.Data
         {
             Fleet = rpFleet;
             ExpeditionID = -1;
+            TimeToNotificate = TimeSpan.FromMinutes(1.0);
         }
 
         public void Update(int rpState, int rpExpeditonID, long rpCompleteTime)

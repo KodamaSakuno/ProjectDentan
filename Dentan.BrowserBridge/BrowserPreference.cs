@@ -12,6 +12,9 @@ namespace Moen.KanColle.Dentan.Browser
         [JsonProperty("game_token")]
         public string GameToken { get; set; }
 
+        [JsonProperty("layoutengine")]
+        public string CurrentLayoutEngine { get; set; } = "trident";
+
         [JsonProperty("flash")]
         public FlashPreference Flash { get; set; } = new FlashPreference();
         public class FlashPreference
@@ -28,9 +31,8 @@ namespace Moen.KanColle.Dentan.Browser
         {
             [JsonProperty("folder")]
             public string Folder { get; set; } = "Screenshot";
-            //[JsonProperty("filenameformat")]
-            [JsonIgnore]
-            public string FilenameFormat { get; set; } = "";
+            [JsonProperty("filenameformat")]
+            public string FilenameFormat { get; set; } = "pd_{0:yyyyMMdd-HHmmss-ff}.{1}";
             [JsonProperty("imageformat")]
             public ScreenshotImageFormat ImageFormat { get; set; } = ScreenshotImageFormat.Png;
         }

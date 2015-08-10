@@ -21,10 +21,16 @@ namespace Moen.KanColle.Dentan.Api.Parser.Battle
             }
 
             if (rpData.DropShip != null)
+            {
                 Game.DroppedShip++;
 
+                Game.SendMessageToStatusBar($"获得「{rpData.DropShip.Name}」");
+            }
+
             AbyssalDataManager.Update();
-            RecordManager.Instance.Drop.Update(rEnemyFleet.AbyssalFleet, rpData);
+            RecordManager.Instance.Sortie.Update(rEnemyFleet.AbyssalFleet, rpData);
+
+            RecordManager.Instance.Battle.UpdateSortie(rCompassData, Game.Battle, rpData.Rank);
         }
     }
 }

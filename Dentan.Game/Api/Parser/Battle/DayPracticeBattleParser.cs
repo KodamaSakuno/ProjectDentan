@@ -60,6 +60,7 @@ namespace Moen.KanColle.Dentan.Api.Parser.Battle
 
         protected override void PostProcess(RawBattle rpData)
         {
+            Battle.ParticipatedFleetIDs.Add(int.Parse(Request["api_deck_id"]));
             Battle.CanNightBattle = rpData.CanNightBattle;
 
             PostProcessCore(rpData);

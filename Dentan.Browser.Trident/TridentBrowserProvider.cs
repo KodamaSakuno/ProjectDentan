@@ -9,13 +9,18 @@ namespace Moen.KanColle.Dentan.Browser.Trident
     class TridentBrowserProvider : IBrowserProvider
     {
         public string BrowserName { get; } = "Trident";
+        string IBrowserProvider.WorkingDirectory { get; set; }
 
         public IBrowser GetBrowser()
         {
             return new TridentBrowser();
         }
 
-        public static void SetProxy(string rpProxy)
+        public void SetPort(int rpPort)
+        {
+            SetProxy("localhost:" + rpPort.ToString());
+        }
+        static void SetProxy(string rpProxy)
         {
             var rInfo = new NativeStructs.INTERNET_PROXY_INFO()
             {

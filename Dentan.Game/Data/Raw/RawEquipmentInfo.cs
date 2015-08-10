@@ -17,28 +17,28 @@ namespace Moen.KanColle.Dentan.Data.Raw
         public int[] Type { get; set; }
 
         [JsonProperty("api_taik")]
-        public int ApiTaik { get; set; }
+        public int HP { get; set; }
 
         [JsonProperty("api_souk")]
-        public int ApiSouk { get; set; }
+        public int Armor { get; set; }
 
         [JsonProperty("api_houg")]
-        public int ApiHoug { get; set; }
+        public int FirePower { get; set; }
 
         [JsonProperty("api_raig")]
-        public int ApiRaig { get; set; }
+        public int Torpedo { get; set; }
 
         [JsonProperty("api_soku")]
-        public int ApiSoku { get; set; }
+        public int Speed { get; set; }
 
         [JsonProperty("api_baku")]
-        public int ApiBaku { get; set; }
+        public int DiveBomberAttack { get; set; }
 
         [JsonProperty("api_tyku")]
         public int AA { get; set; }
 
         [JsonProperty("api_tais")]
-        public int ApiTais { get; set; }
+        public int ASW { get; set; }
 
         [JsonProperty("api_atap")]
         public int ApiAtap { get; set; }
@@ -50,7 +50,7 @@ namespace Moen.KanColle.Dentan.Data.Raw
         public int ApiRaim { get; set; }
 
         [JsonProperty("api_houk")]
-        public int ApiHouk { get; set; }
+        public int Evasion { get; set; }
 
         [JsonProperty("api_raik")]
         public int ApiRaik { get; set; }
@@ -65,10 +65,10 @@ namespace Moen.KanColle.Dentan.Data.Raw
         public int ApiSakb { get; set; }
 
         [JsonProperty("api_luck")]
-        public int ApiLuck { get; set; }
+        public int Luck { get; set; }
 
         [JsonProperty("api_leng")]
-        public int ApiLeng { get; set; }
+        public int Range { get; set; }
 
         [JsonProperty("api_rare")]
         public int ApiRare { get; set; }

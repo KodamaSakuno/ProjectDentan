@@ -100,6 +100,7 @@
     <Compile Include="Api\Parser\Battle\NightNormalBattleParser.cs" />
     <Compile Include="Api\Parser\Battle\NightOnlyBattleParser.cs" />
     <Compile Include="Api\Parser\Battle\NightPracticeBattleParser.cs" />
+    <Compile Include="Api\Parser\Battle\PracticeBattleResultParser.cs" />
     <Compile Include="Api\Parser\BuildingParser.cs" />
     <Compile Include="Api\Parser\ChangeShipParser.cs" />
     <Compile Include="Api\Parser\ClearEnemyFleetInfoParser.cs" />
@@ -112,7 +113,7 @@
     <Compile Include="Api\Parser\Factory\ShipDismantlingParser.cs" />
     <Compile Include="Api\Parser\Factory\EquipmentDiscardingParser.cs" />
     <Compile Include="Api\Parser\GetFleetParser.cs" />
-    <Compile Include="Api\Parser\GetPracticeEnemyInfoParser.cs" />
+    <Compile Include="Api\Parser\GetPracticeOpponentInfoParser.cs" />
     <Compile Include="Api\Parser\GetShipParser.cs" />
     <Compile Include="Api\Parser\Map\EventMapRankSelectionParser.cs" />
     <Compile Include="Api\Parser\Map\MapInformationParser.cs" />
@@ -126,6 +127,9 @@
     <Compile Include="Api\Parser\RepairParser.cs" />
     <Compile Include="Api\Parser\ApiStartParser.cs" />
     <Compile Include="Api\Parser\SupplyParser.cs" />
+    <Compile Include="Cache\ICacheSystem.cs" />
+    <Compile Include="Cache\ResourceCache.cs" />
+    <Compile Include="Cache\FullyTrustCacheSystem.cs" />
     <Compile Include="Calc.cs" />
     <Compile Include="Data\AbyssalDataManager.cs" />
     <Compile Include="Data\AbyssalFleet.cs" />
@@ -141,6 +145,7 @@
     <Compile Include="Data\EnemyData.cs" />
     <Compile Include="Data\EnemyShip.cs" />
     <Compile Include="Data\BuildingDockCompletedEventArgs.cs" />
+    <Compile Include="Data\EquipmentType.cs" />
     <Compile Include="Data\ExpeditionData.cs" />
     <Compile Include="Data\ExpeditionDataManager.cs" />
     <Compile Include="Data\ExpeditionFleetInfo.cs" />
@@ -175,7 +180,7 @@
     <Compile Include="Data\QuestData\SupplyShipProgress.cs" />
     <Compile Include="Data\Raw\RawCreateEquipment.cs" />
     <Compile Include="Data\Raw\RawMapInfo.cs" />
-    <Compile Include="Data\Raw\RawPracticeEnemyInfo.cs" />
+    <Compile Include="Data\Raw\RawPracticeOpponentInfo.cs" />
     <Compile Include="Data\Raw\RawSortieFleet.cs" />
     <Compile Include="Data\Raw\RawSupportInfo.cs" />
     <Compile Include="Data\ShipGraphInfo.cs" />
@@ -190,7 +195,7 @@
     <Compile Include="Data\EngagementForm.cs" />
     <Compile Include="Data\EquipmentIconType.cs" />
     <Compile Include="Data\EquipmentInfo.cs" />
-    <Compile Include="Data\EquipmentType.cs" />
+    <Compile Include="Data\EquipmentTypeInfo.cs" />
     <Compile Include="Data\Expedition.cs" />
     <Compile Include="Data\ExperienceTable.cs" />
     <Compile Include="Data\SupplyInfo.cs" />
@@ -215,7 +220,7 @@
     <Compile Include="Data\Raw\RawTorpedoSalvo.cs" />
     <Compile Include="Data\Raw\RawEquipment.cs" />
     <Compile Include="Data\Raw\RawEquipmentGraph.cs" />
-    <Compile Include="Data\Raw\RawEquipmentType.cs" />
+    <Compile Include="Data\Raw\RawEquipmentTypeInfo.cs" />
     <Compile Include="Data\Raw\RawFleet.cs" />
     <Compile Include="Data\Raw\RawMapArea.cs" />
     <Compile Include="Data\Raw\RawMapBgm.cs" />
@@ -246,7 +251,6 @@
     <Compile Include="Data\UseItem.cs" />
     <Compile Include="Data\UseItemInfo.cs" />
     <Compile Include="Proxy\ApiSession.cs" />
-    <Compile Include="Proxy\ResourceCache.cs" />
     <Compile Include="Proxy\GameProxy.cs" />
     <Compile Include="Data\Admiral.cs" />
     <Compile Include="Data\Equipment.cs" />
@@ -258,6 +262,7 @@
     <Compile Include="Proxy\Session.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Data\QuestProgressData.cs" />
+    <Compile Include="Record\BattleRecord.cs" />
     <Compile Include="Record\ConstructionRecord.cs" />
     <Compile Include="Record\DevelopmentRecord.cs" />
     <Compile Include="Record\SortieRecord.cs" />

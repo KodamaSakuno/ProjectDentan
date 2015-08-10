@@ -26,7 +26,7 @@ namespace Moen.KanColle.Dentan.Data.Raw
         public int MaxHP { get; set; }
 
         [JsonProperty("api_leng")]
-        public int ApiLeng { get; set; }
+        public int Range { get; set; }
 
         [JsonProperty("api_slot")]
         public int[] Equipments { get; set; }
@@ -50,10 +50,10 @@ namespace Moen.KanColle.Dentan.Data.Raw
         public int EquipmentCount { get; set; }
 
         [JsonProperty("api_ndock_time")]
-        public long ApiNdockTime { get; set; }
+        public long RepairTime { get; set; }
 
         [JsonProperty("api_ndock_item")]
-        public int[] ApiNdockItem { get; set; }
+        public int[] RepairMaterialConsumption { get; set; }
 
         [JsonProperty("api_srate")]
         public int ApiSrate { get; set; }
@@ -62,28 +62,28 @@ namespace Moen.KanColle.Dentan.Data.Raw
         public int Condition { get; set; }
 
         [JsonProperty("api_karyoku")]
-        public int[] ApiKaryoku { get; set; }
+        public int[] FirePower { get; set; }
 
         [JsonProperty("api_raisou")]
-        public int[] ApiRaisou { get; set; }
+        public int[] Torpedo { get; set; }
 
         [JsonProperty("api_taiku")]
-        public int[] ApiTaiku { get; set; }
+        public int[] AA { get; set; }
 
         [JsonProperty("api_soukou")]
-        public int[] ApiSoukou { get; set; }
+        public int[] Armor { get; set; }
 
         [JsonProperty("api_kaihi")]
-        public int[] ApiKaihi { get; set; }
+        public int[] Evasion { get; set; }
 
         [JsonProperty("api_taisen")]
-        public int[] ApiTaisen { get; set; }
+        public int[] ASW { get; set; }
 
         [JsonProperty("api_sakuteki")]
         public int[] LoS { get; set; }
 
         [JsonProperty("api_lucky")]
-        public int[] ApiLucky { get; set; }
+        public int[] Luck { get; set; }
 
         [JsonProperty("api_locked")]
         public int IsLocked { get; set; }

@@ -102,6 +102,12 @@
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
                                                 <Border DataContext="{Binding Model}">
+                                                    <Border.ToolTip>
+                                                        <ToolTip Placement="Bottom">
+                                                            <TextBlock Text="{Binding ShellingPower, StringFormat={}炮击火力 {0}}" />
+                                                        </ToolTip>
+                                                    </Border.ToolTip>
+                                                    
                                                     <StackPanel>
                                                         <Rectangle Name="SeparatorLine" Fill="#30FFFFFF" Height="1" />
 

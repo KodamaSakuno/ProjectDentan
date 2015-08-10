@@ -9,7 +9,7 @@ namespace Moen.KanColle.Dentan.Data
         public Table<ShipInfo> Ships { get; private set; }
         public Table<ShipGraphInfo> ShipGraphs { get; private set; }
         public Table<EquipmentInfo> Equipments { get; private set; }
-        public Table<EquipmentType> EquipmentTypes { get; private set; }
+        public Table<EquipmentTypeInfo> EquipmentTypes { get; private set; }
         public Table<ExpeditionInfo> Expeditions { get; private set; }
         public Table<MapAreaInfo> MapAreas { get; private set; }
         public Table<BaseMapInfo> MapInfos { get; private set; }
@@ -22,7 +22,7 @@ namespace Moen.KanColle.Dentan.Data
             Ships = new Table<ShipInfo>();
             ShipGraphs = new Table<ShipGraphInfo>();
             Equipments = new Table<EquipmentInfo>();
-            EquipmentTypes = new Table<EquipmentType>();
+            EquipmentTypes = new Table<EquipmentTypeInfo>();
             Expeditions = new Table<ExpeditionInfo>();
             MapAreas = new Table<MapAreaInfo>();
             MapInfos = new Table<BaseMapInfo>();
@@ -37,7 +37,7 @@ namespace Moen.KanColle.Dentan.Data
             ShipGraphs.UpdateRawData<RawShipGraphInfo>(rpBaseData.ShipGraphes.Where(r => Ships.ContainsKey(r.ID)), r => new ShipGraphInfo(r, Ships[r.ID]), (rpData, rpRawData) => rpData.Update(rpRawData));
 
             Equipments.UpdateRawData<RawEquipmentInfo>(rpBaseData.Equipments, r => new EquipmentInfo(r), (rpData, rpRawData) => rpData.Update(rpRawData));
-            EquipmentTypes.UpdateRawData<RawEquipmentType>(rpBaseData.EquipmentTypes, r => new EquipmentType(r), (rpData, rpRawData) => rpData.Update(rpRawData));
+            EquipmentTypes.UpdateRawData<RawEquipmentTypeInfo>(rpBaseData.EquipmentTypes, r => new EquipmentTypeInfo(r), (rpData, rpRawData) => rpData.Update(rpRawData));
 
             Expeditions.UpdateRawData<RawExpeditionInfo>(rpBaseData.Expeditions, r => new ExpeditionInfo(r), (rpData, rpRawData) => rpData.Update(rpRawData));
 

@@ -91,7 +91,6 @@
     <Reference Include="System.Reactive.Windows.Threading">
       <HintPath>..\packages\Rx-XAML.2.2.5\lib\net45\System.Reactive.Windows.Threading.dll</HintPath>
     </Reference>
-    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -129,9 +128,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\AppInformation.cs" />
+    <Compile Include="Model\Game\ImprovementArsenalModel.cs" />
     <Compile Include="Model\Preference.cs" />
     <Compile Include="Model\Preference.Data.cs" />
     <Compile Include="Model\UpdateChannel.cs" />
+    <Compile Include="Utils\ScreenCapturer.cs" />
     <Compile Include="ViewModel\Browser\BrowserViewModel.cs" />
     <Compile Include="ViewModel\Browser\VolumeViewModel.cs" />
     <Compile Include="ViewModel\GameViewModel.cs" />
@@ -151,6 +152,9 @@
     <Compile Include="ViewModel\Game\ExpeditionStatusViewModel.cs" />
     <Compile Include="ViewModel\Game\FleetsViewModel.cs" />
     <Compile Include="ViewModel\Game\FleetViewModel.cs" />
+    <Compile Include="ViewModel\Game\ImprovementArsenalAssistantViewModel.cs" />
+    <Compile Include="ViewModel\Game\ImprovementArsenalEquipmentViewModel.cs" />
+    <Compile Include="ViewModel\Game\ImprovementArsenalViewModel.cs" />
     <Compile Include="ViewModel\Game\MapAreaViewModel.cs" />
     <Compile Include="ViewModel\Game\QuestsViewModel.cs" />
     <Compile Include="ViewModel\Game\QuestViewModel.cs" />
@@ -167,11 +171,16 @@
     <Compile Include="ViewModel\Preferences\NetworkPreferenceViewModel.cs" />
     <Compile Include="ViewModel\Preferences\PreferenceGroupViewModel.cs" />
     <Compile Include="ViewModel\Preferences\PreferenceViewModel.cs" />
+    <Compile Include="ViewModel\Record\BattleHistoryViewModel.cs" />
     <Compile Include="ViewModel\Record\ExpeditionHistoryViewModel.cs" />
     <Compile Include="ViewModel\Record\MaterialPlotViewModel.cs" />
     <Compile Include="ViewModel\Record\PlotViewModelBase.cs" />
+    <Compile Include="ViewModel\Record\PracticeRecordViewModel.cs" />
     <Compile Include="ViewModel\Record\ResourcePlotViewModel.cs" />
+    <Compile Include="ViewModel\Record\SortieRecordViewModel.cs" />
     <Compile Include="ViewModel\SessionsViewModel.cs" />
+    <Compile Include="ViewModel\Tool\FleetDetailSpecialScreenshotViewModel.cs" />
+    <Compile Include="ViewModel\Tool\SpecialScreenshotViewModel.cs" />
     <Compile Include="View\BytesToStringConverter.cs" />
     <Compile Include="View\ColorIndicator.cs" />
     <Compile Include="View\Controls\PDListBox.cs" />
@@ -196,6 +205,9 @@
     </Compile>
     <Compile Include="View\Game\FleetsOverviewView.cs" />
     <Compile Include="View\Game\FleetsView.cs" />
+    <Compile Include="View\Game\ImprovementArsenalWindow.xaml.cs">
+      <DependentUpon>ImprovementArsenalWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Game\QuestsView.cs" />
     <Compile Include="View\Game\RepairDockView.cs" />
     <Compile Include="View\Game\SlotsView.cs" />
@@ -216,6 +228,9 @@
     <Compile Include="View\Preference\PreferenceWindow.xaml.cs">
       <DependentUpon>PreferenceWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Record\BattleHistoryWindow.xaml.cs">
+      <DependentUpon>BattleHistoryWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Record\ExpeditionHistoryWindow.xaml.cs">
       <DependentUpon>ExpeditionHistoryWindow.xaml</DependentUpon>
     </Compile>
@@ -224,6 +239,9 @@
     </Compile>
     <Compile Include="View\SessionsView.xaml.cs">
       <DependentUpon>SessionsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Tool\SpecialScreenshotWindow.xaml.cs">
+      <DependentUpon>SpecialScreenshotWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ViewFactory.cs" />
     <Compile Include="View\ViewIDAttribute.cs" />
@@ -339,6 +357,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Game\ImprovementArsenalWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -383,6 +405,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Record\BattleHistoryWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Record\ExpeditionHistoryWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -394,6 +420,10 @@
     <Page Include="View\SessionsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Tool\SpecialScreenshotWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

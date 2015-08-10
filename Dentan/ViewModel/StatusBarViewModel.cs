@@ -10,17 +10,14 @@ namespace Moen.KanColle.Dentan.ViewModel
             get { return r_Message; }
             set
             {
-                if (r_Message != value)
-                {
-                    r_Message = value;
-                    OnPropertyChanged();
-                }
+                r_Message = $"{DateTime.Now}: {value.Replace(Environment.NewLine, " ")}";
+                OnPropertyChanged(nameof(Message));
             }
         }
 
         public StatusBarViewModel()
         {
-            Message = "(´･_･`)";
+            r_Message = "(´･_･`)";
 
             ApiParsers.NewException += ApiParsers_NewException;
         }

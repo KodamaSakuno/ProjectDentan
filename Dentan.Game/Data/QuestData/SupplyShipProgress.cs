@@ -42,20 +42,16 @@ namespace Moen.KanColle.Dentan.Data.QuestData
     }
 
     [Quest(218, QuestType.Daily, 3)]
-    class SupplyShipDailyProgress : SpecialSupplyShipProgress
+    class SupplyShipDailyProgress : SupplyShipProgress
     {
-        public SupplyShipDailyProgress()
-            : base(212) { }
     }
     [Quest(213, QuestType.Weekly, 20)]
     class SupplyShipWeeklyProgress : SupplyShipProgress
     {
     }
     [Quest(212, QuestType.Daily, 5)]
-    class SupplyShipSpecialProgress : SpecialSupplyShipProgress
+    class SupplyShipSpecialProgress : SupplyShipProgress
     {
-        public SupplyShipSpecialProgress()
-            : base(218) { }
     }
     [Quest(221, QuestType.Weekly, 50)]
     class CodeRoProgress : SupplyShipProgress

@@ -1,4 +1,5 @@
 ﻿using Moen.KanColle.Dentan.Browser;
+using Moen.KanColle.Dentan.Cache;
 using Moen.KanColle.Dentan.Proxy;
 using Newtonsoft.Json;
 using System.IO;
@@ -106,8 +107,7 @@ namespace Moen.KanColle.Dentan.Model
                     ResourceCache.CacheFolder = value;
                 }
             }
-            [JsonProperty("keepoldversion")]
-            public bool KeepOldVersionFile { get; set; } = false;
+
 
             public CachePreference()
             {

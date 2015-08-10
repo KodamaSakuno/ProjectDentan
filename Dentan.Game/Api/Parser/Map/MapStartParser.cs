@@ -23,11 +23,20 @@ namespace Moen.KanColle.Dentan.Api.Parser.Map
                     Now = rMapInfo.DefeatCount.Value,
                 };
 
+            if (rpData.EventMap != null)
+                rCompassData.MapHP = new MapHP()
+                {
+                    Max = rpData.EventMap.Max,
+                    Now = rpData.EventMap.Now,
+                };
+
             Game.CompassData = rCompassData;
 
             var rCodeAProgress = Quest.Progresses[214] as CodeAProgress;
             if (rCodeAProgress != null)
                 rCodeAProgress.IncrementSortie();
+
+            Game.SendMessageToStatusBar($"舰队「{Game.SortieFleet.Name}」向「{rCompassData.MapName}」出击");
 
             base.Process(rpData);
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using FiddlerSession = Fiddler.Session;
 
 namespace Moen.KanColle.Dentan.Proxy
 {
@@ -8,6 +9,7 @@ namespace Moen.KanColle.Dentan.Proxy
     public class Session : ModelBase
     {
         internal Stopwatch Stopwatch { get; set; }
+        internal FiddlerSession FiddlerSession { get; set; }
 
         SessionStatus r_Status;
         public SessionStatus Status
@@ -53,8 +55,8 @@ namespace Moen.KanColle.Dentan.Proxy
             }
         }
 
-        long r_ContentLength;
-        public long ContentLength
+        long? r_ContentLength;
+        public long? ContentLength
         {
             get { return r_ContentLength; }
             set
@@ -117,6 +119,20 @@ namespace Moen.KanColle.Dentan.Proxy
                 if (r_Exception != value)
                 {
                     r_Exception = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        string r_Name;
+        public string Name
+        {
+            get { return r_Name; }
+            set
+            {
+                if (r_Name != value)
+                {
+                    r_Name = value;
                     OnPropertyChanged();
                 }
             }

@@ -1,5 +1,8 @@
 ﻿using Moen.KanColle.Dentan.Browser;
-using Moen.KanColle.Dentan.Model;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.IO;
+using System.Linq;
 using System.Windows.Input;
 
 namespace Moen.KanColle.Dentan.ViewModel.Preferences
@@ -16,7 +19,7 @@ namespace Moen.KanColle.Dentan.ViewModel.Preferences
                 if (Model.Browser.Zoom != value)
                 {
                     Model.Browser.Zoom = value;
-                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(Zoom));
                 }
             }
         }
@@ -29,7 +32,20 @@ namespace Moen.KanColle.Dentan.ViewModel.Preferences
                 if (Model.Browser.Homepage != value)
                 {
                     Model.Browser.Homepage = value;
-                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(Homepage));
+                }
+            }
+        }
+
+        public string CurrentLayoutEngine
+        {
+            get { return Model.Browser.CurrentLayoutEngine; }
+            set
+            {
+                if (Model.Browser.CurrentLayoutEngine != value)
+                {
+                    Model.Browser.CurrentLayoutEngine = value;
+                    OnPropertyChanged(nameof(CurrentLayoutEngine));
                 }
             }
         }
@@ -42,7 +58,7 @@ namespace Moen.KanColle.Dentan.ViewModel.Preferences
                 if (Model.Browser.Flash.Quality != value)
                 {
                     Model.Browser.Flash.Quality = value;
-                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(FlashQuality));
                 }
             }
         }
@@ -54,7 +70,7 @@ namespace Moen.KanColle.Dentan.ViewModel.Preferences
                 if (Model.Browser.Flash.RenderMode != value)
                 {
                     Model.Browser.Flash.RenderMode = value;
-                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(FlashRenderMode));
                 }
             }
         }
@@ -67,7 +83,7 @@ namespace Moen.KanColle.Dentan.ViewModel.Preferences
                 if (Model.Browser.Screenshot.Folder != value)
                 {
                     Model.Browser.Screenshot.Folder = value;
-                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(ScreenshotFolder));
                 }
             }
         }
@@ -79,7 +95,7 @@ namespace Moen.KanColle.Dentan.ViewModel.Preferences
                 if (Model.Browser.Screenshot.FilenameFormat != value)
                 {
                     Model.Browser.Screenshot.FilenameFormat = value;
-                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(ScreenshotFilenameFormat));
                 }
             }
         }
@@ -91,15 +107,24 @@ namespace Moen.KanColle.Dentan.ViewModel.Preferences
                 if (Model.Browser.Screenshot.ImageFormat != value)
                 {
                     Model.Browser.Screenshot.ImageFormat = value;
-                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(ScreenshotImageFormat));
                 }
             }
         }
 
         public ICommand SelectScreenshotFolderCommand { get; private set; }
 
+        public LayoutEngine[] LayoutEngines { get; private set; }
+
         public BrowserPreferenceViewModel()
         {
+            LayoutEngines = Directory.EnumerateFiles("Browsers", "*.json").Select(r =>
+            {
+                using (var rReader = File.OpenText(r))
+                    return JObject.Load(new JsonTextReader(rReader)).ToObject<LayoutEngine>();
+            }).ToArray();
+            CurrentLayoutEngine = Model.Browser.CurrentLayoutEngine;
+
             SelectScreenshotFolderCommand = new DelegatedCommand(() =>
             {
             });

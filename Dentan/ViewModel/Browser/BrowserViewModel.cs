@@ -1,23 +1,25 @@
 ﻿using Moen.KanColle.Dentan.Browser;
 using Moen.KanColle.Dentan.Model;
+using Moen.KanColle.Dentan.Utils;
 using Moen.SystemInterop;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.ServiceModel;
+using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using System.Windows.Interop;
 
 namespace Moen.KanColle.Dentan.ViewModel.Browser
 {
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
-    class BrowserViewModel : ModelBase, IBrowserHost
+    class BrowserViewModel : ModelBase
     {
         public static BrowserViewModel Current { get; private set; }
-        
-        string r_Uri;
-        Bridge<IBrowserHost, IBrowserWrapper> r_Bridge;
+
+        HwndSource r_MainWindowSource;
+
+        MemoryMappedFileCommunicator r_Communicator;
         public bool IsReady { get; private set; }
 
         public int HostProcessID { get { return Process.GetCurrentProcess().Id; } }
@@ -38,6 +40,7 @@ namespace Moen.KanColle.Dentan.ViewModel.Browser
                 }
             }
         }
+
         string r_Url;
         public string Url
         {
@@ -48,7 +51,7 @@ namespace Moen.KanColle.Dentan.ViewModel.Browser
                 {
                     r_Url = value;
                     OnPropertyChanged();
-                    r_Bridge.Proxy.Navigate(value);
+                    Navigate(value);
                 }
             }
         }
@@ -69,19 +72,24 @@ namespace Moen.KanColle.Dentan.ViewModel.Browser
 
         public event Action BrowserReady = () => { };
 
+        ScreenCapturer r_ScreenCapturer;
+
         public BrowserViewModel()
         {
             Current = this;
-
-            r_Uri = string.Format("net.pipe://localhost/Moen/ProjectDentan({0})/", HostProcessID);
         }
 
         public void Load()
         {
-            if (r_Bridge == null)
+            if (r_Communicator == null)
             {
-                r_Bridge = new Bridge<IBrowserHost, IBrowserWrapper>(this, r_Uri, "BrowserHost");
-                r_Bridge.Connect(r_Uri + "Browser/Browser");
+                r_Communicator = new MemoryMappedFileCommunicator($"Moen/ProjectDentan({HostProcessID})", 4096);
+                r_Communicator.ReadPosition = 2048;
+                r_Communicator.WritePosition = 0;
+
+                r_Communicator.DataReceived += Communicator_DataReceived;
+
+                r_Communicator.StartReader();
 
                 StartBrowserProcess();
             }
@@ -93,7 +101,7 @@ namespace Moen.KanColle.Dentan.ViewModel.Browser
             if (!File.Exists(rBrowser))
                 return;
 
-            r_BrowserProcess = Process.Start(rBrowser, r_Uri);
+            r_BrowserProcess = Process.Start(rBrowser, $"{Preference.Current.Browser.CurrentLayoutEngine} {HostProcessID}");
         }
 
         public void Attach(IntPtr rpHandle)
@@ -103,7 +111,7 @@ namespace Moen.KanColle.Dentan.ViewModel.Browser
             IsReady = true;
             BrowserReady();
 
-            r_Bridge.Proxy.Port = KanColleGame.Current.Proxy.Port;
+            r_ScreenCapturer = new ScreenCapturer(r_Communicator);
 
             KanColleGame.Current.TokenOutdated += () =>
             {
@@ -112,18 +120,18 @@ namespace Moen.KanColle.Dentan.ViewModel.Browser
             };
             KanColleGame.Current.GameLaunched += async () =>
             {
-                r_Bridge.Proxy.ExtractFlash();
+                ExtractFlash();
 
                 await Task.Delay(500);
 
                 HideAddressBar = true;
 
                 VolumeManager = new VolumeViewModel((uint)r_BrowserProcess.Id);
-                VolumeManager.DisplayName = r_Bridge.Proxy.VolumeMixerDisplayName;
+                //VolumeManager.DisplayName = r_Bridge.Proxy.VolumeMixerDisplayName;
             };
         }
         
-        public void SetUrl(string rpUrl)
+        public void UpdateUrl(string rpUrl)
         {
             r_Url = rpUrl;
             OnPropertyChanged(nameof(Url));
@@ -131,11 +139,11 @@ namespace Moen.KanColle.Dentan.ViewModel.Browser
 
         public void Navigate(string rpUrl)
         {
-            r_Bridge.Proxy.Navigate(rpUrl);
+            r_Communicator.Write("Naviagte:" + rpUrl);
         }
         public void Refresh()
         {
-            r_Bridge.Proxy.Refresh();
+            r_Communicator.Write("Refresh");
         }
 
         public void SetVolume()
@@ -148,15 +156,70 @@ namespace Moen.KanColle.Dentan.ViewModel.Browser
 
         public void SetZoom(double rpZoom)
         {
-            r_Bridge.Proxy.Zoom = rpZoom;
+            r_Communicator.Write("SetZoom:" + rpZoom);
         }
         public void ExtractFlash()
         {
-            r_Bridge.Proxy.ExtractFlash();
+            r_Communicator.Write("ExtractFlash");
         }
         public void ClearCache(bool rpClearCookie)
         {
-            r_Bridge.Proxy.ClearCache(rpClearCookie);
+            r_Communicator.Write(rpClearCookie ? "ClearCache" : "ClearCacheAndCookie");
+        }
+
+        void Communicator_DataReceived(byte[] rpBytes)
+        {
+            var rMessage = Encoding.UTF8.GetString(rpBytes);
+            var rCommand = rMessage;
+            var rParamater = string.Empty;
+            var rPos = rMessage.IndexOf(':');
+            if (rPos != -1)
+            {
+                rCommand = rMessage.Remove(rPos);
+                rParamater = rMessage.Substring(rPos + 1);
+            }
+
+            string[] rParamaters = null;
+            switch (rCommand)
+            {
+                case "Ready":
+                    r_Communicator.Write("Port:" + KanColleGame.Current.Proxy.Port);
+                    break;
+
+                case "Attach":
+                    DispatcherUtil.UIDispatcher.Invoke(() => Attach(new IntPtr(int.Parse(rParamater))));
+                    break;
+
+                case "UpdateUrl":
+                    UpdateUrl(rParamater);
+                    break;
+                    
+                case "KeyboardMessage":
+                    rParamaters = rParamater.Split(',');
+                    var rMsg = new MSG()
+                    {
+                        hwnd = new IntPtr(int.Parse(rParamaters[0])),
+                        message =int.Parse(rParamaters[1]),
+                        wParam = new IntPtr(int.Parse(rParamaters[2])),
+                        lParam = new IntPtr(int.Parse(rParamaters[3])),
+                    };
+
+                    if (r_MainWindowSource == null)
+                    {
+                        var rHandle = DispatcherUtil.UIDispatcher.Invoke(() => new WindowInteropHelper(App.Current.MainWindow).Handle);
+                        r_MainWindowSource = HwndSource.FromHwnd(rHandle);
+                    }
+                    DispatcherUtil.UIDispatcher.BeginInvoke(new Action(() => ((IKeyboardInputSink)r_MainWindowSource).TranslateAccelerator(ref rMsg, ModifierKeys.None)));
+                    break;
+
+                case "ScreenshotTransmission":
+                    rParamaters = rParamater.Split(',');
+                    r_ScreenCapturer.GetScreenshot(rParamaters[0], int.Parse(rParamaters[1]), int.Parse(rParamaters[2]));
+                    break;
+                case "ScreenshotFail":
+                    r_ScreenCapturer.ScreenshotFail();
+                    break;
+            }
         }
 
         class BrowserHostCore : HwndHost

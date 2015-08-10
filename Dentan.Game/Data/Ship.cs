@@ -228,6 +228,34 @@ namespace Moen.KanColle.Dentan.Data
             }
         }
 
+        int r_FirePower;
+        public int FirePower
+        {
+            get { return r_FirePower; }
+            set
+            {
+                if (r_FirePower != value)
+                {
+                    r_FirePower = value;
+                    OnPropertyChanged(nameof(FirePower));
+                }
+            }
+        }
+
+        double r_ShellingPower;
+        public double ShellingPower
+        {
+            get { return r_ShellingPower; }
+            set
+            {
+                if (r_ShellingPower != value)
+                {
+                    r_ShellingPower = value;
+                    OnPropertyChanged(nameof(ShellingPower));
+                }
+            }
+        }
+
         bool r_Initialized;
 
         public Ship(RawShip rpRawData)
@@ -275,6 +303,13 @@ namespace Moen.KanColle.Dentan.Data
                 Slots[i].PlaneCount = RawData.PlaneCount[i];
 
             FighterPower = Slots.Sum(r => r.PlaneAA);
+
+            FirePower = RawData.FirePower[0];
+            if (Info.Type == 7 || Info.Type == 11 || Info.Type == 18)
+                ShellingPower = 55 +
+                    (FirePower + Slots.Sum(r => r.Equipment.Info.RawData.FirePower)) * 1.5 +
+                    Slots.Where(r => r.PlaneCount != 0).Sum(r => r.Equipment.Info.RawData.Torpedo) * 1.5 +
+                    Slots.Where(r => r.PlaneCount != 0).Sum(r => r.Equipment.Info.RawData.DiveBomberAttack) * 2.0;
 
             if (!r_Initialized)
                 r_Initialized = true;

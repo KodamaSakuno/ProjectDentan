@@ -16,6 +16,10 @@ namespace Moen.SystemInterop
             [DllImport(DllName)]
             public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, NativeEnums.SetWindowPosition uFlags);
 
+            [return: MarshalAs(UnmanagedType.Bool)]
+            [DllImport("user32.dll", SetLastError = true)]
+            public static extern bool GetWindowRect(IntPtr hWnd, out NativeStructs.RECT lpRect);
+
             #region Window Long
             public static IntPtr GetWindowLongPtr(IntPtr hWnd, NativeConstants.GetWindowLong nIndex)
             {
@@ -61,6 +65,13 @@ namespace Moen.SystemInterop
             [DllImport(DllName, CharSet = CharSet.Auto)]
             public static extern bool SystemParametersInfo(NativeConstants.SPI uiAction, int uiParam, ref NativeStructs.RECT pvParam, int fWinIni);
 
+            #endregion
+
+            #region Device Context
+            [DllImport(DllName, SetLastError = true)]
+            public static extern IntPtr GetDC(IntPtr hWnd);
+            [DllImport(DllName)]
+            public static extern bool ReleaseDC(IntPtr hWnd, IntPtr hDC);
             #endregion
         }
     }

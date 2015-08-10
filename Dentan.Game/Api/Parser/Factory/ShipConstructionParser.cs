@@ -7,8 +7,10 @@ namespace Moen.KanColle.Dentan.Api.Parser.Factory
     {
         public override void Process()
         {
-            var rDockID = int.Parse(Request["api_kdock_id"]);
-            Game.BuildingDocks[rDockID].PostRecord();
+            var rDock = Game.BuildingDocks[int.Parse(Request["api_kdock_id"])];
+            rDock.PostRecord();
+
+            Game.SendMessageToStatusBar($"开始建造「{rDock.Ship.Name}」 投入资材：{rDock.Fuel}/{rDock.Bullet}/{rDock.Steel}/{rDock.Bauxite}/{rDock.DevelopmentMaterial}");
 
             Quest.Progresses[606].Current++;
             Quest.Progresses[608].Current++;

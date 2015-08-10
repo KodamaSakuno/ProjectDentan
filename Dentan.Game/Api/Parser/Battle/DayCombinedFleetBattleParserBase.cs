@@ -27,6 +27,8 @@ namespace Moen.KanColle.Dentan.Api.Parser.Battle
 
         protected override void PostProcess(RawBattle rpData)
         {
+            Battle.ParticipatedFleetIDs.Add(1);
+            Battle.ParticipatedFleetIDs.Add(2);
             Battle.DayBattle.FriendStatusCombined = FriendCombinedStatus;
             PostProcessCore(rpData);
         }
