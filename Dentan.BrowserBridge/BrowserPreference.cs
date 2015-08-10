@@ -31,9 +31,8 @@ namespace Moen.KanColle.Dentan.Browser
         {
             [JsonProperty("folder")]
             public string Folder { get; set; } = "Screenshot";
-            //[JsonProperty("filenameformat")]
-            [JsonIgnore]
-            public string FilenameFormat { get; set; } = "";
+            [JsonProperty("filenameformat")]
+            public string FilenameFormat { get; set; } = "pd_{0:yyyyMMdd-HHmmss-ff}.{1}";
             [JsonProperty("imageformat")]
             public ScreenshotImageFormat ImageFormat { get; set; } = ScreenshotImageFormat.Png;
         }

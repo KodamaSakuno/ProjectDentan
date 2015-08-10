@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.MemoryMappedFiles;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -25,7 +26,7 @@ namespace Moen.KanColle.Dentan.Browser
         HwndSource r_HwndSource;
 
         public ManualResetEventSlim BridgeReady { get; private set; }
-
+        
         List<IBrowserProvider> r_BrowserProviders;
         IBrowserProvider r_BrowserProvider;
         public IBrowser Browser { get; private set; }
@@ -42,6 +43,8 @@ namespace Moen.KanColle.Dentan.Browser
                 UpdateSize();
             } 
         }
+        
+        MemoryMappedFile r_ActiveScreenshotMemoryMappedFile;
         
         static Dictionary<string, string> r_Map;
         static BrowserWrapper()
@@ -199,6 +202,14 @@ namespace Moen.KanColle.Dentan.Browser
                     ExtractFlash();
                     break;
 
+                case "TakeScreenshot":
+                    BeginScreenshotTransmission(Browser.TakeScreenshot());
+                    break;
+                case "FinishScreenshotTransmission":
+                    r_ActiveScreenshotMemoryMappedFile.Dispose();
+                    r_ActiveScreenshotMemoryMappedFile = null;
+                    break;
+
                 case "ClearCache":
                     ClearCache(false);
                     break;
@@ -206,6 +217,24 @@ namespace Moen.KanColle.Dentan.Browser
                     ClearCache(true);
                     break;
             }
+        }
+
+        void BeginScreenshotTransmission(ScreenshotData rpData)
+        {
+            if (rpData == null || rpData.ImagePixels == null)
+            {
+                r_Communicator.Write("ScreenshotFail");
+                return;
+            }
+            
+            const string MapName = "ProjectDentan/Screenshot";
+
+            r_ActiveScreenshotMemoryMappedFile = MemoryMappedFile.CreateNew(MapName, rpData.ImagePixels.Length, MemoryMappedFileAccess.ReadWrite);
+
+            using (var rStream = r_ActiveScreenshotMemoryMappedFile.CreateViewStream())
+                rStream.Write(rpData.ImagePixels, 0, rpData.ImagePixels.Length);
+            
+            r_Communicator.Write($"ScreenshotTransmission:{MapName},{rpData.Width},{rpData.Height}");
         }
     }
 }

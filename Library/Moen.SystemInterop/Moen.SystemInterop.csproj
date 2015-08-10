@@ -65,6 +65,9 @@
       <DependentUpon>NativeMethods.cs</DependentUpon>
     </Compile>
     <Compile Include="FileSystem.cs" />
+    <Compile Include="Gdi32.cs">
+      <DependentUpon>NativeMethods.cs</DependentUpon>
+    </Compile>
     <Compile Include="Kernel32.cs">
       <DependentUpon>NativeMethods.cs</DependentUpon>
     </Compile>

@@ -1,5 +1,6 @@
 ﻿using Moen.KanColle.Dentan.Browser;
 using Moen.KanColle.Dentan.Model;
+using Moen.KanColle.Dentan.Utils;
 using Moen.SystemInterop;
 using System;
 using System.Diagnostics;
@@ -39,6 +40,7 @@ namespace Moen.KanColle.Dentan.ViewModel.Browser
                 }
             }
         }
+
         string r_Url;
         public string Url
         {
@@ -69,6 +71,8 @@ namespace Moen.KanColle.Dentan.ViewModel.Browser
         }
 
         public event Action BrowserReady = () => { };
+
+        ScreenCapturer r_ScreenCapturer;
 
         public BrowserViewModel()
         {
@@ -106,6 +110,8 @@ namespace Moen.KanColle.Dentan.ViewModel.Browser
 
             IsReady = true;
             BrowserReady();
+
+            r_ScreenCapturer = new ScreenCapturer(r_Communicator);
 
             KanColleGame.Current.TokenOutdated += () =>
             {
@@ -187,7 +193,7 @@ namespace Moen.KanColle.Dentan.ViewModel.Browser
                 case "UpdateUrl":
                     UpdateUrl(rParamater);
                     break;
-
+                    
                 case "KeyboardMessage":
                     rParamaters = rParamater.Split(',');
                     var rMsg = new MSG()
@@ -204,6 +210,14 @@ namespace Moen.KanColle.Dentan.ViewModel.Browser
                         r_MainWindowSource = HwndSource.FromHwnd(rHandle);
                     }
                     DispatcherUtil.UIDispatcher.BeginInvoke(new Action(() => ((IKeyboardInputSink)r_MainWindowSource).TranslateAccelerator(ref rMsg, ModifierKeys.None)));
+                    break;
+
+                case "ScreenshotTransmission":
+                    rParamaters = rParamater.Split(',');
+                    r_ScreenCapturer.GetScreenshot(rParamaters[0], int.Parse(rParamaters[1]), int.Parse(rParamaters[2]));
+                    break;
+                case "ScreenshotFail":
+                    r_ScreenCapturer.ScreenshotFail();
                     break;
             }
         }

@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 
 namespace Moen.KanColle.Dentan.Browser
 {
@@ -11,5 +10,6 @@ namespace Moen.KanColle.Dentan.Browser
         void Navigate(string rpUrl);
         void Refresh();
         void ExtractFlash();
+        ScreenshotData TakeScreenshot();
     }
 }

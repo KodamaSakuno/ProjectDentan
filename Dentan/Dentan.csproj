@@ -132,6 +132,7 @@
     <Compile Include="Model\Preference.cs" />
     <Compile Include="Model\Preference.Data.cs" />
     <Compile Include="Model\UpdateChannel.cs" />
+    <Compile Include="Utils\ScreenCapturer.cs" />
     <Compile Include="ViewModel\Browser\BrowserViewModel.cs" />
     <Compile Include="ViewModel\Browser\VolumeViewModel.cs" />
     <Compile Include="ViewModel\GameViewModel.cs" />
@@ -178,6 +179,8 @@
     <Compile Include="ViewModel\Record\ResourcePlotViewModel.cs" />
     <Compile Include="ViewModel\Record\SortieRecordViewModel.cs" />
     <Compile Include="ViewModel\SessionsViewModel.cs" />
+    <Compile Include="ViewModel\Tool\FleetDetailSpecialScreenshotViewModel.cs" />
+    <Compile Include="ViewModel\Tool\SpecialScreenshotViewModel.cs" />
     <Compile Include="View\BytesToStringConverter.cs" />
     <Compile Include="View\ColorIndicator.cs" />
     <Compile Include="View\Controls\PDListBox.cs" />
@@ -236,6 +239,9 @@
     </Compile>
     <Compile Include="View\SessionsView.xaml.cs">
       <DependentUpon>SessionsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Tool\SpecialScreenshotWindow.xaml.cs">
+      <DependentUpon>SpecialScreenshotWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ViewFactory.cs" />
     <Compile Include="View\ViewIDAttribute.cs" />
@@ -414,6 +420,10 @@
     <Page Include="View\SessionsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Tool\SpecialScreenshotWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
