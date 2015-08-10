@@ -6,8 +6,6 @@ namespace Moen.KanColle.Dentan.Data
 {
     public abstract class CountdownModelBase : ModelBase, IDisposable
     {
-        static TimeSpan LastOneMinute;
-
         DateTimeOffset? r_CompleteTime;
         public DateTimeOffset? CompleteTime
         {
@@ -36,6 +34,7 @@ namespace Moen.KanColle.Dentan.Data
             }
         }
 
+        public TimeSpan TimeToNotificate { get; set; }
         public bool IsNotificated { get; protected set; }
 
         static IConnectableObservable<long> r_Interval;
@@ -45,8 +44,6 @@ namespace Moen.KanColle.Dentan.Data
         {
             r_Interval = Observable.Interval(TimeSpan.FromSeconds(1.0)).Publish();
             r_Interval.Connect();
-
-            LastOneMinute = TimeSpan.FromMinutes(1.0);
         }
         public CountdownModelBase()
         {
@@ -71,7 +68,7 @@ namespace Moen.KanColle.Dentan.Data
                     rTimeSpan = TimeSpan.Zero;
                 RemainingTime = CompleteTime.HasValue ? new TimeSpan?(rTimeSpan) : null;
 
-                if (rTimeSpan < LastOneMinute && !IsNotificated)
+                if (rTimeSpan <= TimeToNotificate && !IsNotificated)
                     TimeOut();
             }
         }
