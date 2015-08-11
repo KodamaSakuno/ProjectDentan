@@ -19,6 +19,7 @@ namespace Moen.KanColle.Dentan.ViewModel
         {
             r_Message = "(´･_･`)";
 
+            KanColleGame.Current.StatusBarMessage += r => Message = r;
             ApiParsers.NewException += ApiParsers_NewException;
         }
 

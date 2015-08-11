@@ -11,6 +11,8 @@ namespace Moen.KanColle.Dentan.Api.Parser
     {
         public override void Process(RawExpeditionResult rpData)
         {
+            var rFleet = Game.Fleets[int.Parse(Request["api_deck_id"])];
+
             var rExpeditionID = Game.Base.Expeditions.Values.Single(r => r.Name == rpData.Name).ID;
 
             if (rpData.Result != ExpeditionResult.Failure)
@@ -22,6 +24,8 @@ namespace Moen.KanColle.Dentan.Api.Parser
                 rpData.Item2.ID = rpData.GetItem[1];
 
             RecordManager.Instance.Expedition.UpdateExpedition(rExpeditionID, rpData);
+
+            Game.SendMessageToStatusBar($"/{rFleet.ID}「{rFleet.Name}」从远征「{rpData.Name}」归来");
 
             foreach (var rProgress in Quest.Progresses.Values.OfType<ExpeditionProgress>())
                 rProgress.Process(rpData);
