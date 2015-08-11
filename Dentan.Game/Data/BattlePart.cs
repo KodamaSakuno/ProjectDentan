@@ -1,4 +1,6 @@
-﻿namespace Moen.KanColle.Dentan.Data
+﻿using System.Linq;
+
+namespace Moen.KanColle.Dentan.Data
 {
     public enum BattlePartType { Day, Night, NightSpecial, DaySpecial }
 
@@ -45,9 +47,9 @@
                 if (r_FriendStatus != value)
                 {
                     r_FriendStatus = value;
-                    for (var i = 0; i < r_FriendStatus.Length; i++)
+                    for (var i = 0; i < value.Length; i++)
                     {
-                        var rStatus = r_FriendStatus[i];
+                        var rStatus = value[i];
                         if (rStatus == BattleStatus.Default)
                             break;
 
@@ -58,6 +60,15 @@
                             rStatus.ShipInfo = rInfo;
                         }
                     }
+
+                    if (value.All(r => r.GivenDamage == 0))
+                        value[0].IsMVP = true;
+                    else
+                    {
+                        var rMVPStatus = value.OrderByDescending(r => r.GivenDamage).First();
+                        rMVPStatus.IsMVP = true;
+                    }
+
                     OnPropertyChanged();
                 }
             }
@@ -72,6 +83,28 @@
                 if (r_FriendStatusCombined != value)
                 {
                     r_FriendStatusCombined = value;
+                    for (var i = 0; i < r_FriendStatusCombined.Length; i++)
+                    {
+                        var rStatus = r_FriendStatusCombined[i];
+                        if (rStatus == BattleStatus.Default)
+                            break;
+
+                        var rSortieFleet = KanColleGame.Current.Fleets[2];
+                        if (rSortieFleet != null)
+                        {
+                            var rInfo = rSortieFleet.Ships[i];
+                            rStatus.ShipInfo = rInfo;
+                        }
+                    }
+
+                    if (value.All(r => r.GivenDamage == 0))
+                        value[0].IsMVP = true;
+                    else
+                    {
+                        var rMVPStatus = value.OrderByDescending(r => r.GivenDamage).First();
+                        rMVPStatus.IsMVP = true;
+                    }
+
                     OnPropertyChanged();
                 }
             }

@@ -13,6 +13,7 @@
         public int Damage { get { return BeforeHP - NowHP; } }
 
         public int GivenDamage { get; internal set; }
+        public bool IsMVP { get; internal set; }
 
         public ShipDamageStatus DamageStatus
         {

@@ -65,7 +65,7 @@
                             <rv:ColorIndicator Value="{Binding NowHP}" Maximum="{Binding MaxHP}" Median="{Binding BeforeHP}" Grid.Row="2" />
 
                             <Border Name="GivenDamage" Margin="3, 0, 0, 0" Padding="3, 0" Visibility="Visible" Grid.Column="1" Grid.RowSpan="2">
-                                <TextBlock Text="{Binding GivenDamage}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                <TextBlock Name="GivenDamageText" Text="{Binding GivenDamage}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                             </Border>
 
                             <Border Name="DamageStatusColor" Margin="3, 0, 0, 0" Padding="3, 0" Grid.Column="2" Grid.RowSpan="2">
@@ -98,6 +98,9 @@
 
                         <DataTrigger Binding="{Binding GivenDamage}" Value="0">
                             <Setter TargetName="GivenDamage" Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsMVP}" Value="True">
+                            <Setter TargetName="GivenDamageText" Property="Foreground" Value="Yellow" />
                         </DataTrigger>
 
                         <DataTrigger Binding="{Binding Damage}" Value="0">
