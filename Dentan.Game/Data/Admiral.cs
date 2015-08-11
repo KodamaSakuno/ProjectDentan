@@ -52,7 +52,9 @@ namespace Moen.KanColle.Dentan.Data
             if (r_Initialized && rRawExperience > 0 && Experience != rRawExperience)
                 RecordManager.Instance.Experience.AddAdmiralExpData(rRawExperience);
             Experience = rRawExperience;
-            NextExperience = ExperienceTable.Admiral[Level + 1].Total - Experience;
+
+            if (Level < 120)
+                NextExperience = ExperienceTable.Admiral[Level + 1].Total - Experience;
 
             if (!r_Initialized)
                 r_Initialized = true;

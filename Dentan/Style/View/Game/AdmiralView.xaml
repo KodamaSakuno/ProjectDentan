@@ -5,30 +5,26 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type rvg:AdmiralView}">
-                    <TextBlock>
+                    <TextBlock Name="Content">
                         <Run Text="{Binding Admiral.Model.Name, Mode=OneWay}" />
                         <LineBreak />
-                        <Run>
-                            <MultiBinding StringFormat="{}Lv. {0}  Next:{1}">
-                                <Binding Path="Admiral.Model.Level" Mode="OneWay" />
-                                <Binding Path="Admiral.Model.NextExperience" Mode="OneWay" />
-                            </MultiBinding>
-                        </Run>
+                        <Run Text="{Binding Admiral.Model.Level, StringFormat={}Lv. {0}, Mode=OneWay}" />
+                        <Run Name="NextExperience" Text="{Binding Admiral.Model.NextExperience, StringFormat={}Next:{0}, Mode=OneWay}" />
                         <LineBreak />
-                        <Run>
-                            <MultiBinding StringFormat="{}艦娘：{0}/{1}">
-                                <Binding Path="Ships.Count" Mode="OneWay" />
-                                <Binding Path="Admiral.Model.MaxShipCount" Mode="OneWay" />
-                            </MultiBinding>
-                        </Run>
+                        艦娘：<Run Text="{Binding Ships.Count, Mode=OneWay}" />/<Run Text="{Binding Admiral.Model.MaxShipCount, Mode=OneWay}" />
                         <LineBreak />
-                        <Run>
-                            <MultiBinding StringFormat="{}装備：{0}/{1}">
-                                <Binding Path="Equipments.Count" Mode="OneWay" />
-                                <Binding Path="Admiral.Model.MaxEquipmentCount" Mode="OneWay" />
-                            </MultiBinding>
-                        </Run>
+                        装備：<Run Text="{Binding Equipments.Count, Mode=OneWay}" />/<Run Text="{Binding Admiral.Model.MaxEquipmentCount, Mode=OneWay}" />
                     </TextBlock>
+
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Admiral.Model}" Value="{x:Null}">
+                            <Setter TargetName="Content" Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                        
+                        <DataTrigger Binding="{Binding Admiral.Model.NextExperience}" Value="0">
+                            <Setter TargetName="NextExperience" Property="Text" Value="" />
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
