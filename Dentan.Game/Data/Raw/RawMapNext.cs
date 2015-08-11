@@ -91,10 +91,10 @@ namespace Moen.KanColle.Dentan.Data.Raw
         {
 
             [JsonProperty("api_now_maphp")]
-            public int Now { get; set; }
+            public int NowHP { get; set; }
 
             [JsonProperty("api_max_maphp")]
-            public int Max { get; set; }
+            public int MaxHP { get; set; }
         }
 
         public class RawItemGet
