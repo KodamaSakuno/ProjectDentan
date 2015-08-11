@@ -1,4 +1,5 @@
-﻿using Moen.KanColle.Dentan.Data.Raw;
+﻿using Moen.KanColle.Dentan.Data;
+using Moen.KanColle.Dentan.Data.Raw;
 using Moen.KanColle.Dentan.Record;
 
 namespace Moen.KanColle.Dentan.Api.Parser
@@ -10,10 +11,14 @@ namespace Moen.KanColle.Dentan.Api.Parser
         {
             ApiStartParser.SuccessEvent.Wait();
 
+            if (rpData.CombinedFleetFlag != CombinedFleetFlag.None && Game.SortieFleet?.ID == 1)
+                Game.Fleets[2].State = FleetState.Idle;
+
             Game.Battle = null;
             Game.CompassData = null;
             Game.SortieFleet = null;
             Game.DroppedShip = 0;
+            Game.CombinedFleet = rpData.CombinedFleetFlag;
 
             Game.Headquarter.UpdateAdmiral(rpData.Basic);
 

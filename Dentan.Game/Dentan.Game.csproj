@@ -141,6 +141,7 @@
     <Compile Include="Data\AviationReconnaissanceResult.cs" />
     <Compile Include="Data\BaseMapInfo.cs" />
     <Compile Include="Data\BattleRank.cs" />
+    <Compile Include="Data\CombinedFleetFlag.cs" />
     <Compile Include="Data\CompassData.cs" />
     <Compile Include="Data\EnemyData.cs" />
     <Compile Include="Data\EnemyShip.cs" />

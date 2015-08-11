@@ -13,6 +13,9 @@ namespace Moen.KanColle.Dentan.Api.Parser.Map
             Game.SortieFleet = Game.Fleets[rSortieFleetID];
             Game.SortieFleet.State = FleetState.Sortie;
 
+            if (Game.CombinedFleet != CombinedFleetFlag.None && rSortieFleetID == 1)
+                Game.Fleets[2].State = FleetState.Sortie;
+
             var rCompassData = new CompassData(rpData.MapAreaID, rpData.MapInfoNo);
 
             var rMapInfo = Game.Base.MapInfos[rCompassData.MapID];

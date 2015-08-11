@@ -163,6 +163,7 @@ namespace Moen.KanColle.Dentan
         }
 
         public Fleet SortieFleet { get; internal set; }
+        public CombinedFleetFlag CombinedFleet { get; internal set; }
         public Dictionary<int, int> EventRank { get; internal set; }
 
         public event Action GameLaunched = delegate { };

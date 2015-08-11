@@ -191,6 +191,8 @@ namespace Moen.KanColle.Dentan.Data
 
             if (KanColleGame.Current.SortieFleet == this)
                 State = FleetState.Sortie;
+            else if (KanColleGame.Current.CombinedFleet != CombinedFleetFlag.None && KanColleGame.Current.SortieFleet?.ID == 1 && ID == 2)
+                State = FleetState.Sortie;
             else if (Expedition.ExpeditionID != -1)
                 State = FleetState.Expedition;
             else

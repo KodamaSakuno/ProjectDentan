@@ -19,6 +19,9 @@ namespace Moen.KanColle.Dentan.Data.Raw
         [JsonProperty("api_basic")]
         public RawBasic Basic { get; set; }
 
+        [JsonProperty("api_combined_flag")]
+        public CombinedFleetFlag CombinedFleetFlag { get; set; }
+
         [JsonProperty("api_p_bgm_id")]
         public int BgmID { get; set; }
     }
