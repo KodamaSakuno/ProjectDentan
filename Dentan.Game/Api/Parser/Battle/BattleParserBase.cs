@@ -113,7 +113,10 @@ namespace Moen.KanColle.Dentan.Api.Parser.Battle
                     if (rTarget[j] == -1)
                         continue;
 
-                    AllStatus[rTarget[j] - 1].NowHP -= (int)rDamageList[i][j];
+                    var rDamage = rDamageList[i][j];
+                    if (rFrom[i] <= 6)
+                        AllStatus[rFrom[i] - 1].GivenDamage += rDamage;
+                    AllStatus[rTarget[j] - 1].NowHP -= rDamage;
                 }
             }
         }

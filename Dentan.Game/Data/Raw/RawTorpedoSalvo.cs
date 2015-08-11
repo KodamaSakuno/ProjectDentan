@@ -20,7 +20,7 @@ namespace Moen.KanColle.Dentan.Data.Raw
 
         [JsonProperty("api_fydam")]
         [JsonConverter(typeof(BattleArrayConverter))]
-        public int[] AlliedGivenDamage { get; set; }
+        public int[] FriendGivenDamage { get; set; }
 
         [JsonProperty("api_eydam")]
         [JsonConverter(typeof(BattleArrayConverter))]

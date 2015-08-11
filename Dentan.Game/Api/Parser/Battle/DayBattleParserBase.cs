@@ -93,7 +93,10 @@ namespace Moen.KanColle.Dentan.Api.Parser.Battle
             if (rpData == null) return;
 
             for (var i = 0; i < FriendStatus.Length; i++)
+            {
                 FriendStatus[i].NowHP -= rpData.FriendDamage[i];
+                FriendStatus[i].GivenDamage += rpData.FriendGivenDamage[i];
+            }
 
             for (var i = 0; i < EnemyStatus.Length; i++)
                 EnemyStatus[i].NowHP -= rpData.EnemyDamage[i];

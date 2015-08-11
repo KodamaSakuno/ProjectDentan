@@ -4,15 +4,15 @@
     {
         static BattleStatus r_Default = new BattleStatus(10, 5);
         public static BattleStatus Default { get { return r_Default; } }
-
-        public string Name { get; internal set; }
-        public int Level { get; internal set; }
+        
         public IBattleShipInfo ShipInfo { get; internal set; }
 
         public int MaxHP { get; private set; }
         public int NowHP { get; set; }
         public int BeforeHP { get; private set; }
         public int Damage { get { return BeforeHP - NowHP; } }
+
+        public int GivenDamage { get; internal set; }
 
         public ShipDamageStatus DamageStatus
         {

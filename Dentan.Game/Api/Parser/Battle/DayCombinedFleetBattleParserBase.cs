@@ -49,7 +49,10 @@ namespace Moen.KanColle.Dentan.Api.Parser.Battle
             if (rpData == null) return;
 
             for (var i = 0; i < FriendCombinedStatus.Length; i++)
+            {
                 FriendCombinedStatus[i].NowHP -= rpData.FriendDamage[i];
+                FriendCombinedStatus[i].GivenDamage += rpData.FriendGivenDamage[i];
+            }
 
             for (var i = 0; i < EnemyStatus.Length; i++)
                 EnemyStatus[i].NowHP -= rpData.EnemyDamage[i];
@@ -65,7 +68,13 @@ namespace Moen.KanColle.Dentan.Api.Parser.Battle
             {
                 var rTarget = rTargetList[i];
                 for (var j = 0; j < rTarget.Length; j++)
-                    AllCombinedFleetStatus[rTarget[j] - 1].NowHP -= (int)rDamageList[i][j];
+                {
+                    var rDamage = rDamageList[i][j];
+
+                    if (rFrom[i] <= 6)
+                        AllCombinedFleetStatus[rFrom[i] - 1].GivenDamage += rDamage;
+                    AllCombinedFleetStatus[rTarget[j] - 1].NowHP -= rDamage;
+                }
             }
         }
     }

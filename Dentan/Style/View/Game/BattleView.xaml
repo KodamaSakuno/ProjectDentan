@@ -32,7 +32,6 @@
 
     <Style x:Key="StatusStyle" TargetType="{x:Type ListBoxItem}">
         <Setter Property="Foreground" Value="White" />
-        <Setter Property="Width" Value="130" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="Template">
             <Setter.Value>
@@ -50,6 +49,7 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
+                                <ColumnDefinition SharedSizeGroup="EnemyDamage" />
                                 <ColumnDefinition Width="Auto" SharedSizeGroup="Status" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
@@ -57,14 +57,18 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
 
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="90">
                                 <TextBlock Foreground="Gray">HP:</TextBlock>
                                 <TextBlock Name="NowHP" Text="{Binding NowHP}" Margin="4, 0, 0, 0" />
                                 <TextBlock Name="Damage" Text="{Binding Damage, StringFormat=(-{0})}" Margin="4, 0, 0, 0" />
                             </StackPanel>
                             <rv:ColorIndicator Value="{Binding NowHP}" Maximum="{Binding MaxHP}" Median="{Binding BeforeHP}" Grid.Row="2" />
 
-                            <Border Name="DamageStatusColor" Margin="3, 0, 0, 0" Padding="3, 0" Grid.Column="1" Grid.RowSpan="2">
+                            <Border Name="GivenDamage" Margin="3, 0, 0, 0" Padding="3, 0" Visibility="Visible" Grid.Column="1" Grid.RowSpan="2">
+                                <TextBlock Text="{Binding GivenDamage}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            </Border>
+
+                            <Border Name="DamageStatusColor" Margin="3, 0, 0, 0" Padding="3, 0" Grid.Column="2" Grid.RowSpan="2">
                                 <TextBlock Name="DamageStatusText" VerticalAlignment="Center" HorizontalAlignment="Center" />
                             </Border>
                         </Grid>
@@ -90,6 +94,10 @@
                         <DataTrigger Binding="{Binding ShipInfo.Info.AbyssalShipClass}" Value="LateModel">
                             <Setter TargetName="AbyssalShipClass" Property="Text" Value="後期型" />
                             <Setter TargetName="AbyssalShipClass" Property="Foreground" Value="SkyBlue" />
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding GivenDamage}" Value="0">
+                            <Setter TargetName="GivenDamage" Property="Visibility" Value="Collapsed" />
                         </DataTrigger>
 
                         <DataTrigger Binding="{Binding Damage}" Value="0">
