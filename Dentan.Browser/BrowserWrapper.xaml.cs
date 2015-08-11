@@ -27,7 +27,6 @@ namespace Moen.KanColle.Dentan.Browser
 
         public ManualResetEventSlim BridgeReady { get; private set; }
         
-        List<IBrowserProvider> r_BrowserProviders;
         IBrowserProvider r_BrowserProvider;
         public IBrowser Browser { get; private set; }
         
@@ -57,7 +56,11 @@ namespace Moen.KanColle.Dentan.Browser
                 var rPosition = rName.IndexOf(',');
                 if (rPosition != -1)
                     rName = rName.Remove(rPosition);
-                return Assembly.LoadFile(r_Map[rName]);
+
+                string rPath;
+                if (r_Map.TryGetValue(rName, out rPath))
+                    return Assembly.LoadFile(rPath);
+                return null;
             };
         }
         public BrowserWrapper(string rpLayoutEngine, int rpHostProcessID)
