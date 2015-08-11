@@ -64,7 +64,7 @@
                             </StackPanel>
                             <rv:ColorIndicator Value="{Binding NowHP}" Maximum="{Binding MaxHP}" Median="{Binding BeforeHP}" Grid.Row="2" />
 
-                            <Border Name="GivenDamage" Margin="3, 0, 0, 0" Padding="3, 0" Visibility="Visible" Grid.Column="1" Grid.RowSpan="2">
+                            <Border Name="GivenDamage" Margin="3, 0, 0, 0" Padding="3, 0" Grid.Column="1" Grid.RowSpan="2">
                                 <TextBlock Name="GivenDamageText" Text="{Binding GivenDamage}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                             </Border>
 

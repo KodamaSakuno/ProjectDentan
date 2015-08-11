@@ -58,7 +58,7 @@ namespace Moen.KanColle.Dentan.Data
             {
                 if (ID > 500 && ID <= 900)
                 {
-                    if (Name.Contains("後期型"))
+                    if (Name.Contains("後期型") && YomiName.IsNullOrEmpty())
                         return AbyssalShipClassEnum.LateModel;
 
                     if (YomiName == "elite")
