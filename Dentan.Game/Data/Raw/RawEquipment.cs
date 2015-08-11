@@ -15,5 +15,8 @@ namespace Moen.KanColle.Dentan.Data.Raw
 
         [JsonProperty("api_level")]
         public int Level { get; set; }
+
+        [JsonProperty("api_alv")]
+        public int? PlaneProficiency { get; set; }
     }
 }

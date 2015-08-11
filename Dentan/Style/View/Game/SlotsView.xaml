@@ -15,7 +15,10 @@
                                         <ColumnDefinition Width="24" />
                                     </Grid.ColumnDefinitions>
 
-                                    <rv:EquipmentIcon Type="{Binding Equipment.IconType}" ID="{Binding Equipment.Info.ID}" ToolTip="{x:Null}" DockPanel.Dock="Left" />
+                                    <Grid>
+                                        <rv:EquipmentIcon Type="{Binding Equipment.IconType}" ID="{Binding Equipment.Info.ID}" ToolTip="{x:Null}" />
+                                        <TextBlock Name="PlaneProficiency" Text="{Binding Equipment.PlaneProficiency}" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
+                                    </Grid>
                                     <TextBlock Name="PlaneCount" FontWeight="Bold" Foreground="Gray" Text="{Binding PlaneCount}" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" />
 
                                     <Grid.ToolTip>

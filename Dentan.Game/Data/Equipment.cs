@@ -28,6 +28,8 @@ namespace Moen.KanColle.Dentan.Data
         public string Name { get { return Info.Name; } }
         public int Level { get { return RawData.Level; } }
 
+        public int? PlaneProficiency { get { return RawData.PlaneProficiency; } }
+
         public EquipmentType Type { get { return Info.Type; } }
         public EquipmentIconType IconType { get { return Info.IconType; } }
 
