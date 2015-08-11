@@ -39,7 +39,7 @@ namespace Moen.KanColle.Dentan.Data
             Equipments.UpdateRawData<RawEquipmentInfo>(rpBaseData.Equipments, r => new EquipmentInfo(r), (rpData, rpRawData) => rpData.Update(rpRawData));
             EquipmentTypes.UpdateRawData<RawEquipmentTypeInfo>(rpBaseData.EquipmentTypes, r => new EquipmentTypeInfo(r), (rpData, rpRawData) => rpData.Update(rpRawData));
 
-            Expeditions.UpdateRawData<RawExpeditionInfo>(rpBaseData.Expeditions.Where(r => ExpeditionDataManager.Data.ContainsKey(r.ID)), r => new ExpeditionInfo(r), (rpData, rpRawData) => rpData.Update(rpRawData));
+            Expeditions.UpdateRawData<RawExpeditionInfo>(rpBaseData.Expeditions, r => new ExpeditionInfo(r), (rpData, rpRawData) => rpData.Update(rpRawData));
 
             MapAreas.UpdateRawData<RawMapArea>(rpBaseData.MapAreas, r => new MapAreaInfo(r), (rpData, rpRawData) => rpData.Update(rpRawData));
             MapInfos.UpdateRawData<RawBaseMapInfo>(rpBaseData.MapInfos, r => new BaseMapInfo(r), (rpData, rpRawData) => rpData.Update(rpRawData));

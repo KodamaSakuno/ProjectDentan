@@ -25,7 +25,9 @@ namespace Moen.KanColle.Dentan.Data
         public ExpeditionInfo(RawExpeditionInfo rpRawData)
             : base(rpRawData)
         {
-            Data = ExpeditionDataManager.Data[rpRawData.ID];
+            ExpeditionData rData;
+            if (ExpeditionDataManager.Data.TryGetValue(rpRawData.ID, out rData))
+                Data = rData;
             FleetsInfo = new ExpeditionFleetInfo[3];
             for (var i = 0; i < 3; i++)
                 FleetsInfo[i] = new ExpeditionFleetInfo(i + 2);
@@ -33,6 +35,9 @@ namespace Moen.KanColle.Dentan.Data
 
         public void Update(Fleet rpFleet)
         {
+            if (Data == null)
+                return;
+
             var rInfo = FleetsInfo[rpFleet.ID - 2];
             var rShips = rpFleet.Ships;
 
