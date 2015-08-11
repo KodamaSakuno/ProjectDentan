@@ -23,12 +23,8 @@ namespace Moen.KanColle.Dentan.Api.Parser.Map
                     Now = rMapInfo.DefeatCount.Value,
                 };
 
-            if (rpData.EventMap != null)
-                rCompassData.MapHP = new MapHP()
-                {
-                    Max = rpData.EventMap.Max,
-                    Now = rpData.EventMap.Now,
-                };
+            if (rMapInfo.MapHP.HasValue)
+                rCompassData.MapHP = rMapInfo.MapHP.Value;
 
             Game.CompassData = rCompassData;
 

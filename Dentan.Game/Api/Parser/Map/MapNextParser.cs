@@ -30,6 +30,8 @@ namespace Moen.KanColle.Dentan.Api.Parser.Map
                 AbyssalFleet rAbyssalFleet;
                 if (AbyssalDataManager.Fleets.TryGetValue(rCompassData.MapID * 100 + rCompassData.Cell, out rAbyssalFleet))
                     rCompassData.EnemyFleet = new EnemyFleet() { Name = rAbyssalFleet.Name };
+                else
+                    rCompassData.EnemyFleet = null;
 
                 Game.Battle = new BattleData()
                 {

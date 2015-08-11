@@ -8,6 +8,8 @@ namespace Moen.KanColle.Dentan.Data
         public bool IsCleared { get; set; }
         public int? RequiredDefeatCount { get { return RawData.RequiredDefeatCount; } }
         public int? DefeatCount { get; set; }
+        
+        public MapHP? MapHP { get; internal set; }
 
         public BaseMapInfo(RawBaseMapInfo rpRawData)
             : base(rpRawData) { }
