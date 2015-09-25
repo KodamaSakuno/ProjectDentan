@@ -23,7 +23,7 @@ namespace Moen.KanColle.Dentan.Api.Parser.Factory
                 Game.Equipments.Add(new Equipment(new RawEquipment() { ID = rpData.Result.ID, EquipmentID = rpData.Result.EquipmentID }));
                 Game.UpdateEquipments();
 
-                rBuilder.Append($"「{Game.Base.Equipments[rpData.Result.ID].Name}」开发成功");
+                rBuilder.Append($"「{Game.Base.Equipments[rpData.Result.EquipmentID].Name}」开发成功");
             }
 
             rBuilder.Append($" 投入资材：{rFuel}/{rBullet}/{rSteel}/{rBauxite}");
