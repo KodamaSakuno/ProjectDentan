@@ -55,7 +55,7 @@ namespace Moen.KanColle.Dentan.Data
                 var rIDs = new List<int>();
 
                 rIDs.Add(rShip.ID);
-                for (var rAfterShip = rShip.RemodelAfterShipInfo; rAfterShip != ShipInfo.Default; rAfterShip = rAfterShip.RemodelAfterShipInfo)
+                for (var rAfterShip = rShip.RemodelAfterShipInfo; rAfterShip != ShipInfo.Default && !rIDs.Contains(rAfterShip.ID); rAfterShip = rAfterShip.RemodelAfterShipInfo)
                     rIDs.Add(rAfterShip.ID);
 
                 ShipIDsGroupByModel.Add(rShip.ID, rIDs.ToArray());
