@@ -171,6 +171,8 @@ namespace Moen.KanColle.Dentan.Data
                 r_WaitToRecord.Wait();
 
                 RecordManager.Instance.Construction.Update(this);
+
+                KanColleGame.Current.SendMessageToStatusBar($"开始建造「{Ship.Name}」 投入资材：{Fuel}/{Bullet}/{Steel}/{Bauxite}/{DevelopmentMaterial}");
             });
         }
     }
